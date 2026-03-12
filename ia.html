@@ -3,248 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tropex AI - Sensitivity Engine</title>
+    <title>IA - Sens Tropex Elite</title>
     <style>
-        :root {
-            --red-accent: #ff3c3c;
-            --dark-bg: #050505;
-            --card-bg: #121212;
-            --neon-blue: #00d4ff;
-            --text-gray: #888;
-        }
+        :root { --red: #ff3c3c; --bg: #050505; --card: #121212; --blue: #00d4ff; }
+        body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        /* DISEÑO TIPO MODIFAX */
+        .header { padding: 40px 20px; text-align: center; background: linear-gradient(to bottom, rgba(255,60,60,0.1), transparent); }
+        .header h1 { letter-spacing: 5px; margin: 0; font-size: 24px; }
+        .header p { color: #888; font-size: 12px; margin-top: 5px; }
 
-        body {
-            margin: 0;
-            background: var(--dark-bg);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        .selection-container { padding: 20px; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
+        .platform-card { background: var(--card); padding: 25px; border-radius: 15px; text-align: center; border: 1px solid #222; cursor: pointer; transition: 0.3s; }
+        .platform-card.active { border-color: var(--red); background: rgba(255,60,60,0.05); }
+        .platform-card img { width: 40px; margin-bottom: 10px; filter: grayscale(1); }
+        .platform-card.active img { filter: grayscale(0); }
 
-        /* CHAT AREA */
-        #chat-box {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            padding-bottom: 160px;
-        }
+        .input-box { width: 100%; max-width: 400px; position: relative; }
+        input { width: 100%; background: #000; border: 1px solid #333; padding: 15px 15px 15px 45px; border-radius: 12px; color: white; box-sizing: border-box; outline: none; }
+        .btn-continue { width: 100%; max-width: 400px; background: var(--red); color: white; border: none; padding: 15px; border-radius: 30px; font-weight: bold; margin-top: 10px; cursor: pointer; }
 
-        .bot-msg {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 15px;
-            border-left: 4px solid var(--neon-blue);
-            max-width: 85%;
-            font-size: 14px;
-            animation: fadeIn 0.3s ease;
-        }
+        /* MODAL DE CARGA Y RESULTADO */
+        #result-box { margin-top: 20px; width: 100%; max-width: 400px; }
+        .loader-bar { width: 100%; background: #222; height: 6px; border-radius: 3px; overflow: hidden; display: none; margin-top: 10px; }
+        .fill { width: 0%; height: 100%; background: var(--red); transition: 2s linear; }
 
-        .user-msg {
-            align-self: flex-end;
-            background: #222;
-            color: var(--neon-blue);
-            padding: 12px 18px;
-            border-radius: 15px;
-            max-width: 75%;
-            border: 1px solid #333;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* INPUT AREA */
-        .input-area {
-            position: fixed;
-            bottom: 80px;
-            left: 0; right: 0;
-            padding: 15px;
-            background: rgba(0,0,0,0.9);
-            display: flex;
-            gap: 10px;
-            backdrop-filter: blur(10px);
-            z-index: 1001;
-        }
-
-        input {
-            flex: 1;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            outline: none;
-        }
-
-        input:focus { border-color: var(--neon-blue); }
-
-        .btn-send {
-            background: var(--red-accent);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* BARRA DE CARGA HACKER */
-        .loader-bar {
-            width: 100%;
-            background: #222;
-            height: 6px;
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        .loader-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--red-accent);
-            box-shadow: 0 0 10px var(--red-accent);
-            transition: 2s linear;
-        }
-
-        /* BOTTOM NAV (7 ICONOS) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 75px;
-            background: #000;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #222;
-            z-index: 1000;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-gray);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 9px;
-        }
-
+        /* BARRA NAVEGACIÓN */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; }
+        .nav-link { text-decoration: none; color: #555; display: flex; flex-direction: column; align-items: center; font-size: 9px; }
         .nav-link.active { color: white; }
-        .nav-icon { font-size: 20px; margin-bottom: 3px; }
-
     </style>
 </head>
 <body>
 
-    <div id="chat-box">
-        <div class="bot-msg">
-            🤖 <b>SISTEMA ONLINE</b><br>
-            Bienvenido a Tropex AI. Por favor, introduce el modelo de tu dispositivo para generar una configuración optimizada.
-        </div>
+    <div class="header">
+        <h1>TROPEX<span style="color:var(--red)"> ELITE</span></h1>
+        <p>SENSITIVITY ENGINE</p>
     </div>
 
-    <div class="input-area">
-        <input type="text" id="user-input" placeholder="Ej: iPhone 14 Pro Max..." onkeypress="if(event.key==='Enter') enviarMensaje()">
-        <button class="btn-send" onclick="enviarMensaje()">ENVIAR</button>
+    <div class="selection-container">
+        <h3 style="text-transform: uppercase;">Selecciona tu equipo</h3>
+        <div class="platform-grid">
+            <div class="platform-card" id="card-android" onclick="selectType('android')">
+                <div style="font-size: 30px;">🤖</div>
+                <span>ANDROID</span>
+            </div>
+            <div class="platform-card" id="card-ios" onclick="selectType('ios')">
+                <div style="font-size: 30px;">🍎</div>
+                <span>IOS</span>
+            </div>
+        </div>
+
+        <div class="input-box">
+            <span style="position:absolute; left:15px; top:15px;">🎯</span>
+            <input type="text" id="device-input" placeholder="Ej: Galaxy S23, iPhone 15...">
+        </div>
+        <button class="btn-continue" onclick="generar()">CONTINUAR ❯</button>
+
+        <div id="result-box"></div>
+        <div class="loader-bar" id="loader"><div class="fill" id="fill"></div></div>
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-link"><div class="nav-icon">🏠</div><span>Inicio</span></a>
-        <a href="ia.html" class="nav-link active"><div class="nav-icon">📟</div><span>IA</span></a>
-        <a href="chat.html" class="nav-link"><div class="nav-icon">💬</div><span>Chat</span></a>
-        <a href="perfil.html" class="nav-link"><div class="nav-icon">👤</div><span>Perfil</span></a>
-        <a href="config.html" class="nav-link"><div class="nav-icon">⚙️</div><span>Config</span></a>
-        <a href="info.html" class="nav-link"><div class="nav-icon">📄</div><span>Info</span></a>
-        <a href="pros.html" class="nav-link"><div class="nav-icon">👥</div><span>Withex ⁴⁴⁴</span></a>
+        <a href="index.html" class="nav-link"><span>🏠</span><span>Inicio</span></a>
+        <a href="ia.html" class="nav-link active"><span>📟</span><span>IA</span></a>
+        <a href="chat.html" class="nav-link"><span>💬</span><span>Chat</span></a>
+        <a href="perfil.html" class="nav-link"><span>👤</span><span>Perfil</span></a>
+        <a href="config.html" class="nav-link"><span>⚙️</span><span>Config</span></a>
+        <a href="info.html" class="nav-link"><span>📄</span><span>Info</span></a>
+        <a href="pros.html" class="nav-link"><span>👥</span><span>Withex ⁴⁴⁴</span></a>
     </nav>
 
     <script>
-        const audioClic = new Audio('https://www.soundjay.com/buttons/button-16.mp3');
+        let selectedType = '';
+        const marcasReales = ["iphone", "samsung", "xiaomi", "redmi", "poco", "motorola", "huawei", "apple"];
 
-        // Base de datos de dispositivos para validar existencia
-        const marcasReales = {
-            "iphone": ["7","8","x","xr","xs","11","12","13","14","15","16","pro","max","mini"],
-            "samsung": ["s20","s21","s22","s23","s24","a54","a53","a52","a34","a14","a10","a20","a30","a50","a70","ultra"],
-            "xiaomi": ["redmi","poco","note","10","11","12","13","f3","f4","f5","x3","x4","x5"],
-            "motorola": ["g10","g20","g30","g50","g60","g84","edge","moto"],
-            "huawei": ["p30","p40","p50","mate","y9"],
-            "infinix": ["hot","note","zero"],
-            "tecno": ["pova","spark","camon"]
-        };
-
-        function enviarMensaje() {
-            const input = document.getElementById('user-input');
-            const chatBox = document.getElementById('chat-box');
-            const text = input.value.trim().toLowerCase();
-
-            if (text === "") return;
-
-            audioClic.play();
-
-            // Mensaje del usuario
-            chatBox.innerHTML += `<div class="user-msg">${input.value}</div>`;
-            input.value = "";
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Barra de carga
-            const loadId = "load-" + Date.now();
-            chatBox.innerHTML += `
-                <div class="bot-msg" id="${loadId}">
-                    <span>⏳ Analizando hardware y DPI...</span>
-                    <div class="loader-bar"><div id="bar-${loadId}" class="loader-fill"></div></div>
-                </div>`;
-            
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Iniciar animación de barra
-            setTimeout(() => {
-                document.getElementById(`bar-${loadId}`).style.width = "100%";
-            }, 50);
-
-            // Respuesta tras 2 segundos
-            setTimeout(() => {
-                let marcaDetectada = Object.keys(marcasReales).find(m => text.includes(m) || (m === "iphone" && text.includes("apple")));
-                
-                // Validar si el modelo parece real dentro de la marca
-                let esModeloReal = marcaDetectada && marcasReales[marcaDetectada].some(mod => text.includes(mod));
-
-                let respuesta = "";
-
-                if (!marcaDetectada || !esModeloReal) {
-                    respuesta = `<b style="color:var(--red-accent)">❌ Error dispositivo no existente</b><br>Por favor, introduce un modelo de celular real.`;
-                } else if (marcaDetectada === "iphone") {
-                    respuesta = `
-                        ✅ <b>DATA GENERADA (iOS)</b><br><br>
-                        🎯 General: 100%<br>
-                        🔴 Punto Rojo: 98%<br>
-                        🔍 Mira 2x: 100%<br>
-                        🔥 Mira 4x: 100%<br>
-                        🚫 <b>DPI: No disponible (iPhone no tiene DPI)</b><br>
-                        📱 Suavizado: Activo`;
-                } else {
-                    // Generar DPI aleatorio realista para Android
-                    const dpiSugerido = Math.floor(Math.random() * (600 - 411 + 1)) + 411;
-                    respuesta = `
-                        ✅ <b>DATA GENERADA (Android)</b><br><br>
-                        🎯 General: 97%<br>
-                        🔴 Punto Rojo: 92%<br>
-                        🔍 Mira 2x: 88%<br>
-                        🔥 Mira 4x: 90%<br>
-                        ⚙️ <b>DPI: ${dpiSugerido}</b><br>
-                        🔘 Botón: 45%`;
-                }
-
-                document.getElementById(loadId).innerHTML = respuesta;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 2200);
+        function selectType(t) {
+            selectedType = t;
+            document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('active'));
+            document.getElementById('card-' + t).classList.add('active');
         }
 
-        // Sonido en la navegación
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => audioClic.play());
-        });
+        function generar() {
+            const val = document.getElementById('device-input').value.toLowerCase();
+            const res = document.getElementById('result-box');
+            const loader = document.getElementById('loader');
+            const fill = document.getElementById('fill');
+
+            if (!selectedType || val === "") return;
+
+            // VALIDACIÓN ESTRICTA
+            const existe = marcasReales.some(m => val.includes(m));
+            if (!existe) {
+                res.innerHTML = `<p style="color:var(--red)">❌ Error dispositivo no existente</p>`;
+                return;
+            }
+
+            res.innerHTML = "⏳ Conectando al servidor...";
+            loader.style.display = "block";
+            setTimeout(() => fill.style.width = "100%", 50);
+
+            setTimeout(() => {
+                loader.style.display = "none";
+                fill.style.width = "0%";
+                
+                if (selectedType === 'ios' || val.includes('iphone')) {
+                    res.innerHTML = `<div class="platform-card" style="text-align:left; border-color:var(--blue)">
+                        <b>MODELO: ${val.toUpperCase()}</b><br>
+                        • General: 100% | Rojo: 98%<br>
+                        🚫 iPhone no tiene DPI.
+                    </div>`;
+                } else {
+                    res.innerHTML = `<div class="platform-card" style="text-align:left; border-color:var(--red)">
+                        <b>MODELO: ${val.toUpperCase()}</b><br>
+                        • General: 95% | Rojo: 92%<br>
+                        • DPI: 580 | Botón: 45%
+                    </div>`;
+                }
+            }, 2100);
+        }
     </script>
 </body>
 </html>
