@@ -18,11 +18,11 @@
 
         /* LLUVIA DE SANGRE AZUL */
         #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .drop { position: absolute; background: var(--blue); width: 1px; height: 20px; opacity: 0.4; animation: fall linear infinite; }
+        .drop { position: absolute; background: var(--blue); width: 1px; height: 25px; opacity: 0.4; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
 
         .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
-        h2 { text-align: center; letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); }
+        h2 { text-align: center; letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin-bottom: 25px; }
 
         .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); }
         .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; }
@@ -30,25 +30,31 @@
 
         .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; }
 
-        /* RESULTADOS VISIBLES */
+        /* RESULTADOS */
         #results { display: none; }
         .res-card { background: var(--card); border: 1px solid var(--blue); border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,212,255,0.1); }
-        .val-row { display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 15px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+        .val-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; border-bottom: 1px solid #222; padding-bottom: 6px; }
         .highlight { color: var(--gold); font-weight: bold; border: none; }
 
         /* IA CHAT */
         .ai-box { background: rgba(0,0,0,0.85); border: 1px solid #333; border-radius: 18px; padding: 15px; border-left: 4px solid var(--blue); margin-bottom: 30px; }
-        #ai-chat { height: 70px; overflow-y: auto; font-size: 13px; color: #ddd; }
+        #ai-chat { height: 75px; overflow-y: auto; font-size: 13px; color: #ddd; }
         .ai-input-row { display: flex; gap: 8px; margin-top: 10px; }
         #ai-input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; outline: none; }
         .ai-send { background: var(--blue); border: none; color: #fff; border-radius: 8px; width: 40px; cursor: pointer; }
 
+        /* PRO PLAYERS */
         .section-title { font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
-        .pro-card { background: #0a0a0c; border: 1px solid #222; border-radius: 12px; padding: 15px; margin-bottom: 12px; }
-        .pro-name { font-weight: 800; color: var(--blue); font-size: 14px; margin-bottom: 5px; display: block; }
-        .pro-stats { font-size: 11px; color: #aaa; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .pro-card { background: #0a0a0c; border: 1px solid #222; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+        .pro-name { font-weight: 800; color: var(--blue); font-size: 14px; margin-bottom: 4px; display: block; }
+        .pro-stats { font-size: 10px; color: #aaa; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
 
-        .credits { text-align: center; margin-top: 30px; font-size: 12px; color: var(--gray); font-weight: bold; }
+        /* BOTONES REDES */
+        .social-btn { text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 15px; border-radius: 12px; font-weight: bold; color: white; margin-bottom: 10px; transition: 0.3s; }
+        .ws { background: #25D366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); }
+        .ds { background: #5865F2; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.2); }
+
+        .credits { text-align: center; margin-top: 30px; font-size: 12px; color: var(--gray); font-weight: bold; padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -66,61 +72,66 @@
                 <option value="samsung">Samsung</option>
                 <option value="xiaomi">Xiaomi</option>
                 <option value="motorola">Motorola</option>
+                <option value="infinix">Infinix</option>
             </select>
             <span class="label" style="margin-top: 10px;">Modelo</span>
             <select id="model"></select>
         </div>
-        <button class="btn-gerar" onclick="process()">🚀 GENERAR CONFIGURACIÓN</button>
+        <button class="btn-gerar" onclick="process()">🚀 INYECTAR ALGORITMO</button>
     </div>
 
     <div id="results">
         <div class="res-card">
-            <div style="font-weight: bold; color: var(--blue); margin-bottom: 15px; text-transform: uppercase;" id="res-name"></div>
-            <div class="val-row"><span>General:</span> <b style="color:white">100</b></div>
-            <div class="val-row"><span>Mira de Punto Rojo:</span> <b style="color:white">96</b></div>
-            <div class="val-row"><span>Mira 2x:</span> <b style="color:white">98</b></div>
-            <div class="val-row"><span>Mira 4x:</span> <b style="color:white">100</b></div>
+            <div id="res-name" style="font-weight: bold; color: var(--blue); margin-bottom: 15px; text-transform: uppercase;"></div>
+            <div class="val-row"><span>General:</span> <b id="v-gen"></b></div>
+            <div class="val-row"><span>Mira Roja:</span> <b id="v-red"></b></div>
+            <div class="val-row"><span>Mira 2x:</span> <b id="v-2x"></b></div>
+            <div class="val-row"><span>Mira 4x:</span> <b id="v-4x"></b></div>
             <div class="val-row highlight"><span>DPI:</span> <span id="dpi-val"></span></div>
-            <div class="val-row highlight"><span>Botón de Disparo:</span> <b>47%</b></div>
+            <div class="val-row highlight"><span>Botón:</span> <b id="v-btn"></b></div>
         </div>
-        <button class="btn-gerar" style="background:#111; color:#fff;" onclick="location.reload()">🔄 RECALIBRAR</button>
+        <button class="btn-gerar" style="background:#111; color:#fff;" onclick="location.reload()">🔄 NUEVO ESCANEO</button>
     </div>
 
     <div class="ai-box">
-        <div id="ai-chat"><b>TRØPEX IA:</b> Iniciando protocolos... Sube la mira y dale a la cabeza.</div>
+        <div id="ai-chat"><b>TRØPEX IA:</b> Bienvenido a la base de Withex ⁴⁴⁴. Sube la mira y dale a la cabeza.</div>
         <div class="ai-input-row">
-            <input type="text" id="ai-input" placeholder="Pregúntame algo...">
+            <input type="text" id="ai-input" placeholder="Pregunta a la IA...">
             <button class="ai-send" onclick="talkToAI()">></button>
         </div>
     </div>
 
-    <div class="section-title">🏆 PRO PLAYERS APARTADO</div>
-    <div class="pro-card">
-        <span class="pro-name">WHITEFF ⁴⁴⁴</span>
-        <div class="pro-stats"><span>Geral: 100</span> <span>Botão: 42%</span> <span>DPI: NATIVO</span> <span>Mira 2x: 100</span></div>
-    </div>
-    <div class="pro-card">
-        <span class="pro-name">NOBRU TV</span>
-        <div class="pro-stats"><span>Geral: 91</span> <span>Botão: 45%</span> <span>DPI: 720</span> <span>Mira 2x: 94</span></div>
+    <div class="section-title">🏆 PRO PLAYERS PANEL</div>
+    <div id="pro-list">
+        <div class="pro-card" style="border: 1px solid var(--gold);"><span class="pro-name" style="color: var(--gold);">WITHeX ⁴⁴⁴ 👑</span><div class="pro-stats"><span>Geral: 200</span> <span>Botão: 38%</span> <span>DPI: NATIVO</span> <span>Mira 2x: 198</span></div></div>
+        <div class="pro-card"><span class="pro-name">WHITE 444</span><div class="pro-stats"><span>Geral: 198</span> <span>Botão: 42%</span> <span>DPI: NATIVO</span> <span>Mira 2x: 200</span></div></div>
+        <div class="pro-card"><span class="pro-name">L GANG</span><div class="pro-stats"><span>Geral: 185</span> <span>Botão: 45%</span> <span>DPI: 520</span> <span>Mira 2x: 170</span></div></div>
+        <div class="pro-card"><span class="pro-name">AKILES</span><div class="pro-stats"><span>Geral: 190</span> <span>Botão: 50%</span> <span>DPI: 480</span> <span>Mira 2x: 185</span></div></div>
+        <div class="pro-card"><span class="pro-name">AZOZ</span><div class="pro-stats"><span>Geral: 175</span> <span>Botão: 52%</span> <span>DPI: 411</span> <span>Mira 2x: 160</span></div></div>
+        <div class="pro-card"><span class="pro-name">TWO9</span><div class="pro-stats"><span>Geral: 200</span> <span>Botão: 40%</span> <span>DPI: 550</span> <span>Mira 2x: 190</span></div></div>
+        <div class="pro-card"><span class="pro-name">MARECHALL</span><div class="pro-stats"><span>Geral: 188</span> <span>Botão: 48%</span> <span>DPI: 500</span> <span>Mira 2x: 175</span></div></div>
+        <div class="pro-card"><span class="pro-name">LDZIN</span><div class="pro-stats"><span>Geral: 195</span> <span>Botão: 44%</span> <span>DPI: 580</span> <span>Mira 2x: 188</span></div></div>
     </div>
 
-    <div class="credits">Desarrollado por Withex ⁴⁴⁴</div>
+    <div class="section-title">📢 COMUNIDAD</div>
+    <a href="https://chat.whatsapp.com/LJ03CJlxd0pLTI2KeRTBrL?mode=gi_t" target="_blank" class="social-btn ws">
+        <span>🟢 GRUPO DE WHATSAPP</span>
+    </a>
+    <a href="https://discord.gg/rhqXWVqyy" target="_blank" class="social-btn ds">
+        <span>👾 SERVIDOR DE DISCORD</span>
+    </a>
+
+    <div class="credits">Propiedad de Withex ⁴⁴⁴</div>
 </div>
 
 <script>
     const db = {
-        apple: ["iPhone 16 Pro Max", "iPhone 15 Pro", "iPhone 13", "iPhone 11", "iPhone 8 Plus"],
-        samsung: ["Galaxy S24 Ultra", "Galaxy S23 Ultra", "Galaxy A54", "Galaxy A10s"],
-        xiaomi: ["Poco X6 Pro", "Redmi Note 13 Pro", "Poco X3 Pro"],
-        motorola: ["Edge 50 Pro", "Moto G84", "Moto G54"]
+        apple: ["iPhone 16 Pro Max", "iPhone 15 Pro", "iPhone 13 Mini", "iPhone 11", "iPhone 8 Plus"],
+        samsung: ["Galaxy S24 Ultra", "Galaxy A54", "Galaxy S21 FE", "Galaxy A10s"],
+        xiaomi: ["Poco F6 Pro", "Redmi Note 13 Pro", "Poco X3 Pro"],
+        motorola: ["Edge 50 Pro", "Moto G84", "Moto G54"],
+        infinix: ["Note 40 Pro", "Hot 40 Pro"]
     };
-
-    function speak(t) {
-        window.speechSynthesis.cancel();
-        const m = new SpeechSynthesisUtterance(t);
-        m.lang = 'es-ES'; m.rate = 1.1;
-        window.speechSynthesis.speak(m);
-    }
 
     function updateModels() {
         const b = document.getElementById('brand').value;
@@ -129,28 +140,35 @@
         db[b].forEach(m => { s.innerHTML += `<option value="${m}">${m}</option>`; });
     }
 
-    // CORRECCIÓN: AHORA MUESTRA LA SENSIBILIDAD EN PANTALLA
     function process() {
-        const brand = document.getElementById('brand').value;
-        const model = document.getElementById('model').value;
-        
-        speak("Generando sensibilidad. Sube la mira y dale a la cabeza.");
-        
-        // Ocultar selector y mostrar resultados
+        const b = document.getElementById('brand').value;
+        const m = document.getElementById('model').value;
+        const r = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
         document.getElementById('setup').style.display = 'none';
         document.getElementById('results').style.display = 'block';
-        document.getElementById('res-name').innerText = model;
-        
-        // Lógica de DPI (Recordando: iPhone no tiene DPI)
-        document.getElementById('dpi-val').innerText = (brand === 'apple') ? "NATIVO" : "600";
+        document.getElementById('res-name').innerText = m;
+        document.getElementById('v-gen').innerText = r(175, 200);
+        document.getElementById('v-red').innerText = r(170, 200);
+        document.getElementById('v-2x').innerText = r(180, 200);
+        document.getElementById('v-4x').innerText = r(180, 200);
+        document.getElementById('v-btn').innerText = r(38, 50) + "%";
+        document.getElementById('dpi-val').innerText = (b === 'apple') ? "NATIVO" : r(411, 600);
+        speak("Sube la mira y dale a la cabeza.");
+    }
+
+    function speak(t) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(t);
+        msg.lang = 'es-ES';
+        window.speechSynthesis.speak(msg);
     }
 
     function talkToAI() {
-        let input = document.getElementById('ai-input').value;
-        let final = "Interesante... pero lo importante es que subas la mira y le des a la cabeza.";
-        document.getElementById('ai-chat').innerHTML = `<b>TÚ:</b> ${input}<br><b>AI:</b> ${final}`;
-        speak(final);
+        const input = document.getElementById('ai-input').value;
+        const ans = "Analizando... Todo listo. Sube la mira y dale a la cabeza.";
+        document.getElementById('ai-chat').innerHTML = `<b>TÚ:</b> ${input}<br><b>AI:</b> ${ans}`;
         document.getElementById('ai-input').value = "";
+        speak(ans);
     }
 
     window.onload = () => {
