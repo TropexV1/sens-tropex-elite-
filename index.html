@@ -2,159 +2,116 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENS TROPEX - RED ELITE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SENS TROPEX - ELITE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
+            background: #050000;
             color: white;
+            font-family: 'Orbitron', sans-serif;
             overflow: hidden;
-
-            /* AQUÍ CARGA TU PROPIA IMAGEN */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
-                        url('fondo.jpg'); 
-            background-size: cover;
-            background-position: center;
-            
-            /* EFECTO DE MOVIMIENTO 4K */
-            animation: zoomFondo 20s infinite alternate ease-in-out;
+            height: 100vh;
         }
-
-        @keyframes zoomFondo {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
+        #bg-video {
+            position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%;
+            z-index: -1; filter: brightness(0.3); object-fit: cover;
         }
-
-        .main-card {
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(15px);
-            border: 2px solid #ff0000;
-            border-radius: 25px;
-            padding: 40px 20px;
-            width: 90%;
-            max-width: 360px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-            position: relative;
-            z-index: 10;
+        .container {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; height: 90vh; text-align: center; padding: 20px;
         }
-
-        .logo {
-            font-size: 35px;
-            font-weight: bold;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 15px #ff0000;
+        h1 { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 15px #ff0000; margin-bottom: 5px; }
+        p { font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px; color: #aaa; }
+        
+        .selector { display: flex; gap: 20px; margin-bottom: 30px; }
+        .option {
+            padding: 15px; border: 2px solid #333; border-radius: 15px;
+            cursor: pointer; transition: 0.3s; grayscale: 100%; opacity: 0.5;
         }
-
-        .engine-text {
-            color: #ff4d4d;
-            font-size: 10px;
-            letter-spacing: 5px;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .device-selector {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .dev-btn {
-            flex: 1;
-            background: rgba(30, 30, 30, 0.8);
-            border: 1px solid #333;
-            padding: 20px 10px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .dev-btn.active {
-            border-color: #ff0000;
-            background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-        }
+        .option img { width: 50px; }
+        .option.active { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; grayscale: 0%; opacity: 1; transform: scale(1.1); }
 
         input {
-            width: 100%;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #444;
-            padding: 15px;
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            outline: none;
-            font-family: 'Orbitron', sans-serif;
+            background: rgba(20,20,20,0.8); border: 1px solid #ff0000;
+            padding: 15px; border-radius: 10px; color: white; width: 80%;
+            max-width: 300px; text-align: center; font-family: 'Orbitron'; margin-bottom: 20px;
+        }
+        
+        .btn-start {
+            background: #ff0000; color: white; border: none; padding: 15px 40px;
+            font-weight: 900; border-radius: 5px; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
         }
 
-        .btn-final {
-            width: 100%;
-            background: #ff0000;
-            color: white;
-            padding: 18px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 5px 25px rgba(255, 0, 0, 0.6);
+        /* BARRA INFERIOR */
+        .navbar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(10,10,10,0.95); border-top: 2px solid #ff0000;
+            display: flex; justify-content: space-around; padding: 12px 0;
+            z-index: 1000; backdrop-filter: blur(10px);
         }
+        .nav-item { text-align: center; color: #666; cursor: pointer; font-size: 0.6rem; }
+        .nav-item.active { color: #ff0000; }
+        .nav-item div { font-size: 1.4rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
 
-    <div class="main-card">
-        <div class="logo">SENS TROPEX</div>
-        <div class="engine-text">SENSITIVITY ENGINE</div>
+    <img src="fondo.jpg" id="bg-video">
 
-        <p style="font-size: 12px; margin-bottom: 15px; color: #ccc;">SELECCIONA TU EQUIPO</p>
+    <div class="container">
+        <h1>SENS TROPEX</h1>
+        <p>SENSITIVITY ENGINE</p>
 
-        <div class="device-selector">
-            <div class="dev-btn" id="and" onclick="setSys('Android')">
-                <div style="font-size: 25px;">🤖</div>
-                <span style="font-size: 10px; color: #eee;">ANDROID</span>
+        <div class="selector">
+            <div class="option" id="opt-android" onclick="selectType('ANDROID')">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="Android">
             </div>
-            <div class="dev-btn" id="ios" onclick="setSys('iOS')">
-                <div style="font-size: 25px;">🍎</div>
-                <span style="font-size: 10px; color: #eee;">iOS</span>
+            <div class="option" id="opt-ios" onclick="selectType('IOS')">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png" alt="iOS">
             </div>
         </div>
 
-        <input type="text" id="model" placeholder="MODELO DEL DISPOSITIVO">
+        <input type="text" id="model" placeholder="MODELO DEL MÓVIL">
+        <button class="btn-start" onclick="start()">CONTINUAR</button>
+    </div>
 
-        <button class="btn-final" onclick="start()">CONTINUAR</button>
+    <div class="navbar">
+        <div class="nav-item active" onclick="location.href='index.html'">
+            <div>🏠</div>INICIO
+        </div>
+        <div class="nav-item" onclick="location.href='chat.html'">
+            <div>🤖</div>IA CHAT
+        </div>
+        <div class="nav-item" onclick="location.href='pros.html'">
+            <div>🏆</div>PROS
+        </div>
+        <div class="nav-item" onclick="alert('Próximamente...')">
+            <div>👤</div>PERFIL
+        </div>
     </div>
 
     <script>
         let selected = "";
-        function setSys(s) {
-            selected = s;
-            document.getElementById('and').classList.remove('active');
-            document.getElementById('ios').classList.remove('active');
-            if(s === 'Android') document.getElementById('and').classList.add('active');
-            else document.getElementById('ios').classList.add('active');
+
+        function selectType(type) {
+            selected = type;
+            document.getElementById('opt-android').classList.remove('active');
+            document.getElementById('opt-ios').classList.remove('active');
+            if(type === 'ANDROID') document.getElementById('opt-android').classList.add('active');
+            else document.getElementById('opt-ios').classList.add('active');
         }
 
         function start() {
             const m = document.getElementById('model').value;
-            if(!selected) { alert("Selecciona Android o iOS"); return; }
-            if(!m) { alert("Ingresa tu modelo"); return; }
+            if(!selected || !m) {
+                alert("Por favor selecciona tu sistema e ingresa el modelo.");
+                return;
+            }
             localStorage.setItem('celular', selected + " " + m);
-            location.href = "generar.html";
+            window.location.href = "generar.html";
         }
     </script>
 </body>
