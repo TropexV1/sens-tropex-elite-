@@ -6,7 +6,7 @@
     <title>SENS TRØPEX - ELITE 🎯</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             background-color: #000; 
@@ -22,13 +22,11 @@
         /* Lluvia de Sangre */
         canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        /* Contenedor del Personaje (Efecto Movimiento) */
+        /* PERSONAJE DE FONDO CON MOVIMIENTO */
         #character-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,9 +35,9 @@
         }
 
         #personaje {
-            height: 85%;
-            opacity: 0.6;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
+            height: 70%; /* Tamaño ideal para móvil */
+            opacity: 0.5;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
             transform-style: preserve-3d;
         }
 
@@ -56,48 +54,50 @@
             margin-bottom: 80px; 
         }
         
-        h1 { font-size: 2.8rem; color: #ff0000; text-shadow: 0 0 20px #ff0000; font-weight: 900; }
+        h1 { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 15px #ff0000; font-weight: 900; }
         h1 span { color: white; text-shadow: 0 0 10px #fff; }
         
-        .subtitle { font-size: 0.7rem; letter-spacing: 5px; color: #aaa; margin-bottom: 35px; text-transform: uppercase; }
+        .subtitle { font-size: 0.6rem; letter-spacing: 4px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
 
-        .selector { display: flex; gap: 20px; margin-bottom: 30px; }
+        /* Selector de Sistema */
+        .selector { display: flex; gap: 15px; margin-bottom: 25px; }
         .option { 
-            width: 75px; height: 75px; 
-            border: 2px solid #333; border-radius: 20px; 
+            width: 70px; height: 70px; 
+            border: 2px solid #333; border-radius: 18px; 
             display: flex; align-items: center; justify-content: center; 
             cursor: pointer; background: rgba(0,0,0,0.8); 
             backdrop-filter: blur(5px); transition: 0.3s;
         }
-        .option img { width: 35px; filter: grayscale(1); }
-        .option.active { border-color: #ff0000; box-shadow: 0 0 20px #ff0000; background: rgba(255,0,0,0.1); }
+        .option img { width: 30px; filter: grayscale(1); }
+        .option.active { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; background: rgba(255,0,0,0.1); }
         .option.active img { filter: grayscale(0); }
 
         input { 
             background: rgba(20, 0, 0, 0.9); border: 1px solid #ff0000; 
-            padding: 18px; border-radius: 12px; color: white; 
-            width: 90%; max-width: 320px; text-align: center; 
-            font-family: 'Orbitron'; margin-bottom: 25px; outline: none; 
+            padding: 16px; border-radius: 10px; color: white; 
+            width: 100%; max-width: 300px; text-align: center; 
+            font-family: 'Orbitron'; margin-bottom: 20px; outline: none; 
+            font-size: 14px;
         }
         
         .btn-start { 
             background: #ff0000; color: white; border: none; 
-            padding: 18px 0; font-weight: 900; border-radius: 10px; 
+            padding: 16px 0; font-weight: 900; border-radius: 8px; 
             cursor: pointer; font-family: 'Orbitron'; 
-            width: 90%; max-width: 320px; 
-            box-shadow: 0 0 20px rgba(255,0,0,0.5); letter-spacing: 2px; 
+            width: 100%; max-width: 300px; 
+            box-shadow: 0 0 20px rgba(255,0,0,0.4); letter-spacing: 1px;
         }
 
-        /* Navbar Inferior */
+        /* Navbar */
         .navbar { 
-            background: rgba(0,0,0,0.95); border-top: 2px solid #ff0000; 
+            background: rgba(0,0,0,0.96); border-top: 2px solid #ff0000; 
             display: flex; justify-content: space-around; 
-            padding: 15px 0; width: 100%; position: fixed; 
-            bottom: 0; z-index: 100; backdrop-filter: blur(5px); 
+            padding: 12px 0; width: 100%; position: fixed; 
+            bottom: 0; z-index: 100;
         }
-        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 10px; font-weight: bold; flex: 1; }
-        .nav-item.active { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
-        .nav-item .icon { font-size: 22px; margin-bottom: 4px; display: block; }
+        .nav-item { text-align: center; color: #444; text-decoration: none; font-size: 9px; font-weight: bold; flex: 1; }
+        .nav-item.active { color: #ff0000; }
+        .nav-item .icon { font-size: 20px; margin-bottom: 3px; display: block; }
     </style>
 </head>
 <body>
@@ -105,24 +105,24 @@
     <canvas id="bloodRain"></canvas>
 
     <div id="character-container">
-        <img src="personaje.png" id="personaje" alt="Soldier">
+        <img src="personaje.png" id="personaje" alt="Tropex Soldier">
     </div>
 
     <div class="container">
         <h1>SENS TR<span>Ø</span>PEX</h1>
-        <div class="subtitle">Tactical AI 🎯</div>
+        <div class="subtitle">Cybernetic Intelligence 🎯</div>
         
         <div class="selector">
             <div class="option" id="opt-android" onclick="selectType('ANDROID')">
-                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="Android">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png">
             </div>
             <div class="option" id="opt-ios" onclick="selectType('IOS')">
-                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png" alt="iOS">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png">
             </div>
         </div>
 
-        <input type="text" id="model" placeholder="MODELO DEL DISPOSITIVO">
-        <button class="btn-start" onclick="startProcess()">GENERAR CONFIG 200</button>
+        <input type="text" id="model" placeholder="INTRODUCE MODELO">
+        <button class="btn-start" onclick="startProcess()">VINCULAR DISPOSITIVO</button>
     </div>
 
     <nav class="navbar">
@@ -135,20 +135,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
 
     <script>
-        // Efecto Movimiento Personaje
+        // Inicializar movimiento del personaje
         VanillaTilt.init(document.querySelector("#personaje"), {
-            max: 12, speed: 400, glare: true, "max-glare": 0.3, scale: 1.05
+            max: 15, 
+            speed: 300, 
+            perspective: 1000,
+            scale: 1.05,
+            gyroscope: true // Activa el movimiento con el sensor del móvil
         });
 
-        // Lluvia de Sangre
+        // Lluvia
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for (let i = 0; i < 100; i++) drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 20, v: Math.random() * 5 + 3 });
+        for (let i = 0; i < 80; i++) drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 20, v: Math.random() * 4 + 3 });
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(200, 0, 0, 0.6)'; ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(200, 0, 0, 0.5)';
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.l); ctx.stroke();
                 d.y += d.v; if (d.y > canvas.height) d.y = -20;
@@ -157,7 +161,6 @@
         }
         draw();
 
-        // Lógica de Inicio
         let type = "";
         function selectType(t) {
             type = t;
@@ -168,23 +171,11 @@
 
         function startProcess() {
             const m = document.getElementById('model').value;
-            if(!type || !m) return alert("Selecciona sistema y escribe el modelo");
-            
-            // Guardar para la página de resultados
+            if(!type || !m) return alert("Completa los datos");
             localStorage.setItem('deviceModel', m);
-            
-            const btn = document.querySelector('.btn-start');
-            btn.innerHTML = "EXTRAYENDO DATOS...";
-            btn.style.background = "#660000";
-            
-            setTimeout(() => {
-                window.location.href = "generar.html";
-            }, 1800);
+            document.querySelector('.btn-start').innerHTML = "VINCULANDO...";
+            setTimeout(() => { window.location.href = "generar.html"; }, 1500);
         }
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        });
     </script>
 </body>
 </html>
