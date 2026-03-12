@@ -8,6 +8,7 @@
         :root {
             --bg: #010103; --card: rgba(13, 13, 16, 0.95); --blue: #00d4ff;
             --text: #ffffff; --gray: #a0a0a0; --border: #1f1f23; --gold: #ffd700;
+            --green: #00ff88;
         }
 
         body {
@@ -16,55 +17,48 @@
             overflow-x: hidden; min-height: 100vh; position: relative;
         }
 
-        /* LLUVIA AZUL */
         #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .drop { position: absolute; background: var(--blue); width: 1px; height: 25px; opacity: 0.3; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
 
         .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
         
-        .header-section { text-align: center; margin-bottom: 25px; }
+        .header-section { text-align: center; margin-bottom: 20px; }
         h2 { letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin: 0; text-transform: uppercase; }
         .sub-title { color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: 3px; margin-top: 5px; text-transform: uppercase; }
+
+        .online-counter { text-align: center; font-size: 11px; margin-bottom: 15px; color: var(--green); font-weight: bold; text-transform: uppercase; }
+
+        .status-panel { display: flex; justify-content: space-around; background: rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 20px; font-size: 9px; }
+        .status-item { display: flex; align-items: center; gap: 5px; color: var(--gray); }
+        .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 5px var(--green); }
 
         .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); }
         .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
         
-        select, input { width: 100%; background: #0a0a0c; border: 1px solid #222; color: #fff; font-size: 15px; outline: none; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
+        select { width: 100%; background: #0a0a0c; border: 1px solid #222; color: #fff; font-size: 15px; outline: none; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
 
         .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; transition: 0.3s; }
-        .btn-gerar:active { transform: scale(0.98); background: var(--blue); }
+
+        #loader { display: none; text-align: left; font-family: 'Courier New', monospace; font-size: 12px; color: var(--green); background: #000; padding: 20px; border-radius: 15px; border: 1px solid var(--green); margin-bottom: 20px; }
+        .progress-bar { width: 0%; height: 4px; background: var(--green); margin-top: 10px; transition: width 0.3s; box-shadow: 0 0 10px var(--green); }
 
         /* RESULTADOS */
         #results { display: none; }
-        .res-card { background: var(--card); border: 1px solid var(--blue); border-radius: 20px; padding: 25px; margin-bottom: 20px; border-top: 4px solid var(--blue); }
+        .res-card { background: var(--card); border: 1px solid var(--blue); border-radius: 20px; padding: 25px; margin-bottom: 20px; border-top: 4px solid var(--blue); position: relative; }
         .val-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; border-bottom: 1px solid #1a1a1a; padding-bottom: 6px; }
-        .highlight { color: var(--gold); font-weight: bold; border: none; }
-
-        /* CHAT */
-        .chat-box { background: rgba(0,0,0,0.95); border: 1px solid #333; border-radius: 20px; padding: 15px; margin-bottom: 30px; }
-        #chat-content { height: 250px; overflow-y: auto; font-size: 13px; color: #ddd; margin-bottom: 15px; padding-right: 5px; }
-        .chat-msg { margin-bottom: 10px; padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,0.05); border-left: 3px solid var(--blue); }
-        .chat-msg b { font-size: 11px; display: block; margin-bottom: 2px; text-transform: uppercase; }
-        .chat-input-row { display: flex; gap: 8px; }
-        #chat-input { flex: 1; margin-bottom: 0; padding: 12px; background: #0a0a0c; border: 1px solid #333; }
-        .chat-send { background: var(--blue); border: none; color: #000; border-radius: 10px; width: 80px; cursor: pointer; font-weight: 900; }
+        .highlight { color: var(--gold); font-weight: bold; }
 
         /* PRO PLAYERS */
-        .section-title { font-size: 13px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
-        .pro-card { background: #0a0a0c; border: 1px solid #222; border-radius: 12px; padding: 15px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .pro-name { color: var(--blue); font-weight: 900; font-size: 15px; grid-column: span 2; border-bottom: 1px solid #222; padding-bottom: 5px; display: flex; align-items: center; gap: 8px; }
-        .pro-stat { font-size: 11px; color: #aaa; }
+        .section-title { font-size: 13px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin: 25px 0 15px; text-align: center; }
+        .pro-list { display: grid; gap: 10px; }
+        .pro-card { background: #0a0a0c; border: 1px solid #222; border-radius: 12px; padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .pro-name { grid-column: span 2; color: var(--blue); font-weight: 900; font-size: 14px; border-bottom: 1px solid #1a1a1a; padding-bottom: 4px; margin-bottom: 4px; }
+        .pro-stat { font-size: 10px; color: #aaa; }
         .pro-stat b { color: #fff; }
 
-        .social-btn { text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 18px; border-radius: 15px; font-weight: 900; color: white; background: #25D366; margin-bottom: 15px; }
-        
-        /* SOPORTE */
-        .support-box { background: var(--card); border: 1px dashed #333; border-radius: 15px; padding: 15px; text-align: center; margin-top: 20px; }
-        .support-title { color: var(--blue); font-weight: 900; font-size: 14px; margin-bottom: 10px; letter-spacing: 2px; }
-        .support-numbers { font-size: 13px; color: #fff; line-height: 1.6; }
-        .support-numbers a { color: var(--text); text-decoration: none; display: block; margin-top: 5px; font-family: monospace; }
-
+        .support-box { background: var(--card); border: 1px dashed #333; border-radius: 15px; padding: 15px; text-align: center; margin-top: 30px; }
+        .support-numbers a { color: var(--text); text-decoration: none; display: block; margin-top: 5px; font-family: monospace; font-size: 13px; }
         .credits { text-align: center; margin-top: 30px; font-size: 11px; color: var(--gray); font-weight: bold; padding-bottom: 30px; }
     </style>
 </head>
@@ -78,80 +72,94 @@
         <div class="sub-title">MEJORES EN SENSIBILIDADES</div>
     </div>
 
+    <div class="online-counter">🔥 <span id="user-count">198</span> USUARIOS GENERANDO SENSI 200</div>
+
     <div id="setup">
         <div class="box">
-            <span class="label">🎯 ¿Qué quieres mejorar?</span>
-            <select id="user-goal">
-                <option value="red">Dar solo Rojo 🔴 (Full 200)</option>
-                <option value="mov">Movimientos Insanos ⚡</option>
-                <option value="stab">Cero Temblores 🛠️</option>
-            </select>
-        </div>
-
-        <div class="box">
-            <span class="label">📱 Dispositivo</span>
+            <span class="label">🎯 Hardware de Dispositivo</span>
             <select id="brand" onchange="updateModels()">
                 <option value="apple">Apple (iPhone/iPad)</option>
                 <option value="samsung">Samsung</option>
                 <option value="xiaomi">Xiaomi / Poco</option>
                 <option value="motorola">Motorola</option>
-                <option value="huawei">Huawei</option>
                 <option value="zte">ZTE / RedMagic</option>
             </select>
             <select id="model"></select>
         </div>
-        <button class="btn-gerar" onclick="process()">🚀 GENERAR SENSI HACKER</button>
+        <button class="btn-gerar" onclick="startHack()">🚀 GENERAR CONFIGURACIÓN ÚNICA</button>
+    </div>
+
+    <div id="loader">
+        <div id="console-text"></div>
+        <div class="progress-bar" id="p-bar"></div>
     </div>
 
     <div id="results">
         <div class="res-card">
-            <div id="res-header" style="font-size: 10px; color: var(--gold); margin-bottom: 8px; font-weight: bold;"></div>
-            <div id="res-name" style="font-weight: 900; color: var(--blue); margin-bottom: 15px; font-size: 22px;"></div>
-            <div class="val-row"><span>Geral:</span> <b id="v-gen"></b></div>
-            <div class="val-row"><span>Mira Roja:</span> <b id="v-red"></b></div>
+            <div style="font-size: 10px; color: var(--gold); margin-bottom: 10px; font-weight: 900; text-align: center;">✓ SENSIBILIDAD 200 CALIBRADA</div>
+            <div id="res-name" style="font-weight: 900; color: var(--blue); margin-bottom: 15px; font-size: 20px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;"></div>
+            <div class="val-row"><span>General:</span> <b id="v-gen"></b></div>
+            <div class="val-row"><span>Mira de Punto Rojo:</span> <b id="v-red"></b></div>
             <div class="val-row"><span>Mira 2x:</span> <b id="v-2x"></b></div>
             <div class="val-row"><span>Mira 4x:</span> <b id="v-4x"></b></div>
-            <div class="val-row highlight"><span>DPI:</span> <span id="dpi-val"></span></div>
-            <div class="val-row highlight"><span>Botón:</span> <b id="v-btn"></b></div>
+            <div class="val-row highlight"><span>DPI ESPECÍFICO:</span> <span id="dpi-val"></span></div>
+            <div class="val-row highlight"><span>BOTÓN RECOMENDADO:</span> <b id="v-btn"></b></div>
         </div>
-        <button class="btn-gerar" style="background:#111; color:#fff;" onclick="location.reload()">🔄 NUEVO ESCANEO</button>
-    </div>
 
-    <div class="chat-box">
-        <div class="label" style="color: var(--blue); font-weight: 900; margin-bottom: 12px;">🌎 CHAT DE LA COMUNIDAD</div>
-        <div id="chat-content"></div>
-        <div class="chat-input-row">
-            <input type="text" id="chat-input" placeholder="Escribe algo...">
-            <button class="chat-send" onclick="sendMsg()">ENVIAR</button>
+        <div class="section-title">🏆 SENSIBILIDADES PRO REALES</div>
+        <div class="pro-list">
+            <div class="pro-card" style="border: 1px solid var(--gold);">
+                <div class="pro-name">WITHeX ⁴⁴⁴ 👑</div>
+                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>195</b></div>
+                <div class="pro-stat">Botón: <b>38%</b></div><div class="pro-stat">DPI: <b>PRECISO</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">WHITE 444</div>
+                <div class="pro-stat">Geral: <b>198</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
+                <div class="pro-stat">Botón: <b>40%</b></div><div class="pro-stat">DPI: <b>720</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">L GANG</div>
+                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
+                <div class="pro-stat">Botón: <b>42%</b></div><div class="pro-stat">DPI: <b>900</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">TWO 9</div>
+                <div class="pro-stat">Geral: <b>192</b></div><div class="pro-stat">P. Rojo: <b>198</b></div>
+                <div class="pro-stat">Botón: <b>35%</b></div><div class="pro-stat">DPI: <b>500</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">MARECHALL</div>
+                <div class="pro-stat">Geral: <b>196</b></div><div class="pro-stat">P. Rojo: <b>194</b></div>
+                <div class="pro-stat">Botón: <b>48%</b></div><div class="pro-stat">DPI: <b>810</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">LDZIN</div>
+                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
+                <div class="pro-stat">Botón: <b>37%</b></div><div class="pro-stat">DPI: <b>411</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">AZOZ</div>
+                <div class="pro-stat">Geral: <b>195</b></div><div class="pro-stat">P. Rojo: <b>190</b></div>
+                <div class="pro-stat">Botón: <b>45%</b></div><div class="pro-stat">DPI: <b>600</b></div>
+            </div>
+            <div class="pro-card">
+                <div class="pro-name">AKILES</div>
+                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>196</b></div>
+                <div class="pro-stat">Botón: <b>50%</b></div><div class="pro-stat">DPI: <b>800</b></div>
+            </div>
         </div>
+        
+        <button class="btn-gerar" style="background:#111; color:#fff; margin-top:20px;" onclick="location.reload()">🔄 RE-CALIBRAR</button>
     </div>
-
-    <div class="section-title">🏆 PRO PLAYERS PANEL</div>
-    <div id="pro-list">
-        <div class="pro-card" style="border: 1px solid var(--gold);">
-            <span class="pro-name">WITHeX ⁴⁴⁴ 👑</span>
-            <span class="pro-stat">Geral: <b>200</b></span><span class="pro-stat">Botão: <b>38%</b></span>
-            <span class="pro-stat">DPI: <b>NATIVO</b></span><span class="pro-stat">Mira 2x: <b>200</b></span>
-        </div>
-        <div class="pro-card"><span class="pro-name">AKILEZ</span><span class="pro-stat">Geral: 198</span><span class="pro-stat">Botão: 48%</span></div>
-        <div class="pro-card"><span class="pro-name">AZOZ</span><span class="pro-stat">Geral: 200</span><span class="pro-stat">Botão: 45%</span></div>
-        <div class="pro-card"><span class="pro-name">TWO 9</span><span class="pro-stat">Geral: 194</span><span class="pro-stat">Botão: 40%</span></div>
-        <div class="pro-card"><span class="pro-name">MARECHALL</span><span class="pro-stat">Geral: 196</span><span class="pro-stat">Botão: 50%</span></div>
-        <div class="pro-card"><span class="pro-name">LDZIN</span><span class="pro-stat">Geral: 200</span><span class="pro-stat">Botão: 44%</span></div>
-        <div class="pro-card"><span class="pro-name">L GANG</span><span class="pro-stat">Geral: 200</span><span class="pro-stat">Botão: 42%</span></div>
-    </div>
-
-    <a href="https://chat.whatsapp.com/LJ03CJlxd0pLTI2KeRTBrL" target="_blank" class="social-btn">🟢 GRUPO DE WHATSAPP</a>
 
     <div class="support-box">
-        <div class="support-title">⚙️ SOPORTE</div>
-        <div class="support-numbers">
-            <a href="tel:+34624865767">📞 +34 624 86 57 67</a>
-            <a href="tel:+201281875382">📞 +20 12 81875382</a>
-        </div>
+        <div style="color:var(--blue); font-weight:900; font-size:12px; margin-bottom:10px;">⚙️ SOPORTE TÉCNICO</div>
+        <a href="tel:+34624865767">📞 +34 624 86 57 67</a>
+        <a href="tel:+201281875382">📞 +20 12 81875382</a>
     </div>
 
-    <div class="credits">Propiedad de Withex ⁴⁴⁴</div>
+    <div class="credits">Propiedad de Withex ⁴⁴⁴ | Actualizado Sensibilidad 200</div>
 </div>
 
 <script>
@@ -159,9 +167,8 @@
         apple: ["iPhone 16 Pro Max", "iPhone 15 Pro", "iPhone 13", "iPhone 11", "iPad Pro"],
         samsung: ["Galaxy S24 Ultra", "Galaxy S23 FE", "Galaxy A54", "Galaxy A10s"],
         xiaomi: ["Poco F6 Pro", "Redmi Note 13 Pro", "Black Shark 5"],
-        motorola: ["Edge 50 Pro", "Moto G84"],
-        huawei: ["P60 Pro", "Mate 50 Pro"],
-        zte: ["RedMagic 9 Pro", "Axon 50"]
+        motorola: ["Edge 50 Pro", "Moto G84", "Moto G24"],
+        zte: ["RedMagic 9 Pro", "Nubia Z60"]
     };
 
     function updateModels() {
@@ -171,49 +178,74 @@
         db[b].forEach(m => { s.innerHTML += `<option value="${m}">${m}</option>`; });
     }
 
-    function sendMsg() {
-        const input = document.getElementById('chat-input');
-        if(input.value.trim() === "") return;
-        const colors = ["#ffd700", "#ff007f", "#00ff88", "#ff8800", "#00d4ff"];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        addMsgToChat("ANÓNIMO", input.value, color);
-        input.value = "";
-    }
+    function startHack() {
+        const setup = document.getElementById('setup');
+        const loader = document.getElementById('loader');
+        const consoleText = document.getElementById('console-text');
+        const pBar = document.getElementById('p-bar');
+        
+        setup.style.display = 'none';
+        loader.style.display = 'block';
 
-    function addMsgToChat(name, text, color) {
-        const chat = document.getElementById('chat-content');
-        const div = document.createElement('div');
-        div.className = 'chat-msg';
-        div.innerHTML = `<b style="color: ${color}">${name}</b><span>${text}</span>`;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
+        const logs = [
+            "> Analizando Panel Táctil...",
+            "> Estableciendo Rango en 200...",
+            "> Calibrando DPI Seguro...",
+            "> Sincronizando con Servidor Withex...",
+            "> CONFIGURACIÓN FINALIZADA"
+        ];
+
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < logs.length) {
+                consoleText.innerHTML += logs[i] + "<br>";
+                pBar.style.width = ((i + 1) / logs.length) * 100 + "%";
+                i++;
+            } else {
+                clearInterval(interval);
+                setTimeout(process, 500);
+            }
+        }, 600);
     }
 
     function process() {
-        const goal = document.getElementById('user-goal').options[document.getElementById('user-goal').selectedIndex].text;
         const b = document.getElementById('brand').value;
         const m = document.getElementById('model').value;
         const r = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
         
-        alert("¡Configuración Hacker de 200 generada!");
-        document.getElementById('setup').style.display = 'none';
+        document.getElementById('loader').style.display = 'none';
         document.getElementById('results').style.display = 'block';
-        
-        document.getElementById('res-header').innerText = `MODO: ${goal}`;
         document.getElementById('res-name').innerText = m;
-        document.getElementById('v-gen').innerText = r(185, 200);
-        document.getElementById('v-red').innerText = r(180, 200);
-        document.getElementById('v-2x').innerText = r(170, 200);
-        document.getElementById('v-4x').innerText = r(170, 200);
-        document.getElementById('v-btn').innerText = r(38, 52) + "%";
-        
-        document.getElementById('dpi-val').innerText = (b === 'apple') ? "NATIVO" : r(411, 850);
+
+        // SENSIBILIDAD REAL HASTA 200
+        document.getElementById('v-gen').innerText = r(190, 200);
+        document.getElementById('v-red').innerText = r(185, 200);
+        document.getElementById('v-2x').innerText = r(180, 200);
+        document.getElementById('v-4x').innerText = r(180, 200);
+
+        if (b === 'apple') {
+            const appleModes = ["SENCILLO", "ESTÁNDAR", "PRECISO"];
+            document.getElementById('dpi-val').innerText = appleModes[r(0, 2)];
+            document.getElementById('v-btn').innerText = r(35, 42) + "%";
+        } else {
+            // DPI específico por marca para evitar errores
+            let dpiFinal;
+            if (b === 'samsung') dpiFinal = r(580, 850);
+            else if (b === 'xiaomi') dpiFinal = r(450, 780);
+            else dpiFinal = r(411, 600);
+            
+            document.getElementById('dpi-val').innerText = dpiFinal;
+            document.getElementById('v-btn').innerText = r(44, 52) + "%";
+        }
     }
 
     window.onload = () => {
         updateModels();
+        setInterval(() => {
+            document.getElementById('user-count').innerText = r(180, 240);
+        }, 3000);
         const c = document.getElementById('rain-container');
-        for(let i=0; i<40; i++) {
+        for(let i=0; i<30; i++) {
             const d = document.createElement('div');
             d.classList.add('drop');
             d.style.left = Math.random()*100+'vw';
