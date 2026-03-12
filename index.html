@@ -3,113 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SENS TROPEX - ELITE</title>
+    <title>SENS TRØPEX - ELITE 🎯</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: #050000; 
-            color: white; 
-            font-family: 'Orbitron', sans-serif; 
-            height: 100vh; 
-            overflow: hidden; 
-            display: flex; 
-            flex-direction: column; 
-        }
         
-        /* Lluvia de Sangre */
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        body {
+            background-color: #050000;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Lluvia de Sangre de Fondo */
+            background: #000;
+        }
 
-        .container { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px; 
-            z-index: 10; 
-            position: relative; 
+        /* Canvas para la lluvia de sangre */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none; /* No interfiere con clics */
         }
-        
-        h1 { font-size: 3rem; color: #ff0000; text-shadow: 0 0 25px #ff0000; font-weight: 900; letter-spacing: 5px; }
-        .subtitle { font-size: 0.7rem; letter-spacing: 4px; color: #888; margin-bottom: 40px; text-transform: uppercase; }
 
-        .selector { display: flex; gap: 25px; margin-bottom: 35px; }
-        .option { 
-            width: 85px; 
-            height: 85px; 
-            border: 2px solid #222; 
-            border-radius: 20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
-            transition: 0.4s; 
-            background: rgba(0,0,0,0.7); 
+        .container {
+            flex: 1; /* Ocupa todo el espacio disponible */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            margin-bottom: 70px; /* Espacio para la navbar de abajo */
         }
-        .option img { width: 45px; filter: grayscale(1) brightness(0.5); transition: 0.3s; }
-        .option.active { 
-            border-color: #ff0000; 
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5); 
-            background: rgba(40, 0, 0, 0.3); 
-            transform: translateY(-5px);
-        }
-        .option.active img { filter: grayscale(0) brightness(1); }
 
-        input { 
-            background: rgba(15, 0, 0, 0.9); 
-            border: 1px solid #444; 
-            padding: 18px; 
-            border-radius: 12px; 
-            color: white; 
-            width: 90%; 
-            max-width: 340px; 
-            text-align: center; 
-            font-family: 'Orbitron'; 
-            margin-bottom: 25px; 
-            outline: none;
-            transition: 0.3s;
-        }
-        input:focus { border-color: #ff0000; box-shadow: 0 0 10px rgba(255,0,0,0.3); }
-        
-        .btn-start { 
-            background: #ff0000; 
-            color: white; 
-            border: none; 
-            padding: 18px 0; 
-            font-weight: 900; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-family: 'Orbitron'; 
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); 
-            width: 90%; 
-            max-width: 340px;
+        h1 {
+            font-size: 3rem; /* Título más grande y chulo */
+            color: #ff0000;
+            text-shadow: 0 0 25px #ff0000;
+            margin-bottom: 5px;
+            font-weight: 900;
             letter-spacing: 2px;
-            transition: 0.3s;
         }
-        .btn-start:active { transform: scale(0.98); background: #b30000; }
 
-        /* NAVBAR INFERIOR */
-        .navbar { 
-            background: #000; 
-            border-top: 2px solid #ff0000; 
-            display: flex; 
-            justify-content: space-around; 
-            padding: 12px 0; 
-            width: 100%; 
-            z-index: 100; 
+        h1 .alt-o { color: #fff; text-shadow: 0 0 10px #fff; } /* Letra Ø en blanco */
+
+        .subtitle {
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            color: #aaa;
+            margin-bottom: 35px;
+            text-transform: uppercase;
         }
-        .nav-item { 
-            text-align: center; 
-            color: #444; 
-            text-decoration: none; 
-            font-size: 9px; 
-            font-weight: bold; 
-            flex: 1; 
+
+        /* Selector de Android/iOS */
+        .selector {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #333;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05);
         }
-        .nav-item.active { color: #ff0000; }
-        .nav-item .icon { font-size: 24px; margin-bottom: 3px; display: block; }
+
+        .option img {
+            width: 40px;
+            filter: grayscale(1) brightness(0.8);
+        }
+
+        .option.active {
+            border-color: #ff0000;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+            background: rgba(255, 0, 0, 0.1);
+            transform: scale(1.1);
+        }
+
+        .option.active img {
+            filter: grayscale(0) brightness(1.2);
+        }
+
+        /* Input de texto */
+        input {
+            background: rgba(20, 0, 0, 0.6);
+            border: 1px solid #ff0000;
+            padding: 18px;
+            border-radius: 12px;
+            color: white;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            font-family: 'Orbitron';
+            font-size: 14px;
+            margin-bottom: 25px;
+            outline: none;
+            box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.2);
+        }
+
+        /* Botón de acción */
+        .btn-start {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-weight: 900;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron';
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: 0.3s;
+            width: 90%;
+            max-width: 320px;
+        }
+
+        .btn-start:active {
+            transform: scale(0.95);
+        }
+
+        /* BARRA DE NAVEGACIÓN INFERIOR MEJORADA */
+        .navbar {
+            background: rgba(0, 0, 0, 0.95); /* Fondo negro puro */
+            border-top: 2px solid #ff0000;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px); /* Efecto cristal para la lluvia */
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #555;
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: bold;
+            flex: 1; /* Ocupa el mismo espacio */
+        }
+
+        .nav-item.active {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .nav-item .icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
     </style>
 </head>
 <body>
@@ -117,8 +175,8 @@
     <canvas id="bloodRain"></canvas>
 
     <div class="container">
-        <h1>TROPEX</h1>
-        <div class="subtitle">Cybernetic Intelligence</div>
+        <h1>SENS TR<span class="alt-o">Ø</span>PEX</h1>
+        <div class="subtitle">Tactic Intelligence 🎯</div>
 
         <div class="selector">
             <div class="option" id="opt-android" onclick="selectType('ANDROID')">
@@ -130,33 +188,37 @@
         </div>
 
         <input type="text" id="model" placeholder="INTRODUCE MODELO" autocomplete="off">
-        <button class="btn-start" onclick="startProcess()">VINCULAR DISPOSITIVO</button>
+        
+        <button class="btn-start" onclick="startProcess()">GENERAR 200 SENS 🔥</button>
     </div>
 
     <nav class="navbar">
-        <a href="index.html" class="nav-item active"><span class="icon">🏠</span>INICIO</a>
-        <a href="chat.html" class="nav-item"><span class="icon">🛰️</span>IA CHAT</a>
-        <a href="pros.html" class="nav-item"><span class="icon">🏆</span>PROS</a>
-        <a href="config.html" class="nav-item"><span class="icon">⚙️</span>AJUSTES</a>
+        <a href="index.html" class="nav-item active">
+            <div class="icon">🏠</div>INICIO
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div class="icon">🤖</div>IA CHAT
+        </a>
+        <a href="pros.html" class="nav-item">
+            <div class="icon">🏆</div>PROS
+        </a>
+        <a href="config.html" class="nav-item">
+            <div class="icon">⚙️</div>AJUSTES
+        </a>
     </nav>
 
     <script>
-        // --- EFECTO LLUVIA DE SANGRE ---
+        // --- LLUVIA DE SANGRE ---
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for (let i = 0; i < 120; i++) {
-            drops.push({ 
-                x: Math.random() * canvas.width, 
-                y: Math.random() * canvas.height, 
-                l: Math.random() * 30, 
-                v: Math.random() * 6 + 4 
-            });
+        for (let i = 0; i < 150; i++) {
+            drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 20, v: Math.random() * 5 + 3 });
         }
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(200, 0, 0, 0.8)'; ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(180, 0, 0, 0.7)'; ctx.lineWidth = 1; ctx.lineCap = 'round';
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.l); ctx.stroke();
                 d.y += d.v; if (d.y > canvas.height) d.y = -20;
@@ -165,7 +227,7 @@
         }
         draw();
 
-        // --- LÓGICA DE SELECCIÓN ---
+        // --- LÓGICA DE SALTO AL CHAT (MODIFICADA PARA 200 SENS) ---
         let selected = "";
         function selectType(t) {
             selected = t;
@@ -176,21 +238,17 @@
 
         function startProcess() {
             const m = document.getElementById('model').value;
-            if(!selected || !m) return alert("Error: Selecciona Sistema y Modelo.");
+            if(!selected || !m) return alert("Completa sistema y modelo");
             
             const btn = document.querySelector('.btn-start');
-            btn.innerHTML = "CALIBRANDO SISTEMA...";
+            btn.innerHTML = "CALIBRANDO AL 200%..."; // Mensaje pro
             btn.style.background = "#660000";
             
-            // Redirige a la página de resultados (General, Botón, DPI)
             setTimeout(() => {
-                window.location.href = "generar.html";
+                // Redirige al Chat de la IA
+                window.location.href = "chat.html";
             }, 1800);
         }
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        });
     </script>
 </body>
 </html>
