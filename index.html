@@ -2,96 +2,177 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sens Tropex Elite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SENS TRØPEX - Withex ⁴⁴⁴</title>
     <style>
         :root {
-            --red-accent: #ff3c3c;
-            --dark-bg: #050505;
-            --card-bg: #121212;
-            --text-gray: #888;
+            --bg: #010103; --card: rgba(13, 13, 16, 0.95); --blue: #00d4ff;
+            --text: #ffffff; --gray: #a0a0a0; --border: #1f1f23; --gold: #ffd700;
         }
 
         body {
-            margin: 0;
-            background: var(--dark-bg);
-            color: white;
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
+            margin: 0; background: var(--bg); color: var(--text);
+            font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center;
+            overflow-x: hidden; height: auto; min-height: 100vh; position: relative;
         }
 
-        .logo-container img {
-            width: 150px;
-            filter: drop-shadow(0 0 10px var(--red-accent));
-        }
+        /* LLUVIA AZUL */
+        #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .drop { position: absolute; background: var(--blue); width: 1px; height: 20px; opacity: 0.4; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh); } }
 
-        .welcome-text {
-            margin: 20px 0;
-        }
+        .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
+        h2 { text-align: center; letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin-top: 10px; }
+        
+        /* SELECTORES */
+        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        select { width: 100%; background: transparent; border: none; color: #fff; font-size: 16px; outline: none; cursor: pointer; }
 
-        .btn-start {
-            background: var(--red-accent);
-            color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 4px 15px rgba(255, 60, 60, 0.4);
-        }
+        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; }
 
-        /* BARRA INFERIOR DE 7 ICONOS (ESTA ES LA QUE TE FALTA) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 75px;
-            background: #000;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #222;
-        }
+        /* IA CHAT */
+        .ai-box { background: rgba(0,0,0,0.8); border: 1px solid #333; border-radius: 18px; padding: 15px; border-left: 4px solid var(--blue); margin-bottom: 30px; }
+        #ai-chat { height: 80px; overflow-y: auto; font-size: 13px; color: #ddd; line-height: 1.5; margin-bottom: 10px; }
+        .ai-input-row { display: flex; gap: 8px; }
+        #ai-input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; outline: none; }
+        .ai-send { background: var(--blue); border: none; color: #fff; border-radius: 8px; width: 40px; cursor: pointer; }
 
-        .nav-link {
-            text-decoration: none;
-            color: #555;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 9px;
-        }
+        /* SECCIÓN PRO PLAYER */
+        .section-title { font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .pro-card { background: linear-gradient(145deg, #111, #050505); border: 1px solid #222; border-radius: 12px; padding: 15px; margin-bottom: 12px; position: relative; overflow: hidden; }
+        .pro-card::after { content: "PRO"; position: absolute; top: 10px; right: 10px; font-size: 8px; background: var(--gold); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
+        .pro-name { font-weight: 800; color: var(--blue); font-size: 15px; margin-bottom: 5px; display: block; }
+        .pro-stats { font-size: 12px; color: #aaa; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
 
-        .nav-link.active { color: white; }
-        .nav-icon { font-size: 20px; margin-bottom: 2px; }
+        .credits { text-align: center; margin-top: 30px; font-size: 12px; color: var(--gray); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="logo-container">
-        <h1>TROPEX<span style="color:var(--red-accent)"> ELITE</span></h1>
+<div id="rain-container"></div>
+
+<div class="app-container">
+    <h2>SENS <span style="color:var(--blue)">TRØPEX</span></h2>
+
+    <div class="box">
+        <span class="label">Configurar Dispositivo</span>
+        <select id="brand" onchange="updateModels()">
+            <option value="apple">Apple</option>
+            <option value="samsung">Samsung</option>
+            <option value="xiaomi">Xiaomi</option>
+        </select>
+        <select id="model" style="margin-top: 10px;"></select>
+    </div>
+    
+    <button class="btn-gerar" onclick="process()">🚀 GENERAR SENS DE WITHeX</button>
+
+    <div class="ai-box">
+        <div id="ai-chat"><b>TRØPEX IA:</b> Bienvenido. Soy la IA de Withex ⁴⁴⁴. Analizando tu hardware... sube la mira y dale a la cabeza.</div>
+        <div class="ai-input-row">
+            <input type="text" id="ai-input" placeholder="Hazme una pregunta...">
+            <button class="ai-send" onclick="talkToAI()">></button>
+        </div>
     </div>
 
-    <div class="welcome-text">
-        <h2>BIENVENIDO</h2>
-        <p style="color:var(--text-gray)">La mejor sensibilidad para Free Fire</p>
+    <div class="section-title">🏆 PRO PLAYERS (SENS BY WITHeX)</div>
+    
+    <div id="pro-list">
+        <div class="pro-card">
+            <span class="pro-name">NOBRU ⁷⁷⁷</span>
+            <div class="pro-stats">
+                <span>Geral: 98</span> <span>Mira 2x: 94</span>
+                <span>Botão: 48%</span> <span>DPI: 720</span>
+            </div>
+        </div>
+        <div class="pro-card">
+            <span class="pro-name">WHITEFF ⁴⁴⁴</span>
+            <div class="pro-stats">
+                <span>Geral: 100</span> <span>Mira 2x: 100</span>
+                <span>Botão: 42%</span> <span>DPI: NATIVO</span>
+            </div>
+        </div>
+        <div class="pro-card">
+            <span class="pro-name">RUOK FF</span>
+            <div class="pro-stats">
+                <span>Geral: 91</span> <span>Mira 2x: 82</span>
+                <span>Botão: 55%</span> <span>DPI: 580</span>
+            </div>
+        </div>
+        <div class="pro-card">
+            <span class="pro-name">M8N FF</span>
+            <div class="pro-stats">
+                <span>Geral: 95</span> <span>Mira 2x: 90</span>
+                <span>Botão: 50%</span> <span>DPI: 600</span>
+            </div>
+        </div>
     </div>
 
-    <a href="ia.html" class="btn-start">GENERAR SENSI</a>
+    <div class="credits">Desarrollado por Withex ⁴⁴⁴</div>
+</div>
 
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-link active"><div class="nav-icon">🏠</div><span>Inicio</span></a>
-        <a href="ia.html" class="nav-link"><div class="nav-icon">📟</div><span>IA</span></a>
-        <a href="chat.html" class="nav-link"><div class="nav-icon">💬</div><span>Chat</span></a>
-        <a href="perfil.html" class="nav-link"><div class="nav-icon">👤</div><span>Perfil</span></a>
-        <a href="config.html" class="nav-link"><div class="nav-icon">⚙️</div><span>Config</span></a>
-        <a href="info.html" class="nav-link"><div class="nav-icon">📄</div><span>Info</span></a>
-        <a href="pros.html" class="nav-link"><div class="nav-icon">👥</div><span>Withex ⁴⁴⁴</span></a>
-    </nav>
+<script>
+    const db = {
+        apple: ["iPhone 16 Pro Max", "iPhone 15 Pro", "iPhone 13", "iPhone 11"],
+        samsung: ["Galaxy S24 Ultra", "Galaxy A54", "Galaxy A10s"],
+        xiaomi: ["Poco X6 Pro", "Redmi Note 13"]
+    };
 
+    function speak(t) {
+        window.speechSynthesis.cancel();
+        const m = new SpeechSynthesisUtterance(t);
+        m.lang = 'es-ES'; m.rate = 1.1;
+        window.speechSynthesis.speak(m);
+    }
+
+    const tips = [
+        "He analizado los píxeles de tu pantalla.",
+        "Ajustando el tiempo de respuesta táctil para máxima velocidad.",
+        "Withex ⁴⁴⁴ recomienda no usar fundas gruesas para no perder sensibilidad.",
+        "Si notas que la mira tiembla, baja la general 2 puntos.",
+        "La mejor forma de practicar es en entrenamiento con desert eagle.",
+        "Tu dispositivo tiene una tasa de refresco apta para pegar todo rojo."
+    ];
+
+    function talkToAI() {
+        let input = document.getElementById('ai-input').value.trim();
+        let chat = document.getElementById('ai-chat');
+        if(!input) return;
+
+        let randomTip = tips[Math.floor(Math.random() * tips.length)];
+        let finalAns = randomTip + " Sube la mira y dale a la cabeza.";
+
+        chat.innerHTML = `<b>TÚ:</b> ${input}<br><b>AI:</b> ${finalAns}`;
+        chat.scrollTop = chat.scrollHeight;
+        speak(finalAns);
+        document.getElementById('ai-input').value = "";
+    }
+
+    window.onload = () => {
+        const c = document.getElementById('rain-container');
+        for(let i=0; i<50; i++) {
+            const d = document.createElement('div');
+            d.classList.add('drop');
+            d.style.left = Math.random()*100+'vw';
+            d.style.top = Math.random()*100+'vh';
+            d.style.animationDuration = Math.random()*1+0.5+'s';
+            c.appendChild(d);
+        }
+        updateModels();
+        setTimeout(() => speak("SENS TRØPEX iniciado. Sube la mira y dale a la cabeza."), 1000);
+    };
+
+    function updateModels() {
+        const b = document.getElementById('brand').value;
+        const s = document.getElementById('model');
+        s.innerHTML = "";
+        db[b].forEach(m => { s.innerHTML += `<option value="${m}">${m}</option>`; });
+    }
+
+    function process() {
+        speak("Generando sensibilidad maestra. Sube la mira y dale a la cabeza.");
+        alert("¡Configuración inyectada con éxito!");
+    }
+</script>
 </body>
 </html>
