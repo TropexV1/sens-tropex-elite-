@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pros - SENS TROPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #050000; 
+            color: white; 
+            font-family: 'Orbitron', sans-serif; 
+            padding: 20px; 
+            margin-bottom: 80px;
+        }
+        h1 { color: #ff0000; text-shadow: 0 0 10px #ff0000; font-size: 22px; margin-bottom: 20px; text-align: center; }
+        
+        .pro-card { 
+            background: linear-gradient(145deg, #1a0000, #000); 
+            border: 1px solid #333; 
+            border-left: 4px solid #ff0000;
+            border-radius: 10px; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pro-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #ff0000;
+            object-fit: cover;
+            background: #222;
+        }
+
+        .pro-info { flex: 1; text-align: left; }
+        .pro-name { color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+        .pro-stats { font-size: 10px; color: #aaa; line-height: 1.5; }
+        .pro-stats span { color: #ff0000; font-weight: bold; }
+
+        /* BARRA INFERIOR */
+        .navbar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(10,10,10,0.95); border-top: 2px solid #ff0000;
+            display: flex; justify-content: space-around; padding: 12px 0;
+            z-index: 1000; backdrop-filter: blur(10px);
+        }
+        .nav-item { text-align: center; color: #666; cursor: pointer; font-size: 0.6rem; text-decoration: none; }
+        .nav-item.active { color: #ff0000; }
+        .nav-item div { font-size: 1.4rem; margin-bottom: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>TOP PLAYERS CONFIG</h1>
+
+    <div class="pro-card">
+        <img src="https://yt3.googleusercontent.com/ytc/AIdro_nF7f_L0n_M8u3JgVz8Z2m6j8mR2m8mR2m8mR2m=s176-c-k-c0x00ffffff-no-rj" class="pro-photo" alt="Nobru">
+        <div class="pro-info">
+            <div class="pro-name">NOBRU 🇧🇷</div>
+            <div class="pro-stats">
+                SENS: <span>91</span> | BOTÓN: <span>45%</span><br>
+                DPI: <span>720</span> | CURSOR: <span>120</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="pro-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A7L-Y3p2R8N9Y9R8N9Y9R8N9Y9R8N9Y9RA&usqp=CAU" class="pro-photo" alt="TheDonato">
+        <div class="pro-info">
+            <div class="pro-name">DONATO 🇻🇪</div>
+            <div class="pro-stats">
+                SENS: <span>95</span> | BOTÓN: <span>38%</span><br>
+                DPI: <span>500</span> | SUAVE
+            </div>
+        </div>
+    </div>
+
+    <div class="pro-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/10892/10892514.png" class="pro-photo" alt="Incógnito">
+        <div class="pro-info">
+            <div class="pro-name">AKILES (Legacy)</div>
+            <div class="pro-stats">
+                SENS: <span>100</span> | BOTÓN: <span>40%</span><br>
+                DPI: <span>800</span> | PRECISIÓN MÁXIMA
+            </div>
+        </div>
+    </div>
+
+    <div class="pro-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/10892/10892514.png" class="pro-photo" alt="Incógnito">
+        <div class="pro-info">
+            <div class="pro-name">ZELIKA (Config)</div>
+            <div class="pro-stats">
+                SENS: <span>89</span> | BOTÓN: <span>52%</span><br>
+                DPI: <span>600</span> | VELOCIDAD AL 100%
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html" class="nav-item">
+            <div>🏠</div>INICIO
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div>🤖</div>IA CHAT
+        </a>
+        <a href="pros.html" class="nav-item active">
+            <div>🏆</div>PROS
+        </a>
+        <div class="nav-item" onclick="alert('Próximamente...')">
+            <div>👤</div>PERFIL
+        </div>
+    </div>
+
+</body>
+</html>
