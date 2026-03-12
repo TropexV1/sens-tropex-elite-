@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config - SENS TROPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; padding: 20px; overflow: hidden; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        .card { background: rgba(0, 0, 0, 0.85); border: 1px solid #ff0000; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        h2 { color: #ff0000; font-size: 16px; margin-top: 0; }
+        ul { font-size: 12px; color: #bbb; line-height: 1.8; }
+        b { color: #ff0000; }
+        .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 2px solid #ff0000; display: flex; justify-content: space-around; padding: 12px 0; }
+        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 10px; }
+        .nav-item.active { color: #ff0000; }
+    </style>
+</head>
+<body>
+    <canvas id="bloodRain"></canvas>
+    <h1 style="text-align: center; color: #ff0000;">⚙️ SYSTEM SETUP</h1>
+    
+    <div class="card">
+        <h2>AJUSTES INTERNOS</h2>
+        <ul>
+            <li>DPI Android: <b>580 - 620</b></li>
+            <li>Cursor iPhone: <b>120 (Individual)</b></li>
+            <li>Velocidad Puntero: <b>Máximo</b></li>
+            <li>Supresor: <b>Desactivado</b></li>
+        </ul>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-item">🏠<br>INICIO</a>
+        <a href="chat.html" class="nav-item">🤖<br>IA CHAT</a>
+        <a href="pros.html" class="nav-item">🏆<br>PROS</a>
+        <a href="config.html" class="nav-item active">⚙️<br>AJUSTES</a>
+    </nav>
+
+    <script>
+        const canvas = document.getElementById('bloodRain');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const drops = [];
+        for(let i=0; i<80; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*30, v: Math.random()*6+6});
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.strokeStyle = '#8b0000'; ctx.lineWidth = 1;
+            drops.forEach(d => {
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.l); ctx.stroke();
+                d.y += d.v; if(d.y > canvas.height) d.y = -30;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
+</body>
+</html>
