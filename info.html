@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>INFO - TRØPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: white; font-family: 'Orbitron', sans-serif; padding: 20px; }
+        
+        h2 { color: #ff0000; text-align: center; margin-top: 40px; font-size: 1.5rem; }
+        .info-box { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 20px; margin-top: 30px; border: 1px solid rgba(255,0,0,0.2); line-height: 1.6; }
+        .info-box b { color: #ff0000; }
+        ul { list-style: none; margin-top: 15px; }
+        li { font-size: 12px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+
+        /* NAVBAR FLOTANTE */
+        .navbar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: rgba(10, 10, 10, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; display: flex; justify-content: space-around; padding: 12px 5px; }
+        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 8px; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-item.active { color: #fff; }
+        .nav-icon { width: 20px; filter: grayscale(1); }
+        .nav-item.active .nav-icon { filter: grayscale(0); }
+    </style>
+</head>
+<body>
+    <h2>SYSTEM INFO</h2>
+    <div class="info-box">
+        <p><b>VERSIÓN:</b> 3.0 ELITE</p>
+        <p><b>MOTOR:</b> SENS ENGINE 200</p>
+        <ul>
+            <li>• Optimización de FPS activada.</li>
+            <li>• Calibración táctica de DPI.</li>
+            <li>• Supresor de retroceso inteligente.</li>
+            <li>• Base de datos de Pros actualizada.</li>
+        </ul>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" class="nav-icon">Inicio</a>
+        <a href="ia.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/900/900618.png" class="nav-icon">IA</a>
+        <a href="chat.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/5948/5948565.png" class="nav-icon">Chat</a>
+        <a href="perfil.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png" class="nav-icon">Perfil</a>
+        <a href="config.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/2040/2040504.png" class="nav-icon">Config</a>
+        <a href="info.html" class="nav-item active"><img src="https://cdn-icons-png.flaticon.com/512/471/471663.png" class="nav-icon">Info</a>
+    </nav>
+</body>
+</html>
