@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: #000; color: white; font-family: 'Orbitron', sans-serif; height: 100vh; overflow: hidden; }
 
-        /* --- PANTALLA DE CARGA (PRELOADER) --- */
+        /* --- PRELOADER MEJORADO --- */
         #preloader {
             position: fixed;
             top: 0; left: 0;
@@ -21,110 +21,144 @@
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
 
-        /* Átomo / Núcleo Animado */
-        .loader-core {
-            width: 80px; height: 80px;
-            border: 3px solid transparent;
-            border-top: 3px solid #ff0000;
+        .loader-node {
+            width: 70px; height: 70px;
+            border: 2px solid rgba(255,0,0,0.1);
+            border-top: 2px solid #ff0000;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
             position: relative;
-            margin-bottom: 30px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-        }
-        .loader-core::before {
-            content: '';
-            position: absolute;
-            top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 3px solid transparent;
-            border-top: 3px solid #fff;
-            border-radius: 50%;
-            animation: spin 2s linear infinite;
+            margin-bottom: 25px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .loading-title { font-size: 2rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px #ff0000; margin-bottom: 5px; }
-        .loading-subtitle { font-size: 0.7rem; color: #ff0000; letter-spacing: 5px; margin-bottom: 40px; }
-
-        /* Barra de carga mejorada */
-        .progress-box { width: 200px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; }
-        .progress-bar { width: 0%; height: 100%; background: #ff0000; box-shadow: 0 0 15px #ff0000; transition: width 0.1s; }
-        .percent { margin-top: 10px; font-size: 12px; color: #aaa; }
-
-        /* --- INTERFAZ PRINCIPAL (Oculta al inicio) --- */
-        #main-content { opacity: 0; transition: opacity 1s ease; }
+        .loading-text { font-size: 1.5rem; letter-spacing: 8px; color: #fff; text-shadow: 0 0 15px #ff0000; margin-bottom: 20px; }
         
-        /* (Estilos de tu index previo aquí) */
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; }
-        .container { position: relative; z-index: 10; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        h1 { font-size: 3rem; text-shadow: 0 0 20px #ff0000; color: #ff0000; }
-        .btn-start { background: #ff0000; border: none; padding: 15px 40px; color: white; font-family: 'Orbitron'; border-radius: 50px; cursor: pointer; box-shadow: 0 0 20px rgba(255,0,0,0.5); }
+        .progress-container { width: 180px; height: 2px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .progress-bar { width: 0%; height: 100%; background: #ff0000; box-shadow: 0 0 10px #ff0000; transition: width 0.2s; }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        #main-content { 
+            opacity: 0; 
+            visibility: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+            z-index: 10;
+            position: relative;
+        }
+
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        .form-container { width: 90%; max-width: 350px; text-align: center; z-index: 15; }
+        h1 { font-size: 2.8rem; color: #ff0000; text-shadow: 0 0 20px #ff0000; margin-bottom: 5px; }
+        .tagline { font-size: 0.6rem; letter-spacing: 5px; color: #666; margin-bottom: 40px; }
+
+        .selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .option { 
+            flex: 1; padding: 20px; border: 1px solid rgba(255,255,255,0.05); 
+            background: rgba(255,255,255,0.02); border-radius: 12px; cursor: pointer;
+            font-size: 10px; color: #444; transition: 0.3s;
+        }
+        .option.active { border-color: #ff0000; background: rgba(255,0,0,0.05); color: #fff; box-shadow: 0 0 15px rgba(255,0,0,0.2); }
+
+        input { 
+            width: 100%; background: rgba(0,0,0,0.8); border: 1px solid #222; 
+            padding: 15px; border-radius: 10px; color: #fff; font-family: 'Orbitron';
+            text-align: center; margin-bottom: 20px; outline: none;
+        }
+        input:focus { border-color: #ff0000; }
+
+        .btn-start { 
+            width: 100%; background: #ff0000; color: #fff; border: none; 
+            padding: 16px; border-radius: 50px; font-family: 'Orbitron';
+            font-weight: 900; cursor: pointer; box-shadow: 0 10px 20px rgba(255,0,0,0.3);
+        }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="loader-core"></div>
-        <div class="loading-title">TRØPEX</div>
-        <div class="loading-subtitle">SENSITIVITY ENGINE</div>
-        <div class="progress-box">
+        <div class="loader-node"></div>
+        <div class="loading-text">TRØPEX</div>
+        <div class="progress-container">
             <div class="progress-bar" id="bar"></div>
         </div>
-        <div class="percent" id="percent">0%</div>
     </div>
 
     <div id="main-content">
         <canvas id="bloodRain"></canvas>
-        <div class="container">
+        <div class="form-container">
             <h1>TRØPEX</h1>
-            <p style="margin-bottom: 40px; color: #666; letter-spacing: 3px;">ELITE SYSTEM READY</p>
-            <button class="btn-start" onclick="location.href='generar.html'">INICIAR ESCANEO ></button>
+            <div class="tagline">SENSITIVITY ENGINE</div>
+            
+            <div class="selector">
+                <div class="option" id="opt-android" onclick="selectOS('ANDROID')">ANDROID</div>
+                <div class="option" id="opt-ios" onclick="selectOS('IOS')">IOS</div>
+            </div>
+
+            <input type="text" id="deviceInput" placeholder="MODELO DEL DISPOSITIVO">
+            <button class="btn-start" onclick="goToScan()">ESCANEAR HARDWARE</button>
         </div>
     </div>
 
     <script>
-        // Lógica del Preloader
-        let progress = 0;
+        // Lógica de Carga
+        let prog = 0;
         const bar = document.getElementById('bar');
-        const percent = document.getElementById('percent');
         const preloader = document.getElementById('preloader');
-        const mainContent = document.getElementById('main-content');
+        const main = document.getElementById('main-content');
 
-        const interval = setInterval(() => {
-            progress += Math.floor(Math.random() * 5) + 1;
-            if (progress > 100) progress = 100;
-            
-            bar.style.width = progress + "%";
-            percent.innerText = progress + "%";
-
-            if (progress === 100) {
-                clearInterval(interval);
+        const load = setInterval(() => {
+            prog += Math.floor(Math.random() * 8) + 1;
+            if (prog >= 100) {
+                prog = 100;
+                clearInterval(load);
                 setTimeout(() => {
                     preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                        mainContent.style.opacity = '1';
-                    }, 800);
-                }, 500);
+                    preloader.style.visibility = 'hidden';
+                    main.style.opacity = '1';
+                    main.style.visibility = 'visible';
+                }, 600);
             }
-        }, 80);
+            bar.style.width = prog + "%";
+        }, 100);
 
-        // Lluvia de fondo
+        // Lógica de Selección
+        let selectedOS = "";
+        function selectOS(os) {
+            selectedOS = os;
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('active'));
+            document.getElementById('opt-' + os.toLowerCase()).classList.add('active');
+        }
+
+        function goToScan() {
+            const model = document.getElementById('deviceInput').value;
+            if(!selectedOS || !model) return alert("Por favor, completa los datos.");
+            localStorage.setItem('userDevice', model);
+            window.location.href = "generar.html";
+        }
+
+        // Lluvia
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for (let i = 0; i < 50; i++) drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, v: Math.random() * 5 + 2 });
+        for(let i=0; i<60; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, v: Math.random()*4+2});
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(255, 0, 0, 0.3)';
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.strokeStyle = "rgba(255,0,0,0.2)";
             drops.forEach(d => {
-                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + 10); ctx.stroke();
-                d.y += d.v; if (d.y > canvas.height) d.y = -10;
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+10); ctx.stroke();
+                d.y += d.v; if(d.y > canvas.height) d.y = -10;
             });
             requestAnimationFrame(draw);
         }
