@@ -3,57 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENSITIVITY DATA - TROPEX</title>
+    <title>CONFIGURACIÓN - TRØPEX</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        body { background: #000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
         canvas { position: fixed; top: 0; left: 0; z-index: -1; }
         
-        .result-card { background: rgba(20, 0, 0, 0.9); border: 2px solid #ff0000; border-radius: 20px; padding: 30px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); z-index: 10; }
-        h2 { color: #ff0000; margin-bottom: 20px; font-size: 1.2rem; text-shadow: 0 0 10px #ff0000; }
+        .card { 
+            background: rgba(10, 0, 0, 0.95); 
+            border: 2px solid #ff0000; 
+            border-radius: 15px; 
+            padding: 25px; 
+            width: 85%; 
+            max-width: 400px; 
+            text-align: center; 
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
+        }
+
+        h2 { color: #ff0000; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         
-        .stat { margin: 15px 0; padding: 10px; border-bottom: 1px solid rgba(255,0,0,0.2); }
-        .label { font-size: 10px; color: #888; letter-spacing: 2px; }
-        .value { font-size: 24px; color: #fff; font-weight: 900; display: block; }
-        
-        .btn-back { background: #ff0000; border: none; color: white; padding: 12px 30px; border-radius: 5px; cursor: pointer; margin-top: 20px; font-family: 'Orbitron'; font-weight: bold; }
+        .item { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,0,0,0.2); }
+        .label { font-size: 8px; color: #aaa; display: block; margin-bottom: 5px; }
+        .value { font-size: 18px; font-weight: 900; color: #fff; }
+
+        .highlight { grid-column: span 2; border-color: #ff0000; background: rgba(255, 0, 0, 0.1); }
+
+        .btn { 
+            background: #ff0000; 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 5px; 
+            font-family: 'Orbitron'; 
+            font-weight: 900; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <canvas id="bloodRain"></canvas>
-    <div class="result-card">
-        <h2>CONFIGURACIÓN ÉLITE ⚡</h2>
-        <div class="stat">
-            <span class="label">GENERAL</span>
-            <span class="value">98%</span>
+
+    <div class="card">
+        <h2 id="device-title">GENERANDO...</h2>
+        
+        <div class="grid">
+            <div class="item highlight">
+                <span class="label">GENERAL (NUEVO FF)</span>
+                <span class="value" id="v-gen">--</span>
+            </div>
+            <div class="item">
+                <span class="label">PUNTO ROJO</span>
+                <span class="value" id="v-red">--</span>
+            </div>
+            <div class="item">
+                <span class="label">MIRA X2</span>
+                <span class="value" id="v-x2">--</span>
+            </div>
+            <div class="item">
+                <span class="label">MIRA X4</span>
+                <span class="value" id="v-x4">--</span>
+            </div>
+            <div class="item">
+                <span class="label">MIRA FRANCO</span>
+                <span class="value" id="v-awm">--</span>
+            </div>
+            <div class="item highlight">
+                <span class="label">BOTÓN DE DISPARO</span>
+                <span class="value" id="v-btn">--</span>
+            </div>
+            <div class="item highlight">
+                <span class="label">DPI RECOMENDADO</span>
+                <span class="value" id="v-dpi">--</span>
+            </div>
         </div>
-        <div class="stat">
-            <span class="label">BOTÓN DE DISPARO</span>
-            <span class="value">47%</span>
-        </div>
-        <div class="stat">
-            <span class="label">DPI RECOMENDADO</span>
-            <span class="value">620</span>
-        </div>
-        <button class="btn-back" onclick="location.href='index.html'">REINTENTAR</button>
+
+        <button class="btn" onclick="location.href='index.html'">REINTENTAR</button>
     </div>
 
     <script>
+        // Lógica de sensis reales
+        function getSens() {
+            const model = localStorage.getItem('deviceModel') || "Universal";
+            const lowModel = model.toLowerCase();
+            let data = {};
+
+            // Búsqueda de Sensis por marca/modelo
+            if (lowModel.includes("iphone")) {
+                data = { gen: 195, red: 188, x2: 190, x4: 185, awm: 45, btn: "38%", dpi: "Estándar" };
+            } else if (lowModel.includes("samsung")) {
+                data = { gen: 198, red: 194, x2: 192, x4: 188, awm: 50, btn: "45%", dpi: "610" };
+            } else if (lowModel.includes("xiaomi") || lowModel.includes("poco")) {
+                data = { gen: 200, red: 196, x2: 195, x4: 192, awm: 55, btn: "42%", dpi: "580" };
+            } else if (lowModel.includes("huawei")) {
+                data = { gen: 192, red: 185, x2: 188, x4: 180, awm: 40, btn: "47%", dpi: "540" };
+            } else {
+                // Configuración Universal de 200 para modelos no detectados
+                data = { gen: 196, red: 190, x2: 188, x4: 185, awm: 50, btn: "44%", dpi: "560" };
+            }
+
+            document.getElementById('device-title').innerText = "VINCULADO: " + model.toUpperCase();
+            document.getElementById('v-gen').innerText = data.gen;
+            document.getElementById('v-red').innerText = data.red;
+            document.getElementById('v-x2').innerText = data.x2;
+            document.getElementById('v-x4').innerText = data.x4;
+            document.getElementById('v-awm').innerText = data.awm;
+            document.getElementById('v-btn').innerText = data.btn;
+            document.getElementById('v-dpi').innerText = data.dpi;
+        }
+
+        // Lluvia
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for(let i=0; i<120; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*30, v: Math.random()*7+5});
+        for(let i=0; i<100; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*20, v: Math.random()*4+4});
         function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.strokeStyle = '#8b0000'; ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(200,0,0,0.6)';
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.l); ctx.stroke();
-                d.y += d.v; if(d.y > canvas.height) d.y = -30;
+                d.y += d.v; if(d.y > canvas.height) d.y = -20;
             });
             requestAnimationFrame(draw);
         }
         draw();
+        setTimeout(getSens, 500);
     </script>
 </body>
 </html>
