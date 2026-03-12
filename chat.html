@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IA Chat - SENS TROPEX</title>
+    <title>IA CYBER - TROPEX</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+        body { background: #020000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
         canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-        #chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1; }
-        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 13px; line-height: 1.4; border: 1px solid rgba(255,0,0,0.3); }
-        .ai { background: rgba(30, 0, 0, 0.8); align-self: flex-start; color: #ffcccc; }
-        .user { background: #ff0000; align-self: flex-end; color: white; box-shadow: 0 0 10px #ff0000; }
-        #input-area { background: rgba(10,10,10,0.9); padding: 15px; display: flex; gap: 10px; border-top: 2px solid #ff0000; margin-bottom: 70px; }
-        input { flex: 1; background: #000; border: 1px solid #ff0000; color: white; padding: 10px; border-radius: 5px; outline: none; font-family: 'Orbitron'; }
-        button { background: #ff0000; border: none; color: white; padding: 10px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        
+        /* Fondo decorado con niebla */
+        body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,0,0,0.15) 0%, transparent 70%); z-index: -2; }
+
+        #chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 1; margin-bottom: 80px; }
+        .msg { padding: 12px 18px; border-radius: 5px 20px 20px 20px; max-width: 85%; font-size: 12px; border: 1px solid rgba(255,0,0,0.5); backdrop-filter: blur(5px); }
+        .ai { background: rgba(40, 0, 0, 0.6); align-self: flex-start; color: #fff; border-left: 4px solid #ff0000; }
+        .user { background: #ff0000; align-self: flex-end; color: white; border-radius: 20px 5px 20px 20px; box-shadow: 0 0 15px rgba(255,0,0,0.5); }
+        
+        #input-area { position: fixed; bottom: 70px; width: 100%; background: rgba(0,0,0,0.9); padding: 15px; display: flex; gap: 10px; border-top: 1px solid #ff0000; }
+        input { flex: 1; background: #0a0a0a; border: 1px solid #444; color: white; padding: 12px; border-radius: 5px; outline: none; font-family: 'Orbitron'; font-size: 12px; }
+        input:focus { border-color: #ff0000; }
+        
         .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 2px solid #ff0000; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; }
         .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 10px; }
         .nav-item.active { color: #ff0000; }
@@ -22,14 +28,17 @@
 </head>
 <body>
     <canvas id="bloodRain"></canvas>
-    <div style="padding: 15px; background: rgba(0,0,0,0.8); border-bottom: 1px solid #ff0000; text-align: center; font-weight: bold; color: #ff0000; letter-spacing: 2px;">🤖 TROPEX AI ASSISTANT</div>
+    <div style="padding: 15px; background: rgba(0,0,0,0.9); border-bottom: 1px solid #ff0000; text-align: center; font-weight: bold; color: #ff0000; letter-spacing: 3px;">🛰️ TROPEX CYBER-LINK</div>
+    
     <div id="chat-container">
-        <div class="msg ai">Bienvenido a la Élite. Soy la IA de TROPEX. Pregúntame por armas (M1014, Desert), DPI o cómo pegar rojo. 🩸</div>
+        <div class="msg ai">Sincronización completa. Soy la unidad táctica TROPEX. ¿Qué arma quieres dominar hoy? 💉</div>
     </div>
+
     <div id="input-area">
-        <input type="text" id="user-input" placeholder="Escribe tu duda...">
-        <button onclick="sendMessage()">ENVIAR</button>
+        <input type="text" id="user-input" placeholder="Comando de voz/texto...">
+        <button style="background:#ff0000; border:none; color:white; padding:0 15px; border-radius:5px;" onclick="sendMessage()">➤</button>
     </div>
+
     <nav class="navbar">
         <a href="index.html" class="nav-item">🏠<br>INICIO</a>
         <a href="chat.html" class="nav-item active">🤖<br>IA CHAT</a>
@@ -38,39 +47,30 @@
     </nav>
 
     <script>
-        // --- LLUVIA DE SANGRE ---
+        // Lluvia de sangre mejorada
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for(let i=0; i<100; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*20, v: Math.random()*5+5});
-        function drawRain() {
+        for(let i=0; i<100; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*25, v: Math.random()*6+4});
+        function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(180, 0, 0, 0.6)'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+            ctx.strokeStyle = 'rgba(200, 0, 0, 0.7)'; ctx.lineWidth = 1;
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.l); ctx.stroke();
-                d.y += d.v; if(d.y > canvas.height) { d.y = -20; d.x = Math.random()*canvas.width; }
+                d.y += d.v; if(d.y > canvas.height) d.y = -20;
             });
-            requestAnimationFrame(drawRain);
+            requestAnimationFrame(draw);
         }
-        drawRain();
+        draw();
 
-        // --- LÓGICA IA ---
         function sendMessage() {
             const input = document.getElementById('user-input');
             const container = document.getElementById('chat-container');
             if(!input.value) return;
             container.innerHTML += `<div class="msg user">${input.value}</div>`;
-            const text = input.value.toLowerCase(); input.value = "";
-            setTimeout(() => {
-                let r = "Interesante... para esa duda te recomiendo mi configuración VIP.";
-                if(text.includes("m1014")) r = "Para la M1014: Botón al 54% y levanta la mira en 'J' rápido.";
-                if(text.includes("desert")) r = "Con la Desert: Mira al pecho y levanta suave. Botón 42%.";
-                if(text.includes("rojo")) r = "El secreto del rojo está en el DPI. ¿Ya configuraste tu móvil en la sección AJUSTES?";
-                if(text.includes("hola")) r = "Saludos, Guerrero Tropex. ¿Listo para dominar?";
-                container.innerHTML += `<div class="msg ai">${r}</div>`;
-                container.scrollTop = container.scrollHeight;
-            }, 600);
+            input.value = "";
+            container.scrollTop = container.scrollHeight;
         }
     </script>
 </body>
