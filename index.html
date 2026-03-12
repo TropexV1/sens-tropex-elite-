@@ -7,30 +7,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #050000; color: white; font-family: 'Orbitron', sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { 
+            background-color: #050000; 
+            color: white; 
+            font-family: 'Orbitron', sans-serif; 
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column; 
+        }
         
+        /* Lluvia de Sangre */
         canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        .container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 10; position: relative; }
+        .container { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            z-index: 10; 
+            position: relative; 
+        }
         
-        h1 { font-size: 2.8rem; color: #ff0000; text-shadow: 0 0 20px #ff0000; font-weight: 900; }
-        .subtitle { font-size: 0.7rem; letter-spacing: 5px; color: #aaa; margin-bottom: 40px; text-transform: uppercase; }
+        h1 { font-size: 3rem; color: #ff0000; text-shadow: 0 0 25px #ff0000; font-weight: 900; letter-spacing: 5px; }
+        .subtitle { font-size: 0.7rem; letter-spacing: 4px; color: #888; margin-bottom: 40px; text-transform: uppercase; }
 
         .selector { display: flex; gap: 25px; margin-bottom: 35px; }
-        .option { width: 80px; height: 80px; border: 2px solid #333; border-radius: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; background: rgba(0,0,0,0.6); }
-        .option img { width: 40px; filter: grayscale(1); }
-        .option.active { border-color: #ff0000; box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); background: rgba(255, 0, 0, 0.1); transform: scale(1.1); }
-        .option.active img { filter: grayscale(0); }
+        .option { 
+            width: 85px; 
+            height: 85px; 
+            border: 2px solid #222; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: 0.4s; 
+            background: rgba(0,0,0,0.7); 
+        }
+        .option img { width: 45px; filter: grayscale(1) brightness(0.5); transition: 0.3s; }
+        .option.active { 
+            border-color: #ff0000; 
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5); 
+            background: rgba(40, 0, 0, 0.3); 
+            transform: translateY(-5px);
+        }
+        .option.active img { filter: grayscale(0) brightness(1); }
 
-        input { background: rgba(20, 0, 0, 0.8); border: 1px solid #ff0000; padding: 18px; border-radius: 12px; color: white; width: 90%; max-width: 320px; text-align: center; font-family: 'Orbitron'; margin-bottom: 25px; outline: none; }
+        input { 
+            background: rgba(15, 0, 0, 0.9); 
+            border: 1px solid #444; 
+            padding: 18px; 
+            border-radius: 12px; 
+            color: white; 
+            width: 90%; 
+            max-width: 340px; 
+            text-align: center; 
+            font-family: 'Orbitron'; 
+            margin-bottom: 25px; 
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #ff0000; box-shadow: 0 0 10px rgba(255,0,0,0.3); }
         
-        .btn-start { background: #ff0000; color: white; border: none; padding: 16px 50px; font-weight: 900; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); width: 90%; max-width: 320px; }
+        .btn-start { 
+            background: #ff0000; 
+            color: white; 
+            border: none; 
+            padding: 18px 0; 
+            font-weight: 900; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-family: 'Orbitron'; 
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); 
+            width: 90%; 
+            max-width: 340px;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .btn-start:active { transform: scale(0.98); background: #b30000; }
 
-        /* BARRA DE NAVEGACIÓN - AHORA SÍ SE VERÁ */
-        .navbar { background: #000; border-top: 2px solid #ff0000; display: flex; justify-content: space-around; padding: 10px 0; width: 100%; z-index: 100; position: relative; }
-        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 9px; font-weight: bold; flex: 1; }
+        /* NAVBAR INFERIOR */
+        .navbar { 
+            background: #000; 
+            border-top: 2px solid #ff0000; 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 12px 0; 
+            width: 100%; 
+            z-index: 100; 
+        }
+        .nav-item { 
+            text-align: center; 
+            color: #444; 
+            text-decoration: none; 
+            font-size: 9px; 
+            font-weight: bold; 
+            flex: 1; 
+            transition: 0.3s;
+        }
         .nav-item.active { color: #ff0000; }
-        .nav-item .icon { font-size: 22px; margin-bottom: 2px; }
+        .nav-item .icon { font-size: 24px; margin-bottom: 3px; display: block; }
     </style>
 </head>
 <body>
@@ -39,40 +118,45 @@
 
     <div class="container">
         <h1>TROPEX</h1>
-        <div class="subtitle">Elite Sensitivity</div>
+        <div class="subtitle">Cybernetic Intelligence</div>
 
         <div class="selector">
             <div class="option" id="opt-android" onclick="selectType('ANDROID')">
-                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="Android">
             </div>
             <div class="option" id="opt-ios" onclick="selectType('IOS')">
-                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png" alt="iOS">
             </div>
         </div>
 
-        <input type="text" id="model" placeholder="MODELO DEL MÓVIL">
-        <button class="btn-start" onclick="startProcess()">CONTINUAR</button>
+        <input type="text" id="model" placeholder="INTRODUCE MODELO" autocomplete="off">
+        <button class="btn-start" onclick="startProcess()">VINCULAR DISPOSITIVO</button>
     </div>
 
     <nav class="navbar">
-        <a href="index.html" class="nav-item active"><div class="icon">🏠</div>INICIO</a>
-        <a href="chat.html" class="nav-item"><div class="icon">🤖</div>IA CHAT</a>
-        <a href="pros.html" class="nav-item"><div class="icon">🏆</div>PROS</a>
-        <a href="config.html" class="nav-item"><div class="icon">⚙️</div>AJUSTES</a>
+        <a href="index.html" class="nav-item active"><span class="icon">🏠</span>INICIO</a>
+        <a href="chat.html" class="nav-item"><span class="icon">🛰️</span>IA CHAT</a>
+        <a href="pros.html" class="nav-item"><span class="icon">🏆</span>PROS</a>
+        <a href="config.html" class="nav-item"><span class="icon">⚙️</span>AJUSTES</a>
     </nav>
 
     <script>
-        // --- LLUVIA DE SANGRE ---
+        // --- EFECTO LLUVIA DE SANGRE ---
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for (let i = 0; i < 100; i++) {
-            drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 25, v: Math.random() * 5 + 4 });
+        for (let i = 0; i < 120; i++) {
+            drops.push({ 
+                x: Math.random() * canvas.width, 
+                y: Math.random() * canvas.height, 
+                l: Math.random() * 30, 
+                v: Math.random() * 6 + 4 
+            });
         }
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(180, 0, 0, 0.8)'; ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(200, 0, 0, 0.8)'; ctx.lineWidth = 2;
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.l); ctx.stroke();
                 d.y += d.v; if (d.y > canvas.height) d.y = -20;
@@ -81,10 +165,10 @@
         }
         draw();
 
-        // --- LÓGICA DE SALTO AL CHAT ---
-        let type = "";
+        // --- LÓGICA DE SELECCIÓN ---
+        let selected = "";
         function selectType(t) {
-            type = t;
+            selected = t;
             document.getElementById('opt-android').classList.remove('active');
             document.getElementById('opt-ios').classList.remove('active');
             document.getElementById('opt-' + t.toLowerCase()).classList.add('active');
@@ -92,17 +176,21 @@
 
         function startProcess() {
             const m = document.getElementById('model').value;
-            if(!type || !m) return alert("Selecciona sistema y modelo");
+            if(!selected || !m) return alert("Error: Selecciona Sistema y Modelo.");
             
             const btn = document.querySelector('.btn-start');
-            btn.innerHTML = "EXTRAYENDO DATOS...";
-            btn.style.background = "#550000";
+            btn.innerHTML = "CALIBRANDO SISTEMA...";
+            btn.style.background = "#660000";
             
-            // Simula carga y te lleva directo al Chat de la IA
+            // Redirige a la página de resultados (General, Botón, DPI)
             setTimeout(() => {
-                window.location.href = "chat.html";
-            }, 1500);
+                window.location.href = "generar.html";
+            }, 1800);
         }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
