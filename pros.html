@@ -2,43 +2,203 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TRØPEX - PROS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pros - Sens Tropex Elite</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: white; font-family: 'Orbitron', sans-serif; padding: 20px; background-image: radial-gradient(circle at center, #1a0000 0%, #000 70%); }
-        h2 { color: #ff0000; text-align: center; margin-bottom: 30px; margin-top: 20px; font-size: 1.5rem; }
-        
-        .pro-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,0,0,0.3); border-radius: 15px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
-        .pro-img { width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ff0000; background: #111; }
-        .pro-info h3 { font-size: 14px; color: #fff; }
-        .pro-info p { font-size: 10px; color: #ff0000; }
+        :root {
+            --red-accent: #ff3c3c;
+            --dark-bg: #050505;
+            --card-bg: #121212;
+            --text-gray: #888;
+        }
 
-        .navbar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: rgba(10, 10, 10, 0.98); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; display: flex; justify-content: space-around; padding: 12px 5px; z-index: 1000; }
-        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 8px; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .nav-item.active { color: #fff; }
-        .nav-icon { width: 20px; height: 20px; filter: grayscale(1); opacity: 0.6; }
-        .nav-item.active .nav-icon { filter: grayscale(0) brightness(1.5); opacity: 1; }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: sans-serif;
+            padding-bottom: 90px;
+        }
+
+        /* BUSCADOR */
+        .header-search {
+            padding: 20px;
+            background: #000;
+            text-align: center;
+        }
+        .search-input {
+            width: 90%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+        }
+
+        /* TARJETAS DE PROS */
+        .players-container { padding: 10px; }
+
+        .player-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #222;
+        }
+
+        .player-info h2 { margin: 0; font-size: 20px; }
+        .player-info p { color: var(--text-gray); font-size: 13px; margin: 5px 0; }
+
+        /* REJILLA DE SENSIBILIDAD (IGUAL A TU FOTO) */
+        .sensi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .sensi-item {
+            background: #0d0d0d;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #1a1a1a;
+        }
+
+        .sensi-item span { display: block; font-size: 9px; color: var(--text-gray); text-transform: uppercase; }
+        .sensi-item b { font-size: 15px; }
+
+        .btn-copy {
+            width: 100%;
+            background: #252525;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* BARRA DE NAVEGACIÓN (LOS 7 ICONOS) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 75px;
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #222;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+        }
+
+        .nav-link.active { color: white; }
     </style>
 </head>
 <body>
-    <h2>TOP PRO PLAYERS</h2>
-    
-    <div class="pro-card">
-        <div class="pro-img"></div>
-        <div class="pro-info"><h3>NOBRU</h3><p>SENSI: 94% | DPI: 500</p></div>
-    </div>
-    <div class="pro-card">
-        <div class="pro-img"></div>
-        <div class="pro-info"><h3>WHITEFF</h3><p>SENSI: 100% | DPI: 440</p></div>
+
+    <div class="header-search">
+        <input type="text" id="search" class="search-input" placeholder="Buscar influencer...">
     </div>
 
-    <nav class="navbar">
-        <a href="index.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" class="nav-icon">Inicio</a>
-        <a href="chat.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/900/900618.png" class="nav-icon">IA</a>
-        <a href="pros.html" class="nav-item active"><img src="https://cdn-icons-png.flaticon.com/512/5948/5948565.png" class="nav-icon">Pros</a>
-        <a href="config.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/2040/2040504.png" class="nav-icon">Config</a>
+    <div class="players-container" id="players-list">
+        
+        <div class="player-card">
+            <div class="player-info">
+                <h2>Withex ⁴⁴⁴</h2>
+                <p>📍 Brazil • 12.5M+</p>
+            </div>
+            <div class="sensi-grid">
+                <div class="sensi-item"><span>General</span><b>198</b></div>
+                <div class="sensi-item"><span>Punto Rojo</span><b>195</b></div>
+                <div class="sensi-item"><span>Mira 2x</span><b>180</b></div>
+                <div class="sensi-item"><span>Mira 4x</span><b>190</b></div>
+                <div class="sensi-item"><span>DPI</span><b>440</b></div>
+                <div class="sensi-item"><span>Disparo</span><b>42</b></div>
+            </div>
+            <button class="btn-copy">Copiar Sensibilidad</button>
+        </div>
+
+        <div class="player-card">
+            <div class="player-info">
+                <h2>Akiles</h2>
+                <p>📍 Bolivia • 5.1M+</p>
+            </div>
+            <div class="sensi-grid">
+                <div class="sensi-item"><span>General</span><b>95</b></div>
+                <div class="sensi-item"><span>Punto Rojo</span><b>100</b></div>
+                <div class="sensi-item"><span>Mira 2x</span><b>98</b></div>
+                <div class="sensi-item"><span>Mira 4x</span><b>94</b></div>
+                <div class="sensi-item"><span>DPI</span><b>800</b></div>
+                <div class="sensi-item"><span>Disparo</span><b>50</b></div>
+            </div>
+            <button class="btn-copy">Copiar Sensibilidad</button>
+        </div>
+
+        <div class="player-card">
+            <div class="player-info">
+                <h2>Apelapato</h2>
+                <p>📍 Brazil • 8.5M+</p>
+            </div>
+            <div class="sensi-grid">
+                <div class="sensi-item"><span>General</span><b>189</b></div>
+                <div class="sensi-item"><span>Punto Rojo</span><b>193</b></div>
+                <div class="sensi-item"><span>Mira 2x</span><b>167</b></div>
+                <div class="sensi-item"><span>Mira 4x</span><b>173</b></div>
+                <div class="sensi-item"><span>DPI</span><b>450</b></div>
+                <div class="sensi-item"><span>Disparo</span><b>45</b></div>
+            </div>
+            <button class="btn-copy">Copiar Sensibilidad</button>
+        </div>
+
+        <div class="player-card">
+            <div class="player-info">
+                <h2>L-gan</h2>
+                <p>📍 México • 5.2M+</p>
+            </div>
+            <div class="sensi-grid">
+                <div class="sensi-item"><span>General</span><b>195</b></div>
+                <div class="sensi-item"><span>Punto Rojo</span><b>188</b></div>
+                <div class="sensi-item"><span>Mira 2x</span><b>172</b></div>
+                <div class="sensi-item"><span>Mira 4x</span><b>180</b></div>
+                <div class="sensi-item"><span>DPI</span><b>500</b></div>
+                <div class="sensi-item"><span>Disparo</span><b>48</b></div>
+            </div>
+            <button class="btn-copy">Copiar Sensibilidad</button>
+        </div>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-link"><span>🏠</span><span>Inicio</span></a>
+        <a href="ia.html" class="nav-link"><span>📟</span><span>IA</span></a>
+        <a href="chat.html" class="nav-link"><span>💬</span><span>Chat</span></a>
+        <a href="perfil.html" class="nav-link"><span>👤</span><span>Perfil</span></a>
+        <a href="config.html" class="nav-link"><span>⚙️</span><span>Config</span></a>
+        <a href="info.html" class="nav-link"><span>📄</span><span>Info</span></a>
+        <a href="pros.html" class="nav-link active"><span>👥</span><span>Withex ⁴⁴⁴</span></a>
     </nav>
+
+    <script>
+        // Lógica del buscador
+        document.getElementById('search').addEventListener('input', function(e) {
+            let filter = e.target.value.toLowerCase();
+            let cards = document.querySelectorAll('.player-card');
+            cards.forEach(card => {
+                let name = card.querySelector('h2').textContent.toLowerCase();
+                card.style.display = name.includes(filter) ? "block" : "none";
+            });
+        });
+    </script>
 </body>
 </html>
