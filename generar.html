@@ -2,136 +2,171 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONFIGURACIÓN - TRØPEX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GENERANDO - TRØPEX AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-        
-        .card { 
-            background: rgba(10, 0, 0, 0.95); 
-            border: 2px solid #ff0000; 
-            border-radius: 15px; 
-            padding: 25px; 
-            width: 85%; 
-            max-width: 400px; 
-            text-align: center; 
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: #000; 
+            color: white; 
+            font-family: 'Orbitron', sans-serif; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, #1a0000 0%, #000 70%);
         }
 
-        h2 { color: #ff0000; font-size: 1.2rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        /* Scanner de CPU */
+        .scanner-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        
-        .item { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,0,0,0.2); }
-        .label { font-size: 8px; color: #aaa; display: block; margin-bottom: 5px; }
-        .value { font-size: 18px; font-weight: 900; color: #fff; }
+        .cpu-icon {
+            width: 100px;
+            filter: drop-shadow(0 0 15px #ff0000);
+            z-index: 5;
+        }
 
-        .highlight { grid-column: span 2; border-color: #ff0000; background: rgba(255, 0, 0, 0.1); }
-
-        .btn { 
-            background: #ff0000; 
-            color: white; 
-            border: none; 
-            padding: 12px 30px; 
-            border-radius: 5px; 
-            font-family: 'Orbitron'; 
-            font-weight: 900; 
-            cursor: pointer; 
-            text-transform: uppercase;
+        .scan-line {
+            position: absolute;
             width: 100%;
+            height: 2px;
+            background: #ff0000;
+            box-shadow: 0 0 15px #ff0000;
+            top: 0;
+            animation: scan 2s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px dashed rgba(255, 0, 0, 0.3);
+            border-radius: 50%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Texto de Carga */
+        .loading-text {
+            text-align: center;
+            max-width: 80%;
+        }
+
+        #status {
+            color: #ff0000;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            height: 20px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar {
+            width: 250px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+            transition: width 0.3s;
+        }
+
+        .logs {
+            margin-top: 20px;
+            font-size: 9px;
+            color: #444;
+            font-family: monospace;
+            height: 50px;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-    <canvas id="bloodRain"></canvas>
 
-    <div class="card">
-        <h2 id="device-title">GENERANDO...</h2>
-        
-        <div class="grid">
-            <div class="item highlight">
-                <span class="label">GENERAL (NUEVO FF)</span>
-                <span class="value" id="v-gen">--</span>
-            </div>
-            <div class="item">
-                <span class="label">PUNTO ROJO</span>
-                <span class="value" id="v-red">--</span>
-            </div>
-            <div class="item">
-                <span class="label">MIRA X2</span>
-                <span class="value" id="v-x2">--</span>
-            </div>
-            <div class="item">
-                <span class="label">MIRA X4</span>
-                <span class="value" id="v-x4">--</span>
-            </div>
-            <div class="item">
-                <span class="label">MIRA FRANCO</span>
-                <span class="value" id="v-awm">--</span>
-            </div>
-            <div class="item highlight">
-                <span class="label">BOTÓN DE DISPARO</span>
-                <span class="value" id="v-btn">--</span>
-            </div>
-            <div class="item highlight">
-                <span class="label">DPI RECOMENDADO</span>
-                <span class="value" id="v-dpi">--</span>
-            </div>
+    <div class="scanner-container">
+        <div class="orbit"></div>
+        <img src="https://cdn-icons-png.flaticon.com/512/900/900618.png" class="cpu-icon">
+        <div class="scan-line"></div>
+    </div>
+
+    <div class="loading-text">
+        <div id="status">INICIANDO NÚCLEO...</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="fill"></div>
         </div>
-
-        <button class="btn" onclick="location.href='index.html'">REINTENTAR</button>
+        <div class="logs" id="logs"></div>
     </div>
 
     <script>
-        // Lógica de sensis reales
-        function getSens() {
-            const model = localStorage.getItem('deviceModel') || "Universal";
-            const lowModel = model.toLowerCase();
-            let data = {};
+        const statusText = document.getElementById('status');
+        const fill = document.getElementById('fill');
+        const logs = document.getElementById('logs');
 
-            // Búsqueda de Sensis por marca/modelo
-            if (lowModel.includes("iphone")) {
-                data = { gen: 195, red: 188, x2: 190, x4: 185, awm: 45, btn: "38%", dpi: "Estándar" };
-            } else if (lowModel.includes("samsung")) {
-                data = { gen: 198, red: 194, x2: 192, x4: 188, awm: 50, btn: "45%", dpi: "610" };
-            } else if (lowModel.includes("xiaomi") || lowModel.includes("poco")) {
-                data = { gen: 200, red: 196, x2: 195, x4: 192, awm: 55, btn: "42%", dpi: "580" };
-            } else if (lowModel.includes("huawei")) {
-                data = { gen: 192, red: 185, x2: 188, x4: 180, awm: 40, btn: "47%", dpi: "540" };
+        const steps = [
+            { text: "Detectando Hardware...", time: 0, log: "> CPU: ARMv8-A detected" },
+            { text: "Analizando DPI...", time: 20, log: "> DPI Sensor: Calibrating..." },
+            { text: "Sincronizando Sens...", time: 40, log: "> Engine: Adjusting X/Y axis" },
+            { text: "Inyectando Código...", time: 60, log: "> Bypass: Elite status active" },
+            { text: "Finalizando...", time: 80, log: "> Cloud: Config saved" },
+            { text: "¡COMPLETADO!", time: 100, log: "> Success: Redirecting..." }
+        ];
+
+        let currentStep = 0;
+
+        function updateProgress() {
+            if (currentStep < steps.length) {
+                const step = steps[currentStep];
+                statusText.innerText = step.text;
+                fill.style.width = step.time + "%";
+                
+                const newLog = document.createElement('div');
+                newLog.innerText = step.log;
+                logs.prepend(newLog);
+
+                currentStep++;
+                setTimeout(updateProgress, 800);
             } else {
-                // Configuración Universal de 200 para modelos no detectados
-                data = { gen: 196, red: 190, x2: 188, x4: 185, awm: 50, btn: "44%", dpi: "560" };
+                // Redirigir a la página final
+                setTimeout(() => {
+                    window.location.href = "final.html";
+                }, 500);
             }
-
-            document.getElementById('device-title').innerText = "VINCULADO: " + model.toUpperCase();
-            document.getElementById('v-gen').innerText = data.gen;
-            document.getElementById('v-red').innerText = data.red;
-            document.getElementById('v-x2').innerText = data.x2;
-            document.getElementById('v-x4').innerText = data.x4;
-            document.getElementById('v-awm').innerText = data.awm;
-            document.getElementById('v-btn').innerText = data.btn;
-            document.getElementById('v-dpi').innerText = data.dpi;
         }
 
-        // Lluvia
-        const canvas = document.getElementById('bloodRain');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const drops = [];
-        for(let i=0; i<100; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*20, v: Math.random()*4+4});
-        function draw() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(200,0,0,0.6)';
-            drops.forEach(d => {
-                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.l); ctx.stroke();
-                d.y += d.v; if(d.y > canvas.height) d.y = -20;
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
-        setTimeout(getSens, 500);
+        // Recuperar el modelo guardado para darle realismo
+        const model = localStorage.getItem('deviceModel') || "Device";
+        console.log("Optimizando para: " + model);
+
+        setTimeout(updateProgress, 500);
     </script>
 </body>
 </html>
