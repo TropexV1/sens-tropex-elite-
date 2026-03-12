@@ -55,7 +55,14 @@
         .pro-stat { font-size: 11px; color: #aaa; }
         .pro-stat b { color: #fff; }
 
-        .social-btn { text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 18px; border-radius: 15px; font-weight: 900; color: white; background: #25D366; }
+        .social-btn { text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 18px; border-radius: 15px; font-weight: 900; color: white; background: #25D366; margin-bottom: 15px; }
+        
+        /* SECCIÓN SOPORTE */
+        .support-box { background: var(--card); border: 1px dashed #333; border-radius: 15px; padding: 15px; text-align: center; margin-top: 20px; }
+        .support-title { color: var(--blue); font-weight: 900; font-size: 14px; margin-bottom: 10px; letter-spacing: 2px; }
+        .support-numbers { font-size: 13px; color: #fff; line-height: 1.6; }
+        .support-numbers a { color: var(--text); text-decoration: none; display: block; margin-top: 5px; font-family: monospace; }
+
         .credits { text-align: center; margin-top: 30px; font-size: 11px; color: var(--gray); font-weight: bold; padding-bottom: 30px; }
     </style>
 </head>
@@ -130,6 +137,15 @@
     </div>
 
     <a href="https://chat.whatsapp.com/LJ03CJlxd0pLTI2KeRTBrL" target="_blank" class="social-btn">🟢 GRUPO DE WHATSAPP</a>
+
+    <div class="support-box">
+        <div class="support-title">⚙️ SOPORTE</div>
+        <div class="support-numbers">
+            <a href="tel:+34624865767">📞 +34 624 86 57 67</a>
+            <a href="tel:+201281875382">📞 +20 12 81875382</a>
+        </div>
+    </div>
+
     <div class="credits">Propiedad de Withex ⁴⁴⁴</div>
 </div>
 
@@ -185,6 +201,7 @@
         document.getElementById('v-2x').innerText = r(170, 200);
         document.getElementById('v-4x').innerText = r(170, 200);
         document.getElementById('v-btn').innerText = r(38, 52) + "%";
+        
         document.getElementById('dpi-val').innerText = (b === 'apple') ? "NATIVO" : r(411, 850);
     }
 
