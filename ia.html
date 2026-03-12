@@ -41,24 +41,72 @@
         <a href="info.html" class="nav-link"><span>📄</span><span>Info</span></a>
         <a href="pros.html" class="nav-link"><span>👥</span><span>Pros</span></a>
     </nav>
+<script>
+    let s = ''; // Plataforma seleccionada
 
-    <script>
-        let s = '';
-        function sel(t){ s=t; document.querySelectorAll('.platform-card').forEach(c=>c.classList.remove('active')); document.getElementById('c-'+t).classList.add('active'); }
-        function gen(){
-            const v = document.getElementById('dev').value.toLowerCase().trim();
-            const r = document.getElementById('res');
-            const marcas = ["iphone","samsung","xiaomi","redmi","poco","motorola","apple","huawei"];
-            if(!s || !v) return;
-            if(!marcas.some(m=>v.includes(m))){ r.innerHTML="<p style='color:var(--red)'>❌ Error dispositivo no existente</p>"; return; }
-            document.getElementById('l').style.display="block";
-            setTimeout(()=>document.getElementById('f').style.width="100%",50);
-            setTimeout(()=>{
-                document.getElementById('l').style.display="none";
-                if(s==='ios'||v.includes('iphone')){ r.innerHTML="<b>DATA IOS</b><br>Gen: 100 | Rojo: 98<br>🚫 iPhone no tiene DPI"; }
-                else { r.innerHTML=`<b>DATA ANDROID</b><br>Gen: 96 | Rojo: 92<br>⚙️ DPI: ${Math.floor(Math.random()*200)+400}`; }
-            },2100);
+    function sel(t){ 
+        s = t; 
+        document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('active')); 
+        document.getElementById('c-' + t).classList.add('active'); 
+    }
+
+    function gen(){
+        const v = document.getElementById('dev').value.toLowerCase().trim();
+        const r = document.getElementById('res');
+        const l = document.getElementById('l');
+        const f = document.getElementById('f');
+
+        // BASE DE DATOS AMPLIADA
+        const marcasNormale = ["samsung", "iphone", "xiaomi", "redmi", "poco", "motorola", "huawei", "apple", "infinix", "tecno", "realme", "oppo"];
+        const modelosSerie = ["a15", "a10", "a20", "a30", "a50", "a54", "s23", "s24", "note", "pro", "max"];
+
+        if(!s || !v) {
+            alert("Por favor, selecciona plataforma y escribe tu modelo.");
+            return;
         }
-    </script>
-</body>
-</html>
+
+        // VALIDACIÓN MEJORADA: Si contiene una marca conocida O un modelo de serie común
+        const esMarcaValida = marcasNormale.some(m => v.includes(m));
+        const esModeloValido = modelosSerie.some(mod => v.includes(mod));
+
+        if(!esMarcaValida && !esModeloValido){ 
+            r.innerHTML = "<p style='color:var(--red); font-weight:bold;'>❌ Error dispositivo no existente</p>"; 
+            return; 
+        }
+
+        // Si pasa la validación, inicia la animación de carga
+        r.innerHTML = "⏳ Conectando al servidor de Brasil...";
+        l.style.display = "block";
+        f.style.width = "0%";
+        
+        setTimeout(() => f.style.width = "100%", 50);
+
+        setTimeout(() => {
+            l.style.display = "none";
+            f.style.width = "0%";
+            
+            // Lógica de respuesta según plataforma
+            if(s === 'ios' || v.includes('iphone') || v.includes('apple')){ 
+                r.innerHTML = `
+                    <div style="background:var(--card); padding:15px; border-radius:12px; border:1px solid var(--blue)">
+                        <b style="color:var(--blue)">✅ DATA GENERADA PARA IPHONE</b><br><br>
+                        🎯 General: 100%<br>
+                        🔴 Punto Rojo: 97%<br>
+                        🔍 Mira 2x: 100%<br>
+                        🚫 <b>DPI: No compatible (iOS)</b>
+                    </div>`; 
+            } else { 
+                // Respuesta para Android (incluyendo tu Galaxy A15)
+                const dpiSugerido = Math.floor(Math.random() * (150)) + 500; // Genera entre 500 y 650
+                r.innerHTML = `
+                    <div style="background:var(--card); padding:15px; border-radius:12px; border:1px solid var(--red)">
+                        <b style="color:var(--red)">✅ OPTIMIZACIÓN PARA ${v.toUpperCase()}</b><br><br>
+                        🎯 General: 98%<br>
+                        🔴 Punto Rojo: 94%<br>
+                        ⚙️ <b>DPI RECOMENDADO: ${dpiSugerido}</b><br>
+                        🔘 Botón de disparo: 42%
+                    </div>`; 
+            }
+        }, 2100);
+    }
+</script>
