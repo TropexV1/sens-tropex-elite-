@@ -23,7 +23,9 @@
 
         .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
         
-        h2 { text-align: center; letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin-bottom: 25px; text-transform: uppercase; }
+        .header-section { text-align: center; margin-bottom: 25px; }
+        h2 { letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin: 0; text-transform: uppercase; }
+        .sub-title { color: var(--blue); font-size: 10px; font-weight: 800; letter-spacing: 3px; margin-top: 5px; text-transform: uppercase; }
 
         .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); }
         .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
@@ -57,7 +59,7 @@
 
         .social-btn { text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 18px; border-radius: 15px; font-weight: 900; color: white; background: #25D366; margin-bottom: 15px; }
         
-        /* SECCIÓN SOPORTE */
+        /* SOPORTE */
         .support-box { background: var(--card); border: 1px dashed #333; border-radius: 15px; padding: 15px; text-align: center; margin-top: 20px; }
         .support-title { color: var(--blue); font-weight: 900; font-size: 14px; margin-bottom: 10px; letter-spacing: 2px; }
         .support-numbers { font-size: 13px; color: #fff; line-height: 1.6; }
@@ -71,7 +73,10 @@
 <div id="rain-container"></div>
 
 <div class="app-container">
-    <h2>SENS <span style="color:var(--blue)">TRØPEX</span></h2>
+    <div class="header-section">
+        <h2>SENS <span style="color:var(--blue)">TRØPEX</span></h2>
+        <div class="sub-title">MEJORES EN SENSIBILIDADES</div>
+    </div>
 
     <div id="setup">
         <div class="box">
