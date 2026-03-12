@@ -3,170 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GENERANDO - TRØPEX AI</title>
+    <title>SENS TRØPEX - ELITE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             background-color: #000; 
             color: white; 
             font-family: 'Orbitron', sans-serif; 
             height: 100vh; 
+            overflow: hidden; 
             display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center;
-            overflow: hidden;
-            background-image: radial-gradient(circle at center, #1a0000 0%, #000 70%);
+            flex-direction: column;
+            background-image: radial-gradient(circle at center, #1a0000 0%, #000 80%);
         }
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        /* Scanner de CPU */
-        .scanner-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
+        /* PERSONAJE - Error corregido: ahora usa personajeV3.png que veo en tu captura */
+        #character-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin-bottom: 40px;
+            align-items: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+        #personaje {
+            height: 70vh;
+            opacity: 0.5;
+            filter: drop-shadow(0 0 20px #ff0000);
         }
 
-        .cpu-icon {
-            width: 100px;
-            filter: drop-shadow(0 0 15px #ff0000);
-            z-index: 5;
+        .container { 
+            flex: 1; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; 
+            padding: 20px; z-index: 10; position: relative; margin-bottom: 100px; 
+        }
+        h1 { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 15px #ff0000; font-weight: 900; }
+        .subtitle { font-size: 0.6rem; letter-spacing: 4px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
+
+        /* SELECTOR MODIFAX */
+        .selector { display: flex; gap: 15px; margin-bottom: 25px; width: 100%; max-width: 340px; }
+        .option { 
+            flex: 1; height: 100px; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); transition: 0.3s;
+            color: #666; font-size: 10px; font-weight: bold; gap: 8px;
+        }
+        .option img { width: 30px; filter: grayscale(1) opacity(0.5); }
+        .option.active { border-color: #ff0000; background: rgba(255,0,0,0.1); color: #fff; }
+        .option.active img { filter: grayscale(0) opacity(1); }
+
+        input { 
+            background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255,0,0,0.3); 
+            padding: 16px; border-radius: 12px; color: white; 
+            width: 100%; max-width: 340px; text-align: center; font-family: 'Orbitron'; margin-bottom: 20px; outline: none; 
+        }
+        .btn-start { 
+            background: #ff0000; color: white; border: none; padding: 16px 0; font-weight: 900; 
+            border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; width: 100%; max-width: 340px; 
+            box-shadow: 0 5px 20px rgba(255,0,0,0.4); text-transform: uppercase;
         }
 
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: #ff0000;
-            box-shadow: 0 0 15px #ff0000;
-            top: 0;
-            animation: scan 2s ease-in-out infinite;
-            z-index: 10;
+        /* NAVBAR - Corregido para evitar errores 404 */
+        .navbar { 
+            position: fixed; bottom: 20px; left: 5%; width: 90%; 
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; 
+            display: flex; justify-content: space-around; padding: 12px 5px; z-index: 1000; 
         }
-
-        @keyframes scan {
-            0% { top: 0; opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
+        .nav-item { 
+            text-align: center; color: #555; text-decoration: none; 
+            font-size: 8px; font-weight: bold; flex: 1;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
-
-        .orbit {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px dashed rgba(255, 0, 0, 0.3);
-            border-radius: 50%;
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Texto de Carga */
-        .loading-text {
-            text-align: center;
-            max-width: 80%;
-        }
-
-        #status {
-            color: #ff0000;
-            font-size: 14px;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            height: 20px;
-            text-transform: uppercase;
-        }
-
-        .progress-bar {
-            width: 250px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 0 auto;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: #ff0000;
-            box-shadow: 0 0 10px #ff0000;
-            transition: width 0.3s;
-        }
-
-        .logs {
-            margin-top: 20px;
-            font-size: 9px;
-            color: #444;
-            font-family: monospace;
-            height: 50px;
-            overflow: hidden;
-        }
+        .nav-item.active { color: #fff; }
+        .nav-icon { width: 20px; height: 20px; filter: grayscale(1); }
+        .nav-item.active .nav-icon { filter: grayscale(0) brightness(1.5); }
     </style>
 </head>
 <body>
-
-    <div class="scanner-container">
-        <div class="orbit"></div>
-        <img src="https://cdn-icons-png.flaticon.com/512/900/900618.png" class="cpu-icon">
-        <div class="scan-line"></div>
+    <canvas id="bloodRain"></canvas>
+    <div id="character-container">
+        <img src="personajeV3.png" id="personaje">
     </div>
 
-    <div class="loading-text">
-        <div id="status">INICIANDO NÚCLEO...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="fill"></div>
+    <div class="container">
+        <h1>TRØPEX</h1>
+        <div class="subtitle">Elite Sensitivity</div>
+        <div class="selector">
+            <div class="option" id="opt-android" onclick="selectType('ANDROID')">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png">
+                ANDROID
+            </div>
+            <div class="option" id="opt-ios" onclick="selectType('IOS')">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png">
+                IOS
+            </div>
         </div>
-        <div class="logs" id="logs"></div>
+        <input type="text" id="model" placeholder="Ej: iPhone 15, Poco F5...">
+        <button class="btn-start" onclick="startProcess()">GENERAR SENSI ></button>
     </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-item active"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" class="nav-icon">Inicio</a>
+        <a href="chat.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/900/900618.png" class="nav-icon">IA</a>
+        <a href="pros.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/5948/5948565.png" class="nav-icon">Pros</a>
+        <a href="config.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/2040/2040504.png" class="nav-icon">Config</a>
+    </nav>
 
     <script>
-        const statusText = document.getElementById('status');
-        const fill = document.getElementById('fill');
-        const logs = document.getElementById('logs');
+        // Lluvia
+        const canvas = document.getElementById('bloodRain');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const drops = [];
+        for (let i = 0; i < 70; i++) drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 15, v: Math.random() * 4 + 2 });
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(200, 0, 0, 0.4)';
+            drops.forEach(d => {
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.l); ctx.stroke();
+                d.y += d.v; if (d.y > canvas.height) d.y = -20;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
 
-        const steps = [
-            { text: "Detectando Hardware...", time: 0, log: "> CPU: ARMv8-A detected" },
-            { text: "Analizando DPI...", time: 20, log: "> DPI Sensor: Calibrating..." },
-            { text: "Sincronizando Sens...", time: 40, log: "> Engine: Adjusting X/Y axis" },
-            { text: "Inyectando Código...", time: 60, log: "> Bypass: Elite status active" },
-            { text: "Finalizando...", time: 80, log: "> Cloud: Config saved" },
-            { text: "¡COMPLETADO!", time: 100, log: "> Success: Redirecting..." }
-        ];
+        VanillaTilt.init(document.querySelector("#personaje"), { max: 15, speed: 300, gyroscope: true });
 
-        let currentStep = 0;
-
-        function updateProgress() {
-            if (currentStep < steps.length) {
-                const step = steps[currentStep];
-                statusText.innerText = step.text;
-                fill.style.width = step.time + "%";
-                
-                const newLog = document.createElement('div');
-                newLog.innerText = step.log;
-                logs.prepend(newLog);
-
-                currentStep++;
-                setTimeout(updateProgress, 800);
-            } else {
-                // Redirigir a la página final
-                setTimeout(() => {
-                    window.location.href = "final.html";
-                }, 500);
-            }
+        let type = "";
+        function selectType(t) {
+            type = t;
+            document.querySelectorAll('.option').forEach(o => o.classList.remove('active'));
+            document.getElementById('opt-' + t.toLowerCase()).classList.add('active');
         }
 
-        // Recuperar el modelo guardado para darle realismo
-        const model = localStorage.getItem('deviceModel') || "Device";
-        console.log("Optimizando para: " + model);
-
-        setTimeout(updateProgress, 500);
+        function startProcess() {
+            if(!type || !document.getElementById('model').value) return alert("Completa los datos");
+            window.location.href = "generar.html";
+        }
     </script>
 </body>
 </html>
