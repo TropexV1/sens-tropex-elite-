@@ -7,119 +7,52 @@
     <style>
         :root { --red: #ff3c3c; --bg: #050505; --card: #121212; --blue: #00d4ff; }
         body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        
-        /* DISEÑO TIPO MODIFAX */
         .header { padding: 40px 20px; text-align: center; background: linear-gradient(to bottom, rgba(255,60,60,0.1), transparent); }
-        .header h1 { letter-spacing: 5px; margin: 0; font-size: 24px; }
-        .header p { color: #888; font-size: 12px; margin-top: 5px; }
-
-        .selection-container { padding: 20px; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
+        .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 90%; max-width: 400px; margin: 0 auto; }
         .platform-card { background: var(--card); padding: 25px; border-radius: 15px; text-align: center; border: 1px solid #222; cursor: pointer; transition: 0.3s; }
-        .platform-card.active { border-color: var(--red); background: rgba(255,60,60,0.05); }
-        .platform-card img { width: 40px; margin-bottom: 10px; filter: grayscale(1); }
-        .platform-card.active img { filter: grayscale(0); }
-
-        .input-box { width: 100%; max-width: 400px; position: relative; }
-        input { width: 100%; background: #000; border: 1px solid #333; padding: 15px 15px 15px 45px; border-radius: 12px; color: white; box-sizing: border-box; outline: none; }
-        .btn-continue { width: 100%; max-width: 400px; background: var(--red); color: white; border: none; padding: 15px; border-radius: 30px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-
-        /* MODAL DE CARGA Y RESULTADO */
-        #result-box { margin-top: 20px; width: 100%; max-width: 400px; }
-        .loader-bar { width: 100%; background: #222; height: 6px; border-radius: 3px; overflow: hidden; display: none; margin-top: 10px; }
+        .platform-card.active { border-color: var(--red); box-shadow: 0 0 15px rgba(255,60,60,0.2); }
+        .input-box { width: 90%; max-width: 400px; margin: 20px auto; }
+        input { width: 100%; background: #000; border: 1px solid #333; padding: 15px; border-radius: 12px; color: white; box-sizing: border-box; }
+        .btn-continue { width: 90%; max-width: 400px; background: var(--red); color: white; border: none; padding: 15px; border-radius: 30px; font-weight: bold; cursor: pointer; display: block; margin: 0 auto; }
+        .loader-bar { width: 90%; max-width: 400px; background: #222; height: 6px; border-radius: 3px; overflow: hidden; display: none; margin: 20px auto; }
         .fill { width: 0%; height: 100%; background: var(--red); transition: 2s linear; }
-
-        /* BARRA NAVEGACIÓN */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; }
-        .nav-link { text-decoration: none; color: #555; display: flex; flex-direction: column; align-items: center; font-size: 9px; }
-        .nav-link.active { color: white; }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>TROPEX<span style="color:var(--red)"> ELITE</span></h1>
-        <p>SENSITIVITY ENGINE</p>
+    <div class="header"><h1>TROPEX<span style="color:var(--red)"> ELITE</span></h1><p>SENSITIVITY ENGINE</p></div>
+    <div class="platform-grid">
+        <div class="platform-card" id="card-android" onclick="selectType('android')">🤖<span> ANDROID</span></div>
+        <div class="platform-card" id="card-ios" onclick="selectType('ios')">🍎<span> IOS</span></div>
     </div>
-
-    <div class="selection-container">
-        <h3 style="text-transform: uppercase;">Selecciona tu equipo</h3>
-        <div class="platform-grid">
-            <div class="platform-card" id="card-android" onclick="selectType('android')">
-                <div style="font-size: 30px;">🤖</div>
-                <span>ANDROID</span>
-            </div>
-            <div class="platform-card" id="card-ios" onclick="selectType('ios')">
-                <div style="font-size: 30px;">🍎</div>
-                <span>IOS</span>
-            </div>
-        </div>
-
-        <div class="input-box">
-            <span style="position:absolute; left:15px; top:15px;">🎯</span>
-            <input type="text" id="device-input" placeholder="Ej: Galaxy S23, iPhone 15...">
-        </div>
-        <button class="btn-continue" onclick="generar()">CONTINUAR ❯</button>
-
-        <div id="result-box"></div>
-        <div class="loader-bar" id="loader"><div class="fill" id="fill"></div></div>
-    </div>
-
+    <div class="input-box"><input type="text" id="device-input" placeholder="Ej: Galaxy S23, iPhone 15..."></div>
+    <button class="btn-continue" onclick="generar()">CONTINUAR ❯</button>
+    <div class="loader-bar" id="loader"><div class="fill" id="fill"></div></div>
+    <div id="result-box" style="padding: 20px; text-align: center;"></div>
     <nav class="bottom-nav">
-        <a href="index.html" class="nav-link"><span>🏠</span><span>Inicio</span></a>
-        <a href="ia.html" class="nav-link active"><span>📟</span><span>IA</span></a>
-        <a href="chat.html" class="nav-link"><span>💬</span><span>Chat</span></a>
-        <a href="perfil.html" class="nav-link"><span>👤</span><span>Perfil</span></a>
-        <a href="config.html" class="nav-link"><span>⚙️</span><span>Config</span></a>
-        <a href="info.html" class="nav-link"><span>📄</span><span>Info</span></a>
-        <a href="pros.html" class="nav-link"><span>👥</span><span>Withex ⁴⁴⁴</span></a>
-    </nav>
-
+        </nav>
     <script>
         let selectedType = '';
-        const marcasReales = ["iphone", "samsung", "xiaomi", "redmi", "poco", "motorola", "huawei", "apple"];
-
         function selectType(t) {
             selectedType = t;
             document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('active'));
             document.getElementById('card-' + t).classList.add('active');
         }
-
         function generar() {
-            const val = document.getElementById('device-input').value.toLowerCase();
+            const val = document.getElementById('device-input').value.toLowerCase().trim();
             const res = document.getElementById('result-box');
-            const loader = document.getElementById('loader');
-            const fill = document.getElementById('fill');
-
+            const marcas = ["iphone", "samsung", "xiaomi", "redmi", "poco", "motorola", "apple"];
+            const existe = marcas.some(m => val.includes(m));
             if (!selectedType || val === "") return;
-
-            // VALIDACIÓN ESTRICTA
-            const existe = marcasReales.some(m => val.includes(m));
-            if (!existe) {
-                res.innerHTML = `<p style="color:var(--red)">❌ Error dispositivo no existente</p>`;
-                return;
-            }
-
-            res.innerHTML = "⏳ Conectando al servidor...";
-            loader.style.display = "block";
-            setTimeout(() => fill.style.width = "100%", 50);
-
+            if (!existe) { res.innerHTML = `<p style="color:var(--red)">❌ Error dispositivo no existente</p>`; return; }
+            document.getElementById('loader').style.display = "block";
+            setTimeout(() => document.getElementById('fill').style.width = "100%", 50);
             setTimeout(() => {
-                loader.style.display = "none";
-                fill.style.width = "0%";
-                
+                document.getElementById('loader').style.display = "none";
                 if (selectedType === 'ios' || val.includes('iphone')) {
-                    res.innerHTML = `<div class="platform-card" style="text-align:left; border-color:var(--blue)">
-                        <b>MODELO: ${val.toUpperCase()}</b><br>
-                        • General: 100% | Rojo: 98%<br>
-                        🚫 iPhone no tiene DPI.
-                    </div>`;
+                    res.innerHTML = `<div class="platform-card"><b>${val.toUpperCase()}</b><br>• General: 100%<br>🚫 iPhone no tiene DPI.</div>`;
                 } else {
-                    res.innerHTML = `<div class="platform-card" style="text-align:left; border-color:var(--red)">
-                        <b>MODELO: ${val.toUpperCase()}</b><br>
-                        • General: 95% | Rojo: 92%<br>
-                        • DPI: 580 | Botón: 45%
-                    </div>`;
+                    res.innerHTML = `<div class="platform-card"><b>${val.toUpperCase()}</b><br>• General: 95%<br>• DPI: 580</div>`;
                 }
             }, 2100);
         }
