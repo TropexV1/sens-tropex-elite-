@@ -3,74 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pros - Sens Tropex Elite</title>
+    <title>Pros - Tropex Elite</title>
     <style>
-        :root { --red-accent: #ff3c3c; --dark-bg: #050505; --card-bg: #121212; --text-gray: #888; }
-        body { margin: 0; background: var(--dark-bg); color: white; font-family: sans-serif; padding-bottom: 100px; }
-        
-        /* BUSCADOR */
-        .header-search { padding: 20px; background: #000; display: flex; justify-content: center; }
-        .search-wrapper { position: relative; width: 95%; }
-        .search-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px 15px 15px 45px; border-radius: 12px; color: white; outline: none; box-sizing: border-box; }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-gray); }
-
-        /* TARJETAS */
-        .player-card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin: 10px; border: 1px solid #222; }
-        .player-info h2 { margin: 0; font-size: 20px; }
-        .player-info p { color: var(--text-gray); font-size: 13px; }
-
-        .sensi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
-        .sensi-item { background: #0d0d0d; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #1a1a1a; }
-        .sensi-item span { display: block; font-size: 9px; color: var(--text-gray); text-transform: uppercase; }
-        .sensi-item b { font-size: 15px; }
-
-        .btn-copy { width: 100%; background: #252525; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-copy:active { background: var(--red-accent); }
-
-        /* NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; z-index: 1000; }
-        .nav-link { text-decoration: none; color: #555; display: flex; flex-direction: column; align-items: center; font-size: 10px; }
-        .nav-link.active { color: white; }
+        :root { --red: #ff3c3c; --bg: #050505; --card: #121212; }
+        body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; padding-bottom: 90px; }
+        .search-container { padding: 20px; }
+        input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 12px; color: white; box-sizing: border-box; }
+        .p-card { background: var(--card); border-radius: 15px; padding: 20px; margin: 15px; border: 1px solid #222; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
+        .item { background: #000; padding: 8px; border-radius: 8px; text-align: center; font-size: 12px; border: 1px solid #1a1a1a; }
+        .item span { display: block; font-size: 8px; color: #888; text-transform: uppercase; }
+        .btn-copy { width: 100%; background: #252525; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; }
+        .nav-link { text-decoration: none; color: #555; display: flex; flex-direction: column; align-items: center; font-size: 9px; }
     </style>
 </head>
 <body>
-
-    <div class="header-search">
-        <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search" class="search-input" placeholder="Buscar influencer...">
+    <div class="search-container"><input type="text" id="s" placeholder="🔍 Buscar influencer..."></div>
+    <div id="list">
+        <div class="p-card">
+            <h3>Apelapato 🇧🇷</h3>
+            <div class="grid">
+                <div class="item"><span>Gen</span><b>189</b></div>
+                <div class="item"><span>Rojo</span><b>193</b></div>
+                <div class="item"><span>2x</span><b>167</b></div>
+                <div class="item"><span>4x</span><b>173</b></div>
+                <div class="item"><span>DPI</span><b>450</b></div>
+                <div class="item"><span>Botón</span><b>45%</b></div>
+            </div>
+            <button class="btn-copy" onclick="cp('Apelapato')">Copiar Sensibilidad</button>
         </div>
     </div>
-
-    <div id="players-list">
-        <div class="player-card">
-            <div class="player-info"><h2>Withex ⁴⁴⁴</h2><p>📍 Brazil • 12.5M+</p></div>
-            <div class="sensi-grid">
-                <div class="sensi-item"><span>General</span><b>198</b></div>
-                <div class="sensi-item"><span>Rojo</span><b>195</b></div>
-                <div class="sensi-item"><span>2x</span><b>180</b></div>
-                <div class="sensi-item"><span>4x</span><b>190</b></div>
-                <div class="sensi-item"><span>DPI</span><b>440</b></div>
-                <div class="sensi-item"><span>Botón</span><b>42%</b></div>
-            </div>
-            <button class="btn-copy" onclick="copiar('Withex 444', 'Gen: 198, DPI: 440')">Copiar Sensibilidad</button>
-        </div>
-
-        <div class="player-card">
-            <div class="player-info"><h2>Akiles</h2><p>📍 Bolivia • 5.1M+</p></div>
-            <div class="sensi-grid">
-                <div class="sensi-item"><span>General</span><b>95</b></div>
-                <div class="sensi-item"><span>Rojo</span><b>100</b></div>
-                <div class="sensi-item"><span>2x</span><b>98</b></div>
-                <div class="sensi-item"><span>4x</span><b>94</b></div>
-                <div class="sensi-item"><span>DPI</span><b>800</b></div>
-                <div class="sensi-item"><span>Botón</span><b>50%</b></div>
-            </div>
-            <button class="btn-copy" onclick="copiar('Akiles', 'Gen: 95, DPI: 800')">Copiar Sensibilidad</button>
-        </div>
-        
-        </div>
-
     <nav class="bottom-nav">
         <a href="index.html" class="nav-link"><span>🏠</span><span>Inicio</span></a>
         <a href="ia.html" class="nav-link"><span>📟</span><span>IA</span></a>
@@ -78,27 +41,13 @@
         <a href="perfil.html" class="nav-link"><span>👤</span><span>Perfil</span></a>
         <a href="config.html" class="nav-link"><span>⚙️</span><span>Config</span></a>
         <a href="info.html" class="nav-link"><span>📄</span><span>Info</span></a>
-        <a href="pros.html" class="nav-link active"><span>👥</span><span>Withex ⁴⁴⁴</span></a>
+        <a href="pros.html" class="nav-link" style="color:white"><span>👥</span><span>Pros</span></a>
     </nav>
-
     <script>
-        const audio = new Audio('https://www.soundjay.com/buttons/button-16.mp3');
-        
-        function copiar(nombre, datos) {
-            audio.play();
-            navigator.clipboard.writeText(datos);
-            const aviso = document.createElement('div');
-            aviso.innerHTML = `✅ Sensi de ${nombre} copiada!`;
-            aviso.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ff3c3c; color:white; padding:10px 20px; border-radius:20px; z-index:2000; font-weight:bold;";
-            document.body.appendChild(aviso);
-            setTimeout(() => aviso.remove(), 2000);
-        }
-
-        document.getElementById('search').addEventListener('input', function(e) {
-            let term = e.target.value.toLowerCase();
-            document.querySelectorAll('.player-card').forEach(card => {
-                card.style.display = card.querySelector('h2').innerText.toLowerCase().includes(term) ? "block" : "none";
-            });
+        function cp(n){ alert("✅ Sensibilidad de "+n+" copiada al portapapeles"); }
+        document.getElementById('s').addEventListener('input', (e)=>{
+            let v = e.target.value.toLowerCase();
+            document.querySelectorAll('.p-card').forEach(c => c.style.display = c.innerText.toLowerCase().includes(v) ? "block" : "none");
         });
     </script>
 </body>
