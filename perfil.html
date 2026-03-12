@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PERFIL - TRØPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: white; font-family: 'Orbitron', sans-serif; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-image: radial-gradient(circle at center, #1a0000 0%, #000 70%); }
+        
+        .profile-card { background: rgba(255, 0, 0, 0.05); border: 1px solid #ff0000; padding: 30px; border-radius: 20px; width: 85%; max-width: 350px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(255,0,0,0.2); }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid #ff0000; margin-bottom: 15px; padding: 5px; }
+        .username { color: #fff; font-size: 1.2rem; margin-bottom: 5px; text-transform: uppercase; }
+        .rank { color: #ff0000; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 20px; }
+        
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .stat-item { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); }
+        .stat-val { display: block; font-size: 14px; color: #ff0000; }
+        .stat-lab { font-size: 8px; color: #aaa; }
+
+        /* NAVBAR FLOTANTE */
+        .navbar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: rgba(10, 10, 10, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; display: flex; justify-content: space-around; padding: 12px 5px; }
+        .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 8px; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-item.active { color: #fff; }
+        .nav-icon { width: 20px; filter: grayscale(1); }
+        .nav-item.active .nav-icon { filter: grayscale(0); }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="avatar">
+        <h2 class="username">USUARIO ELITE</h2>
+        <p class="rank">RANGO: INMORTAL</p>
+        <div class="stats">
+            <div class="stat-item"><span class="stat-val">200%</span><span class="stat-lab">SENSI</span></div>
+            <div class="stat-item"><span class="stat-val">ON</span><span class="stat-lab">MACRO</span></div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" class="nav-icon">Inicio</a>
+        <a href="ia.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/900/900618.png" class="nav-icon">IA</a>
+        <a href="chat.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/5948/5948565.png" class="nav-icon">Chat</a>
+        <a href="perfil.html" class="nav-item active"><img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png" class="nav-icon">Perfil</a>
+        <a href="config.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/2040/2040504.png" class="nav-icon">Config</a>
+        <a href="info.html" class="nav-item"><img src="https://cdn-icons-png.flaticon.com/512/471/471663.png" class="nav-icon">Info</a>
+    </nav>
+</body>
+</html>
