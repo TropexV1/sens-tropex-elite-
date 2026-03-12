@@ -2,227 +2,96 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SENS TRØPEX - ELITE ENGINE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sens Tropex Elite</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background-color: #000; 
-            color: white; 
-            font-family: 'Orbitron', sans-serif; 
-            height: 100vh; 
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        :root {
+            --red-accent: #ff3c3c;
+            --dark-bg: #050505;
+            --card-bg: #121212;
+            --text-gray: #888;
         }
 
-        /* FONDO ANIMADO DE VÓRTICE */
-        #vortex-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-        }
-
-        /* PRELOADER (PANTALLA DE CARGA) */
-        #preloader {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
+        body {
+            margin: 0;
+            background: var(--dark-bg);
+            color: white;
+            font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease;
-        }
-
-        .loader-ring {
-            width: 80px; height: 80px;
-            border: 2px solid rgba(255,0,0,0.1);
-            border-top: 2px solid #ff0000;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(255,0,0,0.5);
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* INTERFAZ PRINCIPAL (SENS TRØPEX) */
-        .ui-wrapper {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .header { text-align: center; margin-bottom: 30px; }
-        .header h1 { font-size: 2.4rem; color: #fff; text-shadow: 0 0 15px #ff0000; }
-        .header h1 span { color: #ff0000; }
-        .header p { font-size: 0.6rem; letter-spacing: 5px; color: #888; margin-top: 5px; }
-
-        .selector-container {
-            width: 90%;
-            max-width: 360px;
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .os-card {
-            flex: 1;
-            background: rgba(20, 20, 20, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 25px;
+            height: 100vh;
             text-align: center;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: 0.3s;
         }
 
-        .os-card.active {
-            border-color: #ff0000;
-            background: rgba(255, 0, 0, 0.1);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        .logo-container img {
+            width: 150px;
+            filter: drop-shadow(0 0 10px var(--red-accent));
         }
 
-        .os-card img { width: 35px; margin-bottom: 10px; opacity: 0.5; }
-        .os-card.active img { opacity: 1; filter: drop-shadow(0 0 5px #fff); }
-
-        input {
-            width: 90%;
-            max-width: 360px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            padding: 18px;
-            border-radius: 12px;
-            color: #fff;
-            font-family: 'Orbitron';
-            text-align: center;
-            margin-bottom: 25px;
-            outline: none;
+        .welcome-text {
+            margin: 20px 0;
         }
 
         .btn-start {
-            width: 90%;
-            max-width: 360px;
-            background: #ff0000;
-            color: #fff;
-            padding: 18px;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Orbitron';
-            font-weight: 900;
-            text-transform: uppercase;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-            cursor: pointer;
+            background: var(--red-accent);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(255, 60, 60, 0.4);
         }
+
+        /* BARRA INFERIOR DE 7 ICONOS (ESTA ES LA QUE TE FALTA) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 75px;
+            background: #000;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #222;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 9px;
+        }
+
+        .nav-link.active { color: white; }
+        .nav-icon { font-size: 20px; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="loader-ring"></div>
-        <h2 style="letter-spacing: 5px; font-size: 14px;">CARGANDO SISTEMA</h2>
-        <div id="load-pc" style="margin-top: 10px; color: #ff0000;">0%</div>
+    <div class="logo-container">
+        <h1>TROPEX<span style="color:var(--red-accent)"> ELITE</span></h1>
     </div>
 
-    <canvas id="vortex-canvas"></canvas>
-
-    <div class="ui-wrapper" id="main-ui">
-        <div class="header">
-            <h1>SENS <span>TRØPEX</span></h1>
-            <p>ELITE SYSTEM READY</p>
-        </div>
-
-        <div class="selector-container">
-            <div class="os-card" id="and-card" onclick="setOS('ANDROID')">
-                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png">
-                <p style="font-size: 10px;">ANDROID</p>
-            </div>
-            <div class="os-card" id="ios-card" onclick="setOS('IOS')">
-                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png">
-                <p style="font-size: 10px;">IOS</p>
-            </div>
-        </div>
-
-        <input type="text" id="device-model" placeholder="EJ: GALAXY S23, IPHONE 15...">
-        <button class="btn-start" onclick="begin()">CONTINUAR ></button>
+    <div class="welcome-text">
+        <h2>BIENVENIDO</h2>
+        <p style="color:var(--text-gray)">La mejor sensibilidad para Free Fire</p>
     </div>
 
-    <script>
-        // Lógica de Carga Realista
-        let count = 0;
-        const loaderTxt = document.getElementById('load-pc');
-        const preloader = document.getElementById('preloader');
-        const mainUI = document.getElementById('main-ui');
+    <a href="ia.html" class="btn-start">GENERAR SENSI</a>
 
-        const loading = setInterval(() => {
-            count += Math.floor(Math.random() * 7) + 1;
-            if(count >= 100) {
-                count = 100;
-                clearInterval(loading);
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                        mainUI.style.opacity = '1';
-                    }, 500);
-                }, 500);
-            }
-            loaderTxt.innerText = count + "%";
-        }, 80);
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-link active"><div class="nav-icon">🏠</div><span>Inicio</span></a>
+        <a href="ia.html" class="nav-link"><div class="nav-icon">📟</div><span>IA</span></a>
+        <a href="chat.html" class="nav-link"><div class="nav-icon">💬</div><span>Chat</span></a>
+        <a href="perfil.html" class="nav-link"><div class="nav-icon">👤</div><span>Perfil</span></a>
+        <a href="config.html" class="nav-link"><div class="nav-icon">⚙️</div><span>Config</span></a>
+        <a href="info.html" class="nav-link"><div class="nav-icon">📄</div><span>Info</span></a>
+        <a href="pros.html" class="nav-link"><div class="nav-icon">👥</div><span>Withex ⁴⁴⁴</span></a>
+    </nav>
 
-        // Fondo de Vórtice
-        const canvas = document.getElementById('vortex-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let stars = [];
-        for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, s: Math.random()*0.02});
-
-        function animate() {
-            ctx.fillStyle = 'rgba(0,0,0,0.1)';
-            ctx.fillRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = '#ff0000';
-            stars.forEach(s => {
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-                ctx.fill();
-                s.y += s.s * 10;
-                if(s.y > canvas.height) s.y = 0;
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Selección de Dispositivo
-        let os = "";
-        function setOS(type) {
-            os = type;
-            document.getElementById('and-card').classList.toggle('active', type === 'ANDROID');
-            document.getElementById('ios-card').classList.toggle('active', type === 'IOS');
-        }
-
-        function begin() {
-            const model = document.getElementById('device-model').value;
-            if(!os || !model) return alert("Selecciona Sistema y Modelo");
-            localStorage.setItem('targetDevice', model);
-            window.location.href = "generar.html";
-        }
-    </script>
 </body>
 </html>
