@@ -13,36 +13,36 @@
         body {
             margin: 0; background: var(--bg); color: var(--text);
             font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center;
-            overflow-x: hidden; height: auto; min-height: 100vh; position: relative;
+            overflow-x: hidden; min-height: 100vh; position: relative;
         }
 
-        /* LLUVIA AZUL */
+        /* LLUVIA DE SANGRE AZUL */
         #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .drop { position: absolute; background: var(--blue); width: 1px; height: 20px; opacity: 0.4; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
 
         .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
-        h2 { text-align: center; letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin-top: 10px; }
-        
+        h2 { text-align: center; letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); }
+
         /* SELECTORES */
-        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); }
         .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; }
         select { width: 100%; background: transparent; border: none; color: #fff; font-size: 16px; outline: none; cursor: pointer; }
+        option { background: #000; color: #fff; }
 
-        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; }
+        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
 
-        /* IA CHAT */
-        .ai-box { background: rgba(0,0,0,0.8); border: 1px solid #333; border-radius: 18px; padding: 15px; border-left: 4px solid var(--blue); margin-bottom: 30px; }
-        #ai-chat { height: 80px; overflow-y: auto; font-size: 13px; color: #ddd; line-height: 1.5; margin-bottom: 10px; }
+        /* IA CHAT ESTILO WITHeX */
+        .ai-box { background: rgba(0,0,0,0.85); border: 1px solid #333; border-radius: 18px; padding: 15px; border-left: 4px solid var(--blue); margin-bottom: 30px; }
+        #ai-chat { height: 90px; overflow-y: auto; font-size: 13px; color: #ddd; line-height: 1.5; margin-bottom: 10px; }
         .ai-input-row { display: flex; gap: 8px; }
         #ai-input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; outline: none; }
-        .ai-send { background: var(--blue); border: none; color: #fff; border-radius: 8px; width: 40px; cursor: pointer; }
+        .ai-send { background: var(--blue); border: none; color: #fff; border-radius: 8px; width: 40px; cursor: pointer; font-weight: bold; }
 
-        /* SECCIÓN PRO PLAYER */
-        .section-title { font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .pro-card { background: linear-gradient(145deg, #111, #050505); border: 1px solid #222; border-radius: 12px; padding: 15px; margin-bottom: 12px; position: relative; overflow: hidden; }
-        .pro-card::after { content: "PRO"; position: absolute; top: 10px; right: 10px; font-size: 8px; background: var(--gold); color: #000; padding: 2px 6px; border-radius: 4px; font-weight: 900; }
-        .pro-name { font-weight: 800; color: var(--blue); font-size: 15px; margin-bottom: 5px; display: block; }
+        /* PRO PLAYER */
+        .section-title { font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
+        .pro-card { background: linear-gradient(145deg, #111, #050505); border: 1px solid #222; border-radius: 12px; padding: 15px; margin-bottom: 12px; position: relative; }
+        .pro-name { font-weight: 800; color: var(--blue); font-size: 15px; display: block; margin-bottom: 5px; }
         .pro-stats { font-size: 12px; color: #aaa; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
 
         .credits { text-align: center; margin-top: 30px; font-size: 12px; color: var(--gray); font-weight: bold; }
@@ -56,55 +56,42 @@
     <h2>SENS <span style="color:var(--blue)">TRØPEX</span></h2>
 
     <div class="box">
-        <span class="label">Configurar Dispositivo</span>
+        <span class="label">Marca</span>
         <select id="brand" onchange="updateModels()">
-            <option value="apple">Apple</option>
+            <option value="apple">Apple (iPhone)</option>
             <option value="samsung">Samsung</option>
-            <option value="xiaomi">Xiaomi</option>
+            <option value="xiaomi">Xiaomi / Poco / Redmi</option>
+            <option value="motorola">Motorola</option>
+            <option value="realme">Realme</option>
+            <option value="infinix">Infinix</option>
+            <option value="honor">Honor</option>
+            <option value="huawei">Huawei</option>
+            <option value="tecno">Tecno</option>
+            <option value="rog">Asus ROG / Gaming</option>
         </select>
-        <select id="model" style="margin-top: 10px;"></select>
+        <span class="label" style="margin-top: 10px;">Modelo</span>
+        <select id="model"></select>
     </div>
     
-    <button class="btn-gerar" onclick="process()">🚀 GENERAR SENS DE WITHeX</button>
+    <button class="btn-gerar" onclick="process()">🚀 GENERAR CONFIGURACIÓN</button>
 
     <div class="ai-box">
-        <div id="ai-chat"><b>TRØPEX IA:</b> Bienvenido. Soy la IA de Withex ⁴⁴⁴. Analizando tu hardware... sube la mira y dale a la cabeza.</div>
+        <div id="ai-chat"><b>TRØPEX IA:</b> Iniciando protocolos de Withex ⁴⁴⁴. Sube la mira y dale a la cabeza.</div>
         <div class="ai-input-row">
-            <input type="text" id="ai-input" placeholder="Hazme una pregunta...">
+            <input type="text" id="ai-input" placeholder="Pregúntame algo...">
             <button class="ai-send" onclick="talkToAI()">></button>
         </div>
     </div>
 
-    <div class="section-title">🏆 PRO PLAYERS (SENS BY WITHeX)</div>
-    
+    <div class="section-title">🏆 PRO PLAYERS APARTADO</div>
     <div id="pro-list">
         <div class="pro-card">
-            <span class="pro-name">NOBRU ⁷⁷⁷</span>
-            <div class="pro-stats">
-                <span>Geral: 98</span> <span>Mira 2x: 94</span>
-                <span>Botão: 48%</span> <span>DPI: 720</span>
-            </div>
-        </div>
-        <div class="pro-card">
             <span class="pro-name">WHITEFF ⁴⁴⁴</span>
-            <div class="pro-stats">
-                <span>Geral: 100</span> <span>Mira 2x: 100</span>
-                <span>Botão: 42%</span> <span>DPI: NATIVO</span>
-            </div>
+            <div class="pro-stats"><span>Geral: 100</span> <span>Botão: 42%</span> <span>DPI: NATIVO</span> <span>Mira 2x: 100</span></div>
         </div>
         <div class="pro-card">
-            <span class="pro-name">RUOK FF</span>
-            <div class="pro-stats">
-                <span>Geral: 91</span> <span>Mira 2x: 82</span>
-                <span>Botão: 55%</span> <span>DPI: 580</span>
-            </div>
-        </div>
-        <div class="pro-card">
-            <span class="pro-name">M8N FF</span>
-            <div class="pro-stats">
-                <span>Geral: 95</span> <span>Mira 2x: 90</span>
-                <span>Botão: 50%</span> <span>DPI: 600</span>
-            </div>
+            <span class="pro-name">NOBRU TV</span>
+            <div class="pro-stats"><span>Geral: 91</span> <span>Botão: 45%</span> <span>DPI: 720</span> <span>Mira 2x: 94</span></div>
         </div>
     </div>
 
@@ -113,9 +100,16 @@
 
 <script>
     const db = {
-        apple: ["iPhone 16 Pro Max", "iPhone 15 Pro", "iPhone 13", "iPhone 11"],
-        samsung: ["Galaxy S24 Ultra", "Galaxy A54", "Galaxy A10s"],
-        xiaomi: ["Poco X6 Pro", "Redmi Note 13"]
+        apple: ["iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 15 Pro Max", "iPhone 15", "iPhone 14 Pro Max", "iPhone 14", "iPhone 13 Pro Max", "iPhone 13 Mini", "iPhone 12 Pro Max", "iPhone 12", "iPhone 11 Pro Max", "iPhone 11", "iPhone XS Max", "iPhone XR", "iPhone X", "iPhone 8 Plus", "iPhone 7 Plus", "iPhone 6s"],
+        samsung: ["Galaxy S24 Ultra", "Galaxy S23 Ultra", "Galaxy S22 Ultra", "Galaxy S21 FE", "Galaxy S20 FE", "Galaxy A54 5G", "Galaxy A34", "Galaxy A24", "Galaxy A15", "Galaxy A14", "Galaxy A10s", "Galaxy Note 20 Ultra", "Galaxy J7 Prime"],
+        xiaomi: ["Poco F6 Pro", "Poco F5", "Poco X6 Pro", "Poco X5 Pro", "Poco X3 Pro", "Redmi Note 13 Pro+", "Redmi Note 12", "Redmi Note 11", "Xiaomi 14 Ultra", "Xiaomi 13T Pro", "Redmi 12C"],
+        motorola: ["Edge 50 Ultra", "Edge 40 Neo", "Moto G84", "Moto G54", "Moto G24 Power", "Moto G200", "Moto E13", "Moto G Stylus"],
+        realme: ["Realme GT 5", "Realme 12 Pro+", "Realme 11 Pro", "Realme C67", "Realme C55", "Realme 9i"],
+        infinix: ["Infinix Note 40 Pro", "Infinix Hot 40 Pro", "Infinix Zero 30", "Infinix Smart 8"],
+        honor: ["Honor Magic 6 Pro", "Honor 90", "Honor 70", "Honor X8b", "Honor X7b"],
+        huawei: ["P60 Pro", "Mate 50 Pro", "Nova 11i", "P40 Lite", "Y9 Prime"],
+        tecno: ["Tecno Pova 6 Pro", "Tecno Camon 30", "Tecno Spark 20 Pro", "Tecno Phantom X2"],
+        rog: ["ROG Phone 8 Pro", "ROG Phone 7 Ultimate", "ROG Phone 6", "RedMagic 9 Pro", "Black Shark 5 Pro"]
     };
 
     function speak(t) {
@@ -125,37 +119,35 @@
         window.speechSynthesis.speak(m);
     }
 
-    const tips = [
-        "He analizado los píxeles de tu pantalla.",
-        "Ajustando el tiempo de respuesta táctil para máxima velocidad.",
-        "Withex ⁴⁴⁴ recomienda no usar fundas gruesas para no perder sensibilidad.",
-        "Si notas que la mira tiembla, baja la general 2 puntos.",
-        "La mejor forma de practicar es en entrenamiento con desert eagle.",
-        "Tu dispositivo tiene una tasa de refresco apta para pegar todo rojo."
+    const responses = [
+        "He optimizado tu tasa de refresco.",
+        "Ajustando sensibilidad para disparos a larga distancia.",
+        "Withex ⁴⁴⁴ dice que la paciencia es clave para el rojo.",
+        "Tu dispositivo es perfecto para esta configuración.",
+        "Si la mira se queda en el pecho, sube la sensibilidad general.",
+        "Limpiando caché de respuesta táctil..."
     ];
 
     function talkToAI() {
         let input = document.getElementById('ai-input').value.trim();
         let chat = document.getElementById('ai-chat');
         if(!input) return;
-
-        let randomTip = tips[Math.floor(Math.random() * tips.length)];
-        let finalAns = randomTip + " Sube la mira y dale a la cabeza.";
-
-        chat.innerHTML = `<b>TÚ:</b> ${input}<br><b>AI:</b> ${finalAns}`;
+        let randomRes = responses[Math.floor(Math.random() * responses.length)];
+        let final = randomRes + " Sube la mira y dale a la cabeza.";
+        chat.innerHTML = `<b>TÚ:</b> ${input}<br><b>AI:</b> ${final}`;
         chat.scrollTop = chat.scrollHeight;
-        speak(finalAns);
+        speak(final);
         document.getElementById('ai-input').value = "";
     }
 
     window.onload = () => {
         const c = document.getElementById('rain-container');
-        for(let i=0; i<50; i++) {
+        for(let i=0; i<60; i++) {
             const d = document.createElement('div');
             d.classList.add('drop');
             d.style.left = Math.random()*100+'vw';
-            d.style.top = Math.random()*100+'vh';
             d.style.animationDuration = Math.random()*1+0.5+'s';
+            d.style.animationDelay = Math.random()*2+'s';
             c.appendChild(d);
         }
         updateModels();
@@ -170,8 +162,8 @@
     }
 
     function process() {
-        speak("Generando sensibilidad maestra. Sube la mira y dale a la cabeza.");
-        alert("¡Configuración inyectada con éxito!");
+        speak("Configuración de Withex generada. Sube la mira y dale a la cabeza.");
+        alert("¡Configuración cargada en el sistema!");
     }
 </script>
 </body>
