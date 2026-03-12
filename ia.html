@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tropex AI - Strict Engine</title>
+    <title>Tropex AI - Sensitivity Engine</title>
     <style>
         :root {
             --red-accent: #ff3c3c;
             --dark-bg: #050505;
             --card-bg: #121212;
             --neon-blue: #00d4ff;
+            --text-gray: #888;
         }
 
         body {
             margin: 0;
             background: var(--dark-bg);
             color: white;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
+        /* CHAT AREA */
         #chat-box {
             flex: 1;
             padding: 20px;
@@ -29,35 +32,41 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding-bottom: 160px; /* Espacio para input + nav */
+            padding-bottom: 160px;
         }
 
         .bot-msg {
             background: var(--card-bg);
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 15px;
             border-left: 4px solid var(--neon-blue);
             max-width: 85%;
             font-size: 14px;
+            animation: fadeIn 0.3s ease;
         }
 
         .user-msg {
             align-self: flex-end;
-            background: #333;
-            padding: 10px 15px;
-            border-radius: 12px;
-            max-width: 70%;
+            background: #222;
+            color: var(--neon-blue);
+            padding: 12px 18px;
+            border-radius: 15px;
+            max-width: 75%;
+            border: 1px solid #333;
         }
 
-        /* AREA DE ESCRITURA */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* INPUT AREA */
         .input-area {
             position: fixed;
-            bottom: 75px; /* Justo encima de la nav bar */
+            bottom: 80px;
             left: 0; right: 0;
             padding: 15px;
-            background: #000;
+            background: rgba(0,0,0,0.9);
             display: flex;
             gap: 10px;
+            backdrop-filter: blur(10px);
             z-index: 1001;
         }
 
@@ -67,20 +76,40 @@
             border: 1px solid #333;
             color: white;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             outline: none;
         }
 
-        button {
+        input:focus { border-color: var(--neon-blue); }
+
+        .btn-send {
             background: var(--red-accent);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 0 20px;
+            border-radius: 10px;
             font-weight: bold;
+            cursor: pointer;
         }
 
-        /* BARRA DE NAVEGACIÓN (LOS 7 ICONOS) */
+        /* BARRA DE CARGA HACKER */
+        .loader-bar {
+            width: 100%;
+            background: #222;
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .loader-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--red-accent);
+            box-shadow: 0 0 10px var(--red-accent);
+            transition: 2s linear;
+        }
+
+        /* BOTTOM NAV (7 ICONOS) */
         .bottom-nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -95,7 +124,7 @@
 
         .nav-link {
             text-decoration: none;
-            color: #555;
+            color: var(--text-gray);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -103,19 +132,22 @@
         }
 
         .nav-link.active { color: white; }
-        .nav-icon { font-size: 18px; margin-bottom: 2px; }
+        .nav-icon { font-size: 20px; margin-bottom: 3px; }
 
     </style>
 </head>
 <body>
 
     <div id="chat-box">
-        <div class="bot-msg">🤖 Hola. Soy la IA de Tropex. Dime tu dispositivo para calcular tu sensibilidad.</div>
+        <div class="bot-msg">
+            🤖 <b>SISTEMA ONLINE</b><br>
+            Bienvenido a Tropex AI. Por favor, introduce el modelo de tu dispositivo para generar una configuración optimizada.
+        </div>
     </div>
 
     <div class="input-area">
-        <input type="text" id="user-input" placeholder="Ej: iPhone 13 o Samsung S23...">
-        <button onclick="enviarMensaje()">ENVIAR</button>
+        <input type="text" id="user-input" placeholder="Ej: iPhone 14 Pro Max..." onkeypress="if(event.key==='Enter') enviarMensaje()">
+        <button class="btn-send" onclick="enviarMensaje()">ENVIAR</button>
     </div>
 
     <nav class="bottom-nav">
@@ -129,67 +161,90 @@
     </nav>
 
     <script>
-        // LISTA DE DISPOSITIVOS REALES (AÑADE MÁS AQUÍ)
-        const baseDatos = {
-            "iphone": ["11", "12", "13", "14", "15", "x", "xr", "8", "7", "pro", "max"],
-            "samsung": ["s23", "s22", "s21", "a54", "a34", "a14", "s20", "a52", "a71"],
-            "xiaomi": ["redmi", "poco", "note", "12", "13", "f5", "x5"],
-            "motorola": ["edge", "g84", "g54", "moto"]
+        const audioClic = new Audio('https://www.soundjay.com/buttons/button-16.mp3');
+
+        // Base de datos de dispositivos para validar existencia
+        const marcasReales = {
+            "iphone": ["7","8","x","xr","xs","11","12","13","14","15","16","pro","max","mini"],
+            "samsung": ["s20","s21","s22","s23","s24","a54","a53","a52","a34","a14","a10","a20","a30","a50","a70","ultra"],
+            "xiaomi": ["redmi","poco","note","10","11","12","13","f3","f4","f5","x3","x4","x5"],
+            "motorola": ["g10","g20","g30","g50","g60","g84","edge","moto"],
+            "huawei": ["p30","p40","p50","mate","y9"],
+            "infinix": ["hot","note","zero"],
+            "tecno": ["pova","spark","camon"]
         };
 
         function enviarMensaje() {
-            const inputField = document.getElementById('user-input');
+            const input = document.getElementById('user-input');
             const chatBox = document.getElementById('chat-box');
-            const userText = inputField.value.trim().toLowerCase();
+            const text = input.value.trim().toLowerCase();
 
-            if (userText === "") return;
+            if (text === "") return;
 
-            chatBox.innerHTML += `<div class="user-msg">${userText}</div>`;
-            inputField.value = "";
+            audioClic.play();
 
+            // Mensaje del usuario
+            chatBox.innerHTML += `<div class="user-msg">${input.value}</div>`;
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Barra de carga
+            const loadId = "load-" + Date.now();
+            chatBox.innerHTML += `
+                <div class="bot-msg" id="${loadId}">
+                    <span>⏳ Analizando hardware y DPI...</span>
+                    <div class="loader-bar"><div id="bar-${loadId}" class="loader-fill"></div></div>
+                </div>`;
+            
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Iniciar animación de barra
             setTimeout(() => {
-                // 1. Validar si la marca y el modelo existen en nuestra base
-                let marcaEncontrada = "";
-                for (let marca in baseDatos) {
-                    if (userText.includes(marca)) {
-                        marcaEncontrada = marca;
-                        break;
-                    }
+                document.getElementById(`bar-${loadId}`).style.width = "100%";
+            }, 50);
+
+            // Respuesta tras 2 segundos
+            setTimeout(() => {
+                let marcaDetectada = Object.keys(marcasReales).find(m => text.includes(m) || (m === "iphone" && text.includes("apple")));
+                
+                // Validar si el modelo parece real dentro de la marca
+                let esModeloReal = marcaDetectada && marcasReales[marcaDetectada].some(mod => text.includes(mod));
+
+                let respuesta = "";
+
+                if (!marcaDetectada || !esModeloReal) {
+                    respuesta = `<b style="color:var(--red-accent)">❌ Error dispositivo no existente</b><br>Por favor, introduce un modelo de celular real.`;
+                } else if (marcaDetectada === "iphone") {
+                    respuesta = `
+                        ✅ <b>DATA GENERADA (iOS)</b><br><br>
+                        🎯 General: 100%<br>
+                        🔴 Punto Rojo: 98%<br>
+                        🔍 Mira 2x: 100%<br>
+                        🔥 Mira 4x: 100%<br>
+                        🚫 <b>DPI: No disponible (iPhone no tiene DPI)</b><br>
+                        📱 Suavizado: Activo`;
+                } else {
+                    // Generar DPI aleatorio realista para Android
+                    const dpiSugerido = Math.floor(Math.random() * (600 - 411 + 1)) + 411;
+                    respuesta = `
+                        ✅ <b>DATA GENERADA (Android)</b><br><br>
+                        🎯 General: 97%<br>
+                        🔴 Punto Rojo: 92%<br>
+                        🔍 Mira 2x: 88%<br>
+                        🔥 Mira 4x: 90%<br>
+                        ⚙️ <b>DPI: ${dpiSugerido}</b><br>
+                        🔘 Botón: 45%`;
                 }
 
-                // Verificar si el modelo específico también parece real
-                const modeloExiste = marcaEncontrada && baseDatos[marcaEncontrada].some(m => userText.includes(m));
-
-                if (!marcaEncontrada || !modeloExiste) {
-                    chatBox.innerHTML += `<div class="bot-msg" style="color: var(--red-accent); border-left-color: var(--red-accent);">❌ Error dispositivo no existente</div>`;
-                } 
-                // 2. Si es iPhone/Apple (SIN DPI)
-                else if (marcaEncontrada === "iphone" || userText.includes("apple")) {
-                    chatBox.innerHTML += `
-                        <div class="bot-msg">
-                            🤖 <b>CONFIGURACIÓN IPHONE</b><br><br>
-                            • General: 100%<br>
-                            • Punto Rojo: 97%<br>
-                            • Mira 2x: 100%<br>
-                            • Mira 4x: 100%<br>
-                            🚫 <b>DPI: No compatible con iOS</b>
-                        </div>`;
-                } 
-                // 3. Android (CON DPI)
-                else {
-                    chatBox.innerHTML += `
-                        <div class="bot-msg">
-                            🤖 <b>CONFIGURACIÓN ANDROID</b><br><br>
-                            • General: 95%<br>
-                            • Punto Rojo: 90%<br>
-                            • Mira 2x: 85%<br>
-                            • <b>DPI: 560</b><br>
-                            • Botón: 44%
-                        </div>`;
-                }
+                document.getElementById(loadId).innerHTML = respuesta;
                 chatBox.scrollTop = chatBox.scrollHeight;
-            }, 500);
+            }, 2200);
         }
+
+        // Sonido en la navegación
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => audioClic.play());
+        });
     </script>
 </body>
 </html>
