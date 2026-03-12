@@ -1,45 +1,128 @@
-<script>
-    function sendMessage() {
-        const input = document.getElementById('user-input');
-        const container = document.getElementById('chat-container');
-        if(!input.value) return;
-
-        container.innerHTML += `<div class="msg user">${input.value}</div>`;
-        const text = input.value.toLowerCase();
-        input.value = "";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SENS TROPEX - ELITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        setTimeout(() => {
-            let reply = "Como IA de TROPEX, te sugiero usar nuestro generador principal para obtener tu configuración exacta. ¿Qué dispositivo usas?";
+        body {
+            /* Arreglo del bug: Ponemos un fondo de color oscuro por si la imagen falla */
+            background: #1a0000; 
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
 
-            // --- RESPUESTAS POR ARMAS ---
-            if(text.includes("m1014") || text.includes("escopeta")) {
-                reply = "Para la M1014, usa un botón de disparo de 55%. El truco es un movimiento de 'J' rápida y corta desde cerca. 🔴";
-            }
-            else if(text.includes("desert") || text.includes("eagle") || text.includes("pistola")) {
-                reply = "Con la Desert Eagle, la clave es la paciencia. Espera a que el enemigo salte y levanta la mira suavemente hacia arriba. Botón ideal: 42%.";
-            }
-            else if(text.includes("mp40") || text.includes("smg") || text.includes("umid")) {
-                reply = "Para SMG como la MP40, mantén la sensibilidad general al 100%. Levanta la mira recto y constante. ¡No sueltes el botón!";
-            }
-            // --- RESPUESTAS GENERALES ---
-            else if(text.includes("hola") || text.includes("buenas")) {
-                reply = "¡Hola! Soy la IA de SENS TROPEX. Pregúntame por un arma o un dispositivo. 🤖";
-            }
-            else if(text.includes("iphone") || text.includes("ios")) {
-                reply = "En iOS usa el cursor deslizante en 120 (Individual). Sensibilidad general al 97%.";
-            }
-            else if(text.includes("android") || text.includes("samsung") || text.includes("xiaomi")) {
-                reply = "En Android, activa la 'Supresión' y sube el DPI entre 550 y 600 para mayor fluidez.";
-            }
-            else if(text.includes("dpi")) {
-                reply = "El DPI depende de tu pantalla, pero en SENS TROPEX recomendamos no pasar de 600 en Android para no perder el 'aimlock'.";
-            }
-            else if(text.includes("rojo")) {
-                reply = "Para pegar todo rojo, asegúrate de que el círculo de la mira esté blanco antes de disparar y súbelo rápido a la cabeza.";
-            }
+        /* Capa para la imagen o video de fondo */
+        #bg-image {
+            position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%;
+            z-index: -1; filter: brightness(0.4); object-fit: cover;
+        }
 
-            container.innerHTML += `<div class="msg ai">${reply}</div>`;
-            container.scrollTop = container.scrollHeight;
-        }, 600);
-    }
-</script>
+        .container {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; height: 90vh; text-align: center; padding: 20px;
+            background: radial-gradient(circle, rgba(255,0,0,0.1) 0%, rgba(0,0,0,0) 70%);
+        }
+
+        h1 { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 15px #ff0000; margin-bottom: 5px; }
+        p { font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px; color: #aaa; }
+        
+        .selector { display: flex; gap: 20px; margin-bottom: 30px; }
+        .option {
+            padding: 15px; border: 2px solid #333; border-radius: 15px;
+            cursor: pointer; transition: 0.3s; background: rgba(0,0,0,0.5);
+        }
+        .option img { width: 50px; filter: grayscale(1); }
+        .option.active { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; transform: scale(1.1); }
+        .option.active img { filter: grayscale(0); }
+
+        input {
+            background: rgba(20,20,20,0.8); border: 1px solid #ff0000;
+            padding: 15px; border-radius: 10px; color: white; width: 80%;
+            max-width: 300px; text-align: center; font-family: 'Orbitron'; margin-bottom: 20px;
+            outline: none;
+        }
+        
+        .btn-start {
+            background: #ff0000; color: white; border: none; padding: 15px 40px;
+            font-weight: 900; border-radius: 5px; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+
+        /* BARRA INFERIOR */
+        .navbar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(10,10,10,0.95); border-top: 2px solid #ff0000;
+            display: flex; justify-content: space-around; padding: 12px 0;
+            z-index: 1000; backdrop-filter: blur(10px);
+        }
+        .nav-item { text-align: center; color: #666; cursor: pointer; font-size: 0.6rem; text-decoration: none; }
+        .nav-item.active { color: #ff0000; }
+        .nav-item div { font-size: 1.4rem; margin-bottom: 3px; }
+    </style>
+</head>
+<body>
+
+    <img src="fondo.jpg" id="bg-image" onerror="this.style.display='none'">
+
+    <div class="container">
+        <h1>SENS TROPEX</h1>
+        <p>SENSITIVITY ENGINE</p>
+
+        <div class="selector">
+            <div class="option" id="opt-android" onclick="selectType('ANDROID')">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png" alt="Android">
+            </div>
+            <div class="option" id="opt-ios" onclick="selectType('IOS')">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png" alt="iOS">
+            </div>
+        </div>
+
+        <input type="text" id="model" placeholder="MODELO DEL MÓVIL">
+        <button class="btn-start" onclick="start()">CONTINUAR</button>
+    </div>
+
+    <div class="navbar">
+        <a href="index.html" class="nav-item active">
+            <div>🏠</div>INICIO
+        </a>
+        <a href="chat.html" class="nav-item">
+            <div>🤖</div>IA CHAT
+        </a>
+        <a href="pros.html" class="nav-item">
+            <div>🏆</div>PROS
+        </a>
+        <a href="config.html" class="nav-item">
+            <div>⚙️</div>AJUSTES
+        </a>
+    </div>
+
+    <script>
+        let selected = "";
+
+        function selectType(type) {
+            selected = type;
+            document.getElementById('opt-android').classList.remove('active');
+            document.getElementById('opt-ios').classList.remove('active');
+            if(type === 'ANDROID') document.getElementById('opt-android').classList.add('active');
+            else document.getElementById('opt-ios').classList.add('active');
+        }
+
+        function start() {
+            const m = document.getElementById('model').value;
+            if(!selected || !m) {
+                alert("Por favor selecciona tu sistema e ingresa el modelo.");
+                return;
+            }
+            localStorage.setItem('celular', selected + " " + m);
+            // Aquí puedes redirigir a generar.html
+            alert("Generando configuración para " + m);
+        }
+    </script>
+</body>
+</html>
