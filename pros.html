@@ -6,12 +6,12 @@
     <title>Pros - SENS TROPEX</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; padding: 20px; }
+        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; padding: 20px; margin-bottom: 80px; }
         canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-        .pro-card { background: rgba(20, 0, 0, 0.8); border: 1px solid #ff0000; border-radius: 10px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; z-index: 10; position: relative; }
-        .pro-photo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ff0000; }
-        .pro-name { font-weight: bold; color: #ff0000; }
-        .stats { font-size: 11px; color: #ccc; margin-top: 5px; }
+        .pro-card { background: rgba(15, 0, 0, 0.85); border-left: 5px solid #ff0000; border-radius: 5px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px; }
+        .pro-img { width: 50px; height: 50px; border-radius: 50%; border: 1px solid #ff0000; background: #222; }
+        .pro-info b { color: #ff0000; display: block; font-size: 14px; }
+        .pro-info span { font-size: 10px; color: #888; }
         .navbar { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 2px solid #ff0000; display: flex; justify-content: space-around; padding: 12px 0; }
         .nav-item { text-align: center; color: #555; text-decoration: none; font-size: 10px; }
         .nav-item.active { color: #ff0000; }
@@ -19,16 +19,27 @@
 </head>
 <body>
     <canvas id="bloodRain"></canvas>
-    <h1 style="text-align: center; color: #ff0000; text-shadow: 0 0 10px #ff0000;">ELITE PLAYERS</h1>
-    
+    <h1 style="text-align: center; color: #ff0000; font-size: 20px; text-shadow: 0 0 15px #ff0000;">THE IMMORTALS</h1>
+
     <div class="pro-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A7L-Y3p2R8N9Y9R8N9Y9R8N9Y9R8N9Y9RA&usqp=CAU" class="pro-photo">
-        <div><div class="pro-name">DONATO 🇻🇪</div><div class="stats">Botón: 38% | DPI: 500</div></div>
+        <div class="pro-img"></div>
+        <div class="pro-info"><b>BOYKA FF 🇧🇷</b><span>Sens: 100 | Botón: 44%</span></div>
     </div>
-    
     <div class="pro-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/10892/10892514.png" class="pro-photo">
-        <div><div class="pro-name">AKILES (Incógnito)</div><div class="stats">Botón: 40% | DPI: 800</div></div>
+        <div class="pro-img"></div>
+        <div class="pro-info"><b>WHITE 444 🇹🇭</b><span>Sens: 96 | Botón: 39%</span></div>
+    </div>
+    <div class="pro-card">
+        <div class="pro-img"></div>
+        <div class="pro-info"><b>VINCENZO 🇮🇹</b><span>Sens: 88 | Botón: 51%</span></div>
+    </div>
+    <div class="pro-card">
+        <div class="pro-img"></div>
+        <div class="pro-info"><b>DONATO 🇻🇪</b><span>Sens: 95 | Botón: 38%</span></div>
+    </div>
+    <div class="pro-card">
+        <div class="pro-img"></div>
+        <div class="pro-info"><b>NARCO 🇨🇴</b><span>Sens: 91 | Botón: 45%</span></div>
     </div>
 
     <nav class="navbar">
@@ -43,10 +54,10 @@
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for(let i=0; i<80; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*25, v: Math.random()*4+4});
+        for(let i=0; i<80; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*25, v: Math.random()*5+4});
         function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(150, 0, 0, 0.5)'; ctx.lineWidth = 1.5;
+            ctx.strokeStyle = 'rgba(150, 0, 0, 0.5)'; ctx.lineWidth = 1;
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.l); ctx.stroke();
                 d.y += d.v; if(d.y > canvas.height) d.y = -20;
