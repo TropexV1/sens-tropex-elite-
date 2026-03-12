@@ -5,179 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pros - Sens Tropex Elite</title>
     <style>
-        :root {
-            --red-accent: #ff3c3c;
-            --dark-bg: #050505;
-            --card-bg: #121212;
-            --text-gray: #888;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--dark-bg);
-            color: white;
-            font-family: sans-serif;
-            padding-bottom: 90px;
-        }
-
+        :root { --red-accent: #ff3c3c; --dark-bg: #050505; --card-bg: #121212; --text-gray: #888; }
+        body { margin: 0; background: var(--dark-bg); color: white; font-family: sans-serif; padding-bottom: 100px; }
+        
         /* BUSCADOR */
-        .header-search {
-            padding: 20px;
-            background: #000;
-            text-align: center;
-        }
-        .search-input {
-            width: 90%;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            outline: none;
-        }
+        .header-search { padding: 20px; background: #000; display: flex; justify-content: center; }
+        .search-wrapper { position: relative; width: 95%; }
+        .search-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px 15px 15px 45px; border-radius: 12px; color: white; outline: none; box-sizing: border-box; }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-gray); }
 
-        /* TARJETAS DE PROS */
-        .players-container { padding: 10px; }
-
-        .player-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #222;
-        }
-
+        /* TARJETAS */
+        .player-card { background: var(--card-bg); border-radius: 15px; padding: 20px; margin: 10px; border: 1px solid #222; }
         .player-info h2 { margin: 0; font-size: 20px; }
-        .player-info p { color: var(--text-gray); font-size: 13px; margin: 5px 0; }
+        .player-info p { color: var(--text-gray); font-size: 13px; }
 
-        /* REJILLA DE SENSIBILIDAD (IGUAL A TU FOTO) */
-        .sensi-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .sensi-item {
-            background: #0d0d0d;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #1a1a1a;
-        }
-
+        .sensi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        .sensi-item { background: #0d0d0d; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #1a1a1a; }
         .sensi-item span { display: block; font-size: 9px; color: var(--text-gray); text-transform: uppercase; }
         .sensi-item b { font-size: 15px; }
 
-        .btn-copy {
-            width: 100%;
-            background: #252525;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        .btn-copy { width: 100%; background: #252525; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-copy:active { background: var(--red-accent); }
 
-        /* BARRA DE NAVEGACIÓN (LOS 7 ICONOS) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 75px;
-            background: #000;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #222;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: #555;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 10px;
-        }
-
+        /* NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; z-index: 1000; }
+        .nav-link { text-decoration: none; color: #555; display: flex; flex-direction: column; align-items: center; font-size: 10px; }
         .nav-link.active { color: white; }
     </style>
 </head>
 <body>
 
     <div class="header-search">
-        <input type="text" id="search" class="search-input" placeholder="Buscar influencer...">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search" class="search-input" placeholder="Buscar influencer...">
+        </div>
     </div>
 
-    <div class="players-container" id="players-list">
-        
+    <div id="players-list">
         <div class="player-card">
-            <div class="player-info">
-                <h2>Withex ⁴⁴⁴</h2>
-                <p>📍 Brazil • 12.5M+</p>
-            </div>
+            <div class="player-info"><h2>Withex ⁴⁴⁴</h2><p>📍 Brazil • 12.5M+</p></div>
             <div class="sensi-grid">
                 <div class="sensi-item"><span>General</span><b>198</b></div>
-                <div class="sensi-item"><span>Punto Rojo</span><b>195</b></div>
-                <div class="sensi-item"><span>Mira 2x</span><b>180</b></div>
-                <div class="sensi-item"><span>Mira 4x</span><b>190</b></div>
+                <div class="sensi-item"><span>Rojo</span><b>195</b></div>
+                <div class="sensi-item"><span>2x</span><b>180</b></div>
+                <div class="sensi-item"><span>4x</span><b>190</b></div>
                 <div class="sensi-item"><span>DPI</span><b>440</b></div>
-                <div class="sensi-item"><span>Disparo</span><b>42</b></div>
+                <div class="sensi-item"><span>Botón</span><b>42%</b></div>
             </div>
-            <button class="btn-copy">Copiar Sensibilidad</button>
+            <button class="btn-copy" onclick="copiar('Withex 444', 'Gen: 198, DPI: 440')">Copiar Sensibilidad</button>
         </div>
 
         <div class="player-card">
-            <div class="player-info">
-                <h2>Akiles</h2>
-                <p>📍 Bolivia • 5.1M+</p>
-            </div>
+            <div class="player-info"><h2>Akiles</h2><p>📍 Bolivia • 5.1M+</p></div>
             <div class="sensi-grid">
                 <div class="sensi-item"><span>General</span><b>95</b></div>
-                <div class="sensi-item"><span>Punto Rojo</span><b>100</b></div>
-                <div class="sensi-item"><span>Mira 2x</span><b>98</b></div>
-                <div class="sensi-item"><span>Mira 4x</span><b>94</b></div>
+                <div class="sensi-item"><span>Rojo</span><b>100</b></div>
+                <div class="sensi-item"><span>2x</span><b>98</b></div>
+                <div class="sensi-item"><span>4x</span><b>94</b></div>
                 <div class="sensi-item"><span>DPI</span><b>800</b></div>
-                <div class="sensi-item"><span>Disparo</span><b>50</b></div>
+                <div class="sensi-item"><span>Botón</span><b>50%</b></div>
             </div>
-            <button class="btn-copy">Copiar Sensibilidad</button>
+            <button class="btn-copy" onclick="copiar('Akiles', 'Gen: 95, DPI: 800')">Copiar Sensibilidad</button>
         </div>
-
-        <div class="player-card">
-            <div class="player-info">
-                <h2>Apelapato</h2>
-                <p>📍 Brazil • 8.5M+</p>
-            </div>
-            <div class="sensi-grid">
-                <div class="sensi-item"><span>General</span><b>189</b></div>
-                <div class="sensi-item"><span>Punto Rojo</span><b>193</b></div>
-                <div class="sensi-item"><span>Mira 2x</span><b>167</b></div>
-                <div class="sensi-item"><span>Mira 4x</span><b>173</b></div>
-                <div class="sensi-item"><span>DPI</span><b>450</b></div>
-                <div class="sensi-item"><span>Disparo</span><b>45</b></div>
-            </div>
-            <button class="btn-copy">Copiar Sensibilidad</button>
+        
         </div>
-
-        <div class="player-card">
-            <div class="player-info">
-                <h2>L-gan</h2>
-                <p>📍 México • 5.2M+</p>
-            </div>
-            <div class="sensi-grid">
-                <div class="sensi-item"><span>General</span><b>195</b></div>
-                <div class="sensi-item"><span>Punto Rojo</span><b>188</b></div>
-                <div class="sensi-item"><span>Mira 2x</span><b>172</b></div>
-                <div class="sensi-item"><span>Mira 4x</span><b>180</b></div>
-                <div class="sensi-item"><span>DPI</span><b>500</b></div>
-                <div class="sensi-item"><span>Disparo</span><b>48</b></div>
-            </div>
-            <button class="btn-copy">Copiar Sensibilidad</button>
-        </div>
-
-    </div>
 
     <nav class="bottom-nav">
         <a href="index.html" class="nav-link"><span>🏠</span><span>Inicio</span></a>
@@ -190,13 +82,22 @@
     </nav>
 
     <script>
-        // Lógica del buscador
+        const audio = new Audio('https://www.soundjay.com/buttons/button-16.mp3');
+        
+        function copiar(nombre, datos) {
+            audio.play();
+            navigator.clipboard.writeText(datos);
+            const aviso = document.createElement('div');
+            aviso.innerHTML = `✅ Sensi de ${nombre} copiada!`;
+            aviso.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#ff3c3c; color:white; padding:10px 20px; border-radius:20px; z-index:2000; font-weight:bold;";
+            document.body.appendChild(aviso);
+            setTimeout(() => aviso.remove(), 2000);
+        }
+
         document.getElementById('search').addEventListener('input', function(e) {
-            let filter = e.target.value.toLowerCase();
-            let cards = document.querySelectorAll('.player-card');
-            cards.forEach(card => {
-                let name = card.querySelector('h2').textContent.toLowerCase();
-                card.style.display = name.includes(filter) ? "block" : "none";
+            let term = e.target.value.toLowerCase();
+            document.querySelectorAll('.player-card').forEach(card => {
+                card.style.display = card.querySelector('h2').innerText.toLowerCase().includes(term) ? "block" : "none";
             });
         });
     </script>
