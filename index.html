@@ -16,32 +16,33 @@
             overflow: hidden; 
             display: flex; 
             flex-direction: column;
-            background-image: radial-gradient(circle at center, #1a0000 0%, #000 70%);
+            /* Degradado de fondo para que la imagen resalte */
+            background-image: radial-gradient(circle at center, #2a0000 0%, #000 80%);
         }
         
-        /* Lluvia de Sangre */
         canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
 
-        /* PERSONAJE DE FONDO CON MOVIMIENTO */
+        /* CONTENEDOR REFORZADO */
         #character-container {
             position: fixed;
-            top: 0; left: 0;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             width: 100%; height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 2;
+            z-index: 2; /* Por encima del fondo negro */
             pointer-events: none;
         }
 
         #personaje {
-            height: 70%; /* Tamaño ideal para móvil */
-            opacity: 0.5;
-            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
-            transform-style: preserve-3d;
+            height: 75vh; /* Ajuste para que se vea bien en móvil */
+            width: auto;
+            opacity: 0.8; /* Aumentamos la opacidad para que se vea mejor */
+            filter: drop-shadow(0 0 25px rgba(255, 0, 0, 0.7));
+            display: block;
         }
 
-        /* Contenido Principal */
         .container { 
             flex: 1; 
             display: flex; 
@@ -51,33 +52,27 @@
             padding: 20px; 
             z-index: 10; 
             position: relative; 
-            margin-bottom: 80px; 
+            background: rgba(0, 0, 0, 0.2); /* Sutil capa para leer mejor el texto */
         }
         
         h1 { font-size: 2.5rem; color: #ff0000; text-shadow: 0 0 15px #ff0000; font-weight: 900; }
-        h1 span { color: white; text-shadow: 0 0 10px #fff; }
-        
         .subtitle { font-size: 0.6rem; letter-spacing: 4px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; }
 
-        /* Selector de Sistema */
         .selector { display: flex; gap: 15px; margin-bottom: 25px; }
         .option { 
             width: 70px; height: 70px; 
             border: 2px solid #333; border-radius: 18px; 
             display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; background: rgba(0,0,0,0.8); 
-            backdrop-filter: blur(5px); transition: 0.3s;
+            cursor: pointer; background: rgba(0,0,0,0.85); 
+            backdrop-filter: blur(5px);
         }
-        .option img { width: 30px; filter: grayscale(1); }
-        .option.active { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; background: rgba(255,0,0,0.1); }
-        .option.active img { filter: grayscale(0); }
+        .option.active { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
 
         input { 
             background: rgba(20, 0, 0, 0.9); border: 1px solid #ff0000; 
             padding: 16px; border-radius: 10px; color: white; 
             width: 100%; max-width: 300px; text-align: center; 
             font-family: 'Orbitron'; margin-bottom: 20px; outline: none; 
-            font-size: 14px;
         }
         
         .btn-start { 
@@ -85,19 +80,17 @@
             padding: 16px 0; font-weight: 900; border-radius: 8px; 
             cursor: pointer; font-family: 'Orbitron'; 
             width: 100%; max-width: 300px; 
-            box-shadow: 0 0 20px rgba(255,0,0,0.4); letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255,0,0,0.6);
         }
 
-        /* Navbar */
         .navbar { 
-            background: rgba(0,0,0,0.96); border-top: 2px solid #ff0000; 
+            background: rgba(0,0,0,0.95); border-top: 2px solid #ff0000; 
             display: flex; justify-content: space-around; 
-            padding: 12px 0; width: 100%; position: fixed; 
+            padding: 15px 0; width: 100%; position: fixed; 
             bottom: 0; z-index: 100;
         }
         .nav-item { text-align: center; color: #444; text-decoration: none; font-size: 9px; font-weight: bold; flex: 1; }
         .nav-item.active { color: #ff0000; }
-        .nav-item .icon { font-size: 20px; margin-bottom: 3px; display: block; }
     </style>
 </head>
 <body>
@@ -105,19 +98,19 @@
     <canvas id="bloodRain"></canvas>
 
     <div id="character-container">
-        <img src="personaje.png" id="personaje" alt="Tropex Soldier">
+        <img src="personaje.png" id="personaje" alt="Soldado" onerror="this.src='personajeV3.png'">
     </div>
 
     <div class="container">
-        <h1>SENS TR<span>Ø</span>PEX</h1>
-        <div class="subtitle">Cybernetic Intelligence 🎯</div>
+        <h1>TR<span>O</span>PEX</h1>
+        <div class="subtitle">CYBERNETIC INTELLIGENCE</div>
         
         <div class="selector">
             <div class="option" id="opt-android" onclick="selectType('ANDROID')">
-                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png" width="30">
             </div>
             <div class="option" id="opt-ios" onclick="selectType('IOS')">
-                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png" width="30">
             </div>
         </div>
 
@@ -126,33 +119,29 @@
     </div>
 
     <nav class="navbar">
-        <a href="index.html" class="nav-item active"><span class="icon">🏠</span>INICIO</a>
-        <a href="chat.html" class="nav-item"><span class="icon">🤖</span>IA CHAT</a>
-        <a href="pros.html" class="nav-item"><span class="icon">🏆</span>PROS</a>
-        <a href="config.html" class="nav-item"><span class="icon">⚙️</span>AJUSTES</a>
+        <a href="index.html" class="nav-item active">INICIO</a>
+        <a href="chat.html" class="nav-item">IA CHAT</a>
+        <a href="pros.html" class="nav-item">PROS</a>
+        <a href="config.html" class="nav-item">AJUSTES</a>
     </nav>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
 
     <script>
-        // Inicializar movimiento del personaje
+        // EFECTO TILT PARA MÓVIL
         VanillaTilt.init(document.querySelector("#personaje"), {
-            max: 15, 
-            speed: 300, 
-            perspective: 1000,
-            scale: 1.05,
-            gyroscope: true // Activa el movimiento con el sensor del móvil
+            max: 15, speed: 400, scale: 1.05, gyroscope: true
         });
 
-        // Lluvia
+        // Lógica de lluvia
         const canvas = document.getElementById('bloodRain');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const drops = [];
-        for (let i = 0; i < 80; i++) drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 20, v: Math.random() * 4 + 3 });
+        for (let i = 0; i < 70; i++) drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, l: Math.random() * 15, v: Math.random() * 4 + 2 });
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(200, 0, 0, 0.5)';
+            ctx.strokeStyle = 'rgba(200, 0, 0, 0.4)';
             drops.forEach(d => {
                 ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.l); ctx.stroke();
                 d.y += d.v; if (d.y > canvas.height) d.y = -20;
@@ -164,17 +153,14 @@
         let type = "";
         function selectType(t) {
             type = t;
-            document.getElementById('opt-android').classList.remove('active');
-            document.getElementById('opt-ios').classList.remove('active');
-            document.getElementById('opt-' + t.toLowerCase()).classList.add('active');
+            document.getElementById('opt-android').style.borderColor = t === 'ANDROID' ? '#ff0000' : '#333';
+            document.getElementById('opt-ios').style.borderColor = t === 'IOS' ? '#ff0000' : '#333';
         }
 
         function startProcess() {
-            const m = document.getElementById('model').value;
-            if(!type || !m) return alert("Completa los datos");
-            localStorage.setItem('deviceModel', m);
-            document.querySelector('.btn-start').innerHTML = "VINCULANDO...";
-            setTimeout(() => { window.location.href = "generar.html"; }, 1500);
+            if(!type || !document.getElementById('model').value) return alert("Completa los datos");
+            localStorage.setItem('deviceModel', document.getElementById('model').value);
+            window.location.href = "generar.html";
         }
     </script>
 </body>
