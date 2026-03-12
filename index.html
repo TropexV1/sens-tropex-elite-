@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENS TROPEX - RED ELITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            overflow: hidden;
+
+            /* AQUÍ CARGA TU PROPIA IMAGEN */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                        url('fondo.jpg'); 
+            background-size: cover;
+            background-position: center;
+            
+            /* EFECTO DE MOVIMIENTO 4K */
+            animation: zoomFondo 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes zoomFondo {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .main-card {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(15px);
+            border: 2px solid #ff0000;
+            border-radius: 25px;
+            padding: 40px 20px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 35px;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px #ff0000;
+        }
+
+        .engine-text {
+            color: #ff4d4d;
+            font-size: 10px;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .device-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .dev-btn {
+            flex: 1;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid #333;
+            padding: 20px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dev-btn.active {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            outline: none;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-final {
+            width: 100%;
+            background: #ff0000;
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(255, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <div class="logo">SENS TROPEX</div>
+        <div class="engine-text">SENSITIVITY ENGINE</div>
+
+        <p style="font-size: 12px; margin-bottom: 15px; color: #ccc;">SELECCIONA TU EQUIPO</p>
+
+        <div class="device-selector">
+            <div class="dev-btn" id="and" onclick="setSys('Android')">
+                <div style="font-size: 25px;">🤖</div>
+                <span style="font-size: 10px; color: #eee;">ANDROID</span>
+            </div>
+            <div class="dev-btn" id="ios" onclick="setSys('iOS')">
+                <div style="font-size: 25px;">🍎</div>
+                <span style="font-size: 10px; color: #eee;">iOS</span>
+            </div>
+        </div>
+
+        <input type="text" id="model" placeholder="MODELO DEL DISPOSITIVO">
+
+        <button class="btn-final" onclick="start()">CONTINUAR</button>
+    </div>
+
+    <script>
+        let selected = "";
+        function setSys(s) {
+            selected = s;
+            document.getElementById('and').classList.remove('active');
+            document.getElementById('ios').classList.remove('active');
+            if(s === 'Android') document.getElementById('and').classList.add('active');
+            else document.getElementById('ios').classList.add('active');
+        }
+
+        function start() {
+            const m = document.getElementById('model').value;
+            if(!selected) { alert("Selecciona Android o iOS"); return; }
+            if(!m) { alert("Ingresa tu modelo"); return; }
+            localStorage.setItem('celular', selected + " " + m);
+            location.href = "generar.html";
+        }
+    </script>
+</body>
+</html>

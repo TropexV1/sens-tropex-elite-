@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizando - SENS TROPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        .embers { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(circle, #ff4d4d 1px, transparent 1px); background-size: 50px 50px; z-index: -1; animation: rise 8s linear infinite; opacity: 0.5; }
+        @keyframes rise { from { background-position: 0 1000px; } to { background-position: 0 0; } }
+        
+        .loader-container { width: 80%; max-width: 300px; background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; border: 1px solid #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        .bar { width: 0%; height: 100%; background: #ff0000; box-shadow: 0 0 20px #ff0000; transition: width 0.1s; }
+        #status { font-size: 12px; letter-spacing: 3px; margin-bottom: 20px; color: #ff4d4d; text-shadow: 0 0 5px #ff0000; }
+    </style>
+</head>
+<body>
+    <div class="embers"></div>
+    <h2 id="status">INICIANDO ESCANEO...</h2>
+    <div class="loader-container"><div class="bar" id="bar"></div></div>
+
+    <script>
+        let bar = document.getElementById('bar');
+        let status = document.getElementById('status');
+        let width = 0;
+        let frases = ["BUSCANDO DPI...", "CALIBRANDO SENSORES...", "OPTIMIZANDO MIRA...", "LISTO!"];
+        
+        let interval = setInterval(() => {
+            width += 2;
+            bar.style.width = width + "%";
+            if(width == 25) status.innerText = frases[0];
+            if(width == 50) status.innerText = frases[1];
+            if(width == 75) status.innerText = frases[2];
+            if(width >= 100) {
+                clearInterval(interval);
+                status.innerText = frases[3];
+                setTimeout(() => { location.href = "final.html?v=2"; }, 800);
+            }
+        }, 60);
+    </script>
+</body>
+</html>
+
+

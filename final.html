@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado - SENS TROPEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; text-align: center; padding: 20px; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .embers { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(circle, #ff4d4d 1px, transparent 1px); background-size: 60px 60px; z-index: -1; animation: rise 12s linear infinite; opacity: 0.3; top:0; left:0; }
+        @keyframes rise { from { background-position: 0 1000px; } to { background-position: 0 0; } }
+
+        h1 { color: #fff; text-shadow: 0 0 15px #ff0000; font-size: 24px; margin-top: 30px; letter-spacing: 2px; }
+        
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; margin-top: 20px; }
+        .card { background: rgba(20, 20, 20, 0.8); border: 1px solid #ff0000; padding: 15px; border-radius: 15px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        .num { font-size: 30px; color: #ff0000; font-weight: 900; display: block; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        .label { font-size: 10px; color: #888; letter-spacing: 1px; }
+
+        .fire-box { margin-top: 30px; width: 100%; max-width: 350px; background: linear-gradient(135deg, #ff0000, #660000); padding: 20px; border-radius: 20px; color: white; box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
+        .btn-val { font-size: 40px; display: block; font-weight: 900; margin: 10px 0; }
+        .dpi { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="embers"></div>
+    <h1>CONFIGURACIÓN ELITE</h1>
+
+    <div class="grid">
+        <div class="card"><span class="label">GENERAL</span><span class="num" id="g">0</span></div>
+        <div class="card"><span class="label">PUNTO ROJO</span><span class="num" id="p">0</span></div>
+        <div class="card"><span class="label">MIRA 2X</span><span class="num" id="m2">0</span></div>
+        <div class="card"><span class="label">MIRA 4X</span><span class="num" id="m4">0</span></div>
+    </div>
+
+    <div class="fire-box">
+        <span style="font-size: 12px; letter-spacing: 2px;">BOTÓN DE DISPARO</span>
+        <span class="btn-val" id="btn">0%</span>
+        <div class="dpi">DPI: <span id="dpi_val">0</span></div>
+    </div>
+
+    <script>
+        let data = localStorage.getItem('celular') || "Android Genérico";
+        let hash = 0;
+        for (let i = 0; i < data.length; i++) { hash += data.charCodeAt(i); }
+
+        let gen, ptr, mi2, mi4, bton, d_p_i;
+
+        if (data.includes("iOS") || data.includes("Iphone")) {
+            gen = 92 + (hash % 8); ptr = 88 + (hash % 10);
+            mi2 = 85 + (hash % 5); mi4 = 80 + (hash % 10);
+            bton = 35 + (hash % 10); d_p_i = "ESTÁNDAR";
+        } else {
+            gen = 192 + (hash % 8); ptr = 185 + (hash % 12);
+            mi2 = 180 + (hash % 10); mi4 = 190 + (hash % 9);
+            bton = 42 + (hash % 15); d_p_i = 450 + (hash % 400);
+        }
+
+        document.getElementById('g').innerText = gen;
+        document.getElementById('p').innerText = ptr;
+        document.getElementById('m2').innerText = mi2;
+        document.getElementById('m4').innerText = mi4;
+        document.getElementById('btn').innerText = bton + "%";
+        document.getElementById('dpi_val').innerText = d_p_i;
+    </script>
+</body>
+</html>
+
