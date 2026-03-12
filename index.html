@@ -3,14 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TRØPEX - ELITE ENGINE</title>
+    <title>SENS TRØPEX - ELITE ENGINE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #000; color: white; font-family: 'Orbitron', sans-serif; height: 100vh; overflow: hidden; }
+        
+        body { 
+            background-color: #000; 
+            color: white; 
+            font-family: 'Orbitron', sans-serif; 
+            height: 100vh; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        /* --- PRELOADER MEJORADO --- */
+        /* FONDO ANIMADO DE VÓRTICE */
+        #vortex-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* PRELOADER (PANTALLA DE CARGA) */
         #preloader {
             position: fixed;
             top: 0; left: 0;
@@ -21,148 +38,191 @@
             align-items: center;
             justify-content: center;
             z-index: 10000;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            transition: opacity 0.8s ease;
         }
 
-        .loader-node {
-            width: 70px; height: 70px;
+        .loader-ring {
+            width: 80px; height: 80px;
             border: 2px solid rgba(255,0,0,0.1);
             border-top: 2px solid #ff0000;
             border-radius: 50%;
-            animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            position: relative;
-            margin-bottom: 25px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .loading-text { font-size: 1.5rem; letter-spacing: 8px; color: #fff; text-shadow: 0 0 15px #ff0000; margin-bottom: 20px; }
-        
-        .progress-container { width: 180px; height: 2px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-        .progress-bar { width: 0%; height: 100%; background: #ff0000; box-shadow: 0 0 10px #ff0000; transition: width 0.2s; }
-
-        /* --- CONTENIDO PRINCIPAL --- */
-        #main-content { 
-            opacity: 0; 
-            visibility: hidden;
-            height: 100vh;
+        /* INTERFAZ PRINCIPAL (SENS TRØPEX) */
+        .ui-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            opacity: 0;
             transition: opacity 1s ease;
-            z-index: 10;
-            position: relative;
         }
 
-        canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 2.4rem; color: #fff; text-shadow: 0 0 15px #ff0000; }
+        .header h1 span { color: #ff0000; }
+        .header p { font-size: 0.6rem; letter-spacing: 5px; color: #888; margin-top: 5px; }
 
-        .form-container { width: 90%; max-width: 350px; text-align: center; z-index: 15; }
-        h1 { font-size: 2.8rem; color: #ff0000; text-shadow: 0 0 20px #ff0000; margin-bottom: 5px; }
-        .tagline { font-size: 0.6rem; letter-spacing: 5px; color: #666; margin-bottom: 40px; }
-
-        .selector { display: flex; gap: 10px; margin-bottom: 20px; }
-        .option { 
-            flex: 1; padding: 20px; border: 1px solid rgba(255,255,255,0.05); 
-            background: rgba(255,255,255,0.02); border-radius: 12px; cursor: pointer;
-            font-size: 10px; color: #444; transition: 0.3s;
+        .selector-container {
+            width: 90%;
+            max-width: 360px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
         }
-        .option.active { border-color: #ff0000; background: rgba(255,0,0,0.05); color: #fff; box-shadow: 0 0 15px rgba(255,0,0,0.2); }
 
-        input { 
-            width: 100%; background: rgba(0,0,0,0.8); border: 1px solid #222; 
-            padding: 15px; border-radius: 10px; color: #fff; font-family: 'Orbitron';
-            text-align: center; margin-bottom: 20px; outline: none;
+        .os-card {
+            flex: 1;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: 0.3s;
         }
-        input:focus { border-color: #ff0000; }
 
-        .btn-start { 
-            width: 100%; background: #ff0000; color: #fff; border: none; 
-            padding: 16px; border-radius: 50px; font-family: 'Orbitron';
-            font-weight: 900; cursor: pointer; box-shadow: 0 10px 20px rgba(255,0,0,0.3);
+        .os-card.active {
+            border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .os-card img { width: 35px; margin-bottom: 10px; opacity: 0.5; }
+        .os-card.active img { opacity: 1; filter: drop-shadow(0 0 5px #fff); }
+
+        input {
+            width: 90%;
+            max-width: 360px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            padding: 18px;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Orbitron';
+            text-align: center;
+            margin-bottom: 25px;
+            outline: none;
+        }
+
+        .btn-start {
+            width: 90%;
+            max-width: 360px;
+            background: #ff0000;
+            color: #fff;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="loader-node"></div>
-        <div class="loading-text">TRØPEX</div>
-        <div class="progress-container">
-            <div class="progress-bar" id="bar"></div>
-        </div>
+        <div class="loader-ring"></div>
+        <h2 style="letter-spacing: 5px; font-size: 14px;">CARGANDO SISTEMA</h2>
+        <div id="load-pc" style="margin-top: 10px; color: #ff0000;">0%</div>
     </div>
 
-    <div id="main-content">
-        <canvas id="bloodRain"></canvas>
-        <div class="form-container">
-            <h1>TRØPEX</h1>
-            <div class="tagline">SENSITIVITY ENGINE</div>
-            
-            <div class="selector">
-                <div class="option" id="opt-android" onclick="selectOS('ANDROID')">ANDROID</div>
-                <div class="option" id="opt-ios" onclick="selectOS('IOS')">IOS</div>
-            </div>
+    <canvas id="vortex-canvas"></canvas>
 
-            <input type="text" id="deviceInput" placeholder="MODELO DEL DISPOSITIVO">
-            <button class="btn-start" onclick="goToScan()">ESCANEAR HARDWARE</button>
+    <div class="ui-wrapper" id="main-ui">
+        <div class="header">
+            <h1>SENS <span>TRØPEX</span></h1>
+            <p>ELITE SYSTEM READY</p>
         </div>
+
+        <div class="selector-container">
+            <div class="os-card" id="and-card" onclick="setOS('ANDROID')">
+                <img src="https://cdn-icons-png.flaticon.com/512/226/226770.png">
+                <p style="font-size: 10px;">ANDROID</p>
+            </div>
+            <div class="os-card" id="ios-card" onclick="setOS('IOS')">
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png">
+                <p style="font-size: 10px;">IOS</p>
+            </div>
+        </div>
+
+        <input type="text" id="device-model" placeholder="EJ: GALAXY S23, IPHONE 15...">
+        <button class="btn-start" onclick="begin()">CONTINUAR ></button>
     </div>
 
     <script>
-        // Lógica de Carga
-        let prog = 0;
-        const bar = document.getElementById('bar');
+        // Lógica de Carga Realista
+        let count = 0;
+        const loaderTxt = document.getElementById('load-pc');
         const preloader = document.getElementById('preloader');
-        const main = document.getElementById('main-content');
+        const mainUI = document.getElementById('main-ui');
 
-        const load = setInterval(() => {
-            prog += Math.floor(Math.random() * 8) + 1;
-            if (prog >= 100) {
-                prog = 100;
-                clearInterval(load);
+        const loading = setInterval(() => {
+            count += Math.floor(Math.random() * 7) + 1;
+            if(count >= 100) {
+                count = 100;
+                clearInterval(loading);
                 setTimeout(() => {
                     preloader.style.opacity = '0';
-                    preloader.style.visibility = 'hidden';
-                    main.style.opacity = '1';
-                    main.style.visibility = 'visible';
-                }, 600);
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        mainUI.style.opacity = '1';
+                    }, 500);
+                }, 500);
             }
-            bar.style.width = prog + "%";
-        }, 100);
+            loaderTxt.innerText = count + "%";
+        }, 80);
 
-        // Lógica de Selección
-        let selectedOS = "";
-        function selectOS(os) {
-            selectedOS = os;
-            document.querySelectorAll('.option').forEach(el => el.classList.remove('active'));
-            document.getElementById('opt-' + os.toLowerCase()).classList.add('active');
+        // Fondo de Vórtice
+        const canvas = document.getElementById('vortex-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let stars = [];
+        for(let i=0; i<150; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.5, s: Math.random()*0.02});
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
+            ctx.fillRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = '#ff0000';
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+                ctx.fill();
+                s.y += s.s * 10;
+                if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Selección de Dispositivo
+        let os = "";
+        function setOS(type) {
+            os = type;
+            document.getElementById('and-card').classList.toggle('active', type === 'ANDROID');
+            document.getElementById('ios-card').classList.toggle('active', type === 'IOS');
         }
 
-        function goToScan() {
-            const model = document.getElementById('deviceInput').value;
-            if(!selectedOS || !model) return alert("Por favor, completa los datos.");
-            localStorage.setItem('userDevice', model);
+        function begin() {
+            const model = document.getElementById('device-model').value;
+            if(!os || !model) return alert("Selecciona Sistema y Modelo");
+            localStorage.setItem('targetDevice', model);
             window.location.href = "generar.html";
         }
-
-        // Lluvia
-        const canvas = document.getElementById('bloodRain');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const drops = [];
-        for(let i=0; i<60; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, v: Math.random()*4+2});
-        function draw() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.strokeStyle = "rgba(255,0,0,0.2)";
-            drops.forEach(d => {
-                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+10); ctx.stroke();
-                d.y += d.v; if(d.y > canvas.height) d.y = -10;
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
     </script>
 </body>
 </html>
