@@ -3,43 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analizando - SENS TROPEX</title>
+    <title>SENSITIVITY DATA - TROPEX</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
-        .embers { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(circle, #ff4d4d 1px, transparent 1px); background-size: 50px 50px; z-index: -1; animation: rise 8s linear infinite; opacity: 0.5; }
-        @keyframes rise { from { background-position: 0 1000px; } to { background-position: 0 0; } }
+        body { background: #050000; color: white; font-family: 'Orbitron', sans-serif; margin: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
         
-        .loader-container { width: 80%; max-width: 300px; background: rgba(255,255,255,0.1); height: 10px; border-radius: 10px; overflow: hidden; border: 1px solid #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
-        .bar { width: 0%; height: 100%; background: #ff0000; box-shadow: 0 0 20px #ff0000; transition: width 0.1s; }
-        #status { font-size: 12px; letter-spacing: 3px; margin-bottom: 20px; color: #ff4d4d; text-shadow: 0 0 5px #ff0000; }
+        .result-card { background: rgba(20, 0, 0, 0.9); border: 2px solid #ff0000; border-radius: 20px; padding: 30px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); z-index: 10; }
+        h2 { color: #ff0000; margin-bottom: 20px; font-size: 1.2rem; text-shadow: 0 0 10px #ff0000; }
+        
+        .stat { margin: 15px 0; padding: 10px; border-bottom: 1px solid rgba(255,0,0,0.2); }
+        .label { font-size: 10px; color: #888; letter-spacing: 2px; }
+        .value { font-size: 24px; color: #fff; font-weight: 900; display: block; }
+        
+        .btn-back { background: #ff0000; border: none; color: white; padding: 12px 30px; border-radius: 5px; cursor: pointer; margin-top: 20px; font-family: 'Orbitron'; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="embers"></div>
-    <h2 id="status">INICIANDO ESCANEO...</h2>
-    <div class="loader-container"><div class="bar" id="bar"></div></div>
+    <canvas id="bloodRain"></canvas>
+    <div class="result-card">
+        <h2>CONFIGURACIÓN ÉLITE ⚡</h2>
+        <div class="stat">
+            <span class="label">GENERAL</span>
+            <span class="value">98%</span>
+        </div>
+        <div class="stat">
+            <span class="label">BOTÓN DE DISPARO</span>
+            <span class="value">47%</span>
+        </div>
+        <div class="stat">
+            <span class="label">DPI RECOMENDADO</span>
+            <span class="value">620</span>
+        </div>
+        <button class="btn-back" onclick="location.href='index.html'">REINTENTAR</button>
+    </div>
 
     <script>
-        let bar = document.getElementById('bar');
-        let status = document.getElementById('status');
-        let width = 0;
-        let frases = ["BUSCANDO DPI...", "CALIBRANDO SENSORES...", "OPTIMIZANDO MIRA...", "LISTO!"];
-        
-        let interval = setInterval(() => {
-            width += 2;
-            bar.style.width = width + "%";
-            if(width == 25) status.innerText = frases[0];
-            if(width == 50) status.innerText = frases[1];
-            if(width == 75) status.innerText = frases[2];
-            if(width >= 100) {
-                clearInterval(interval);
-                status.innerText = frases[3];
-                setTimeout(() => { location.href = "final.html?v=2"; }, 800);
-            }
-        }, 60);
+        const canvas = document.getElementById('bloodRain');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const drops = [];
+        for(let i=0; i<120; i++) drops.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, l: Math.random()*30, v: Math.random()*7+5});
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.strokeStyle = '#8b0000'; ctx.lineWidth = 2;
+            drops.forEach(d => {
+                ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.l); ctx.stroke();
+                d.y += d.v; if(d.y > canvas.height) d.y = -30;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
     </script>
 </body>
 </html>
-
-
