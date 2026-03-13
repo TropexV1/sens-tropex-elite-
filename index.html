@@ -15,13 +15,16 @@
             margin: 0; background: var(--bg); color: var(--text);
             font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center;
             overflow-x: hidden; min-height: 100vh; position: relative;
+            /* Mejora para iOS */
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
         }
 
         #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .drop { position: absolute; background: var(--blue); width: 1px; height: 25px; opacity: 0.3; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
 
-        .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
+        .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; position: relative; }
         
         .header-section { text-align: center; margin-bottom: 20px; }
         h2 { letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin: 0; text-transform: uppercase; }
@@ -33,12 +36,12 @@
         .status-item { display: flex; align-items: center; gap: 5px; color: var(--gray); }
         .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 5px var(--green); }
 
-        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); }
+        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
         
-        select { width: 100%; background: #0a0a0c; border: 1px solid #222; color: #fff; font-size: 15px; outline: none; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
+        select { width: 100%; background: #0a0a0c; border: 1px solid #222; color: #fff; font-size: 15px; outline: none; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; -webkit-appearance: none; }
 
-        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; transition: 0.3s; }
+        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; transition: 0.3s; -webkit-appearance: none; }
 
         #loader { display: none; text-align: left; font-family: 'Courier New', monospace; font-size: 12px; color: var(--green); background: #000; padding: 20px; border-radius: 15px; border: 1px solid var(--green); margin-bottom: 20px; }
         .progress-bar { width: 0%; height: 4px; background: var(--green); margin-top: 10px; transition: width 0.3s; box-shadow: 0 0 10px var(--green); }
@@ -187,6 +190,7 @@
         document.getElementById('results').style.display = 'block';
         document.getElementById('res-name').innerText = m;
 
+        // Sensibilidad máxima es 200
         document.getElementById('v-gen').innerText = r(190, 200);
         document.getElementById('v-red').innerText = r(185, 200);
         document.getElementById('v-2x').innerText = r(180, 200);
@@ -207,12 +211,14 @@
         }
     }
 
-    window.onload = () => {
+    // Inicialización optimizada para iOS
+    document.addEventListener('DOMContentLoaded', () => {
         updateModels();
         setInterval(() => {
             const userCount = document.getElementById('user-count');
             if(userCount) userCount.innerText = Math.floor(Math.random() * (240 - 180 + 1) + 180);
         }, 3000);
+        
         const c = document.getElementById('rain-container');
         for(let i=0; i<30; i++) {
             const d = document.createElement('div');
@@ -221,7 +227,7 @@
             d.style.animationDuration = Math.random()*1+0.5+'s';
             c.appendChild(d);
         }
-    };
+    });
 </script>
 </body>
 </html>
