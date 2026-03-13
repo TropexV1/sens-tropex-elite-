@@ -26,17 +26,18 @@
             padding-top: 40px;
         }
 
+        /* Foto de perfil con fondo negro */
         .profile-pic {
             width: 110px;
             height: 110px;
-            /* Imagen corregida de SENS TRØPEX */
+            background-color: #000;
             background-image: url('https://i.ibb.co/XfRzV9X/sens-tropex-logo.jpg'); 
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
             background-position: center;
             border-radius: 50%;
             margin-bottom: 15px;
-            border: 2px solid var(--accent-red);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            border: 2px solid #222;
         }
 
         .username {
@@ -53,7 +54,7 @@
             font-size: 26px;
         }
 
-        .social-icons a { color: white; text-decoration: none; transition: 0.3s; }
+        .social-icons a { color: white; text-decoration: none; }
 
         .links-container {
             width: 90%;
@@ -72,31 +73,32 @@
             font-weight: 700;
             transition: 0.3s;
             display: block;
+            cursor: pointer;
         }
 
-        .link-card:hover {
-            background: #1a1a1a;
-            border-color: var(--accent-blue);
-            transform: scale(1.02);
+        .link-card:hover { border-color: var(--accent-blue); }
+
+        .link-sensi { border: 1px solid var(--gold); color: var(--gold); }
+
+        /* Panel de sensibilidad oculto */
+        #sensi-display {
+            display: none;
+            background: #0a0a0c;
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 12px;
         }
 
-        .link-sensi {
-            border: 1px solid var(--gold) !important;
-            color: var(--gold) !important;
-        }
+        .val-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 15px; }
+        .val-row b { color: var(--accent-blue); }
 
-        /* Estilo para botones en mantenimiento */
-        .maint { 
-            color: #555 !important; 
-            border: 1px dashed #333 !important; 
-            cursor: not-allowed; 
-            opacity: 0.7;
-        }
+        .maint { color: #555 !important; border: 1px dashed #333 !important; cursor: not-allowed; opacity: 0.7; }
 
         .payment-title { color: var(--accent-red); font-size: 10px; font-weight: 900; letter-spacing: 3px; margin: 25px 0 15px; text-align: center; }
 
         .admin-box { margin-top: 30px; padding: 15px; border-top: 1px solid #1a1a1a; width: 100%; }
-        .admin-box a { color: var(--accent-blue); text-decoration: none; display: block; font-size: 13px; margin: 8px 0; font-family: monospace; }
+        .admin-box a { color: var(--accent-blue); text-decoration: none; display: block; font-size: 13px; margin: 8px 0; }
     </style>
 </head>
 <body>
@@ -112,10 +114,20 @@
     <div class="links-container">
         <a href="https://tropexv1.github.io/sens-tropex-elite-/" class="link-card">Modificación Withex ⁴⁴⁴ ⚡</a>
         
-        <a href="#" class="link-card link-sensi">Sensibilidad Withex ⁴⁴⁴ (IPHONE NO DPI)</a>
+        <div onclick="toggleSensi()" class="link-card link-sensi">Sensibilidad Withex ⁴⁴⁴</div>
+
+        <div id="sensi-display">
+            <div style="color:var(--gold); font-size:11px; text-align:center; margin-bottom:15px; letter-spacing:1px;">CONFIGURACIÓN VIP (MÁX 200)</div>
+            <div class="val-row"><span>General:</span> <b>198</b></div>
+            <div class="val-row"><span>Punto Rojo:</span> <b>200</b></div>
+            <div class="val-row"><span>Mira 2x:</span> <b>195</b></div>
+            <div class="val-row"><span>Mira 4x:</span> <b>200</b></div>
+            <div class="val-row" style="border-top:1px solid #333; padding-top:10px; margin-top:5px;">
+                <span>BOTÓN DE DISPARO:</span> <b style="color:white">38%</b>
+            </div>
+        </div>
 
         <a href="#" class="link-card maint">Aplicación Withex ⁴⁴⁴ (En mantenimiento) 🛠️</a>
-        
         <a href="#" class="link-card maint">Panel de Withex ⁴⁴⁴ (En mantenimiento) 💎</a>
 
         <div class="payment-title">MÉTODOS DE PAGO VIP</div>
@@ -131,9 +143,16 @@
         </div>
     </div>
 
-    <div style="margin: 40px 0; font-size: 10px; color: #333; font-weight: bold; text-align: center;">
-        Propiedad de Withex ⁴⁴⁴ | Actualizado 2026
-    </div>
+    <script>
+        function toggleSensi() {
+            var x = document.getElementById("sensi-display");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
 
 </body>
 </html>
