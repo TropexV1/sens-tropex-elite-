@@ -15,16 +15,13 @@
             margin: 0; background: var(--bg); color: var(--text);
             font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center;
             overflow-x: hidden; min-height: 100vh; position: relative;
-            /* Mejora para iOS */
-            -webkit-text-size-adjust: 100%;
-            touch-action: manipulation;
         }
 
         #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .drop { position: absolute; background: var(--blue); width: 1px; height: 25px; opacity: 0.3; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
 
-        .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; position: relative; }
+        .app-container { width: 100%; max-width: 414px; padding: 20px; z-index: 1; padding-bottom: 50px; }
         
         .header-section { text-align: center; margin-bottom: 20px; }
         h2 { letter-spacing: 5px; font-weight: 900; text-shadow: 0 0 15px var(--blue); margin: 0; text-transform: uppercase; }
@@ -32,16 +29,12 @@
 
         .online-counter { text-align: center; font-size: 11px; margin-bottom: 15px; color: var(--green); font-weight: bold; text-transform: uppercase; }
 
-        .status-panel { display: flex; justify-content: space-around; background: rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 20px; font-size: 9px; }
-        .status-item { display: flex; align-items: center; gap: 5px; color: var(--gray); }
-        .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 5px var(--green); }
-
-        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .box { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 15px; margin-bottom: 15px; backdrop-filter: blur(10px); }
         .label { font-size: 10px; color: var(--gray); text-transform: uppercase; margin-bottom: 5px; display: block; font-weight: bold; }
         
-        select { width: 100%; background: #0a0a0c; border: 1px solid #222; color: #fff; font-size: 15px; outline: none; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; -webkit-appearance: none; }
+        select { width: 100%; background: #0a0a0c; border: 1px solid #222; color: #fff; font-size: 15px; outline: none; padding: 12px; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
 
-        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; transition: 0.3s; -webkit-appearance: none; }
+        .btn-gerar { background: #fff; color: #000; border: none; width: 100%; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 25px; transition: 0.3s; }
 
         #loader { display: none; text-align: left; font-family: 'Courier New', monospace; font-size: 12px; color: var(--green); background: #000; padding: 20px; border-radius: 15px; border: 1px solid var(--green); margin-bottom: 20px; }
         .progress-bar { width: 0%; height: 4px; background: var(--green); margin-top: 10px; transition: width 0.3s; box-shadow: 0 0 10px var(--green); }
@@ -51,14 +44,6 @@
         .res-card { background: var(--card); border: 1px solid var(--blue); border-radius: 20px; padding: 25px; margin-bottom: 20px; border-top: 4px solid var(--blue); position: relative; }
         .val-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; border-bottom: 1px solid #1a1a1a; padding-bottom: 6px; }
         .highlight { color: var(--gold); font-weight: bold; }
-
-        /* PRO PLAYERS */
-        .section-title { font-size: 13px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin: 25px 0 15px; text-align: center; }
-        .pro-list { display: grid; gap: 10px; }
-        .pro-card { background: #0a0a0c; border: 1px solid #222; border-radius: 12px; padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-        .pro-name { grid-column: span 2; color: var(--blue); font-weight: 900; font-size: 14px; border-bottom: 1px solid #1a1a1a; padding-bottom: 4px; margin-bottom: 4px; }
-        .pro-stat { font-size: 10px; color: #aaa; }
-        .pro-stat b { color: #fff; }
 
         .support-box { background: var(--card); border: 1px dashed #333; border-radius: 15px; padding: 15px; text-align: center; margin-top: 30px; }
         .support-numbers a { color: var(--text); text-decoration: none; display: block; margin-top: 5px; font-family: monospace; font-size: 13px; }
@@ -103,33 +88,16 @@
             <div id="res-name" style="font-weight: 900; color: var(--blue); margin-bottom: 15px; font-size: 20px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;"></div>
             <div class="val-row"><span>General:</span> <b id="v-gen"></b></div>
             <div class="val-row"><span>Mira de Punto Rojo:</span> <b id="v-red"></b></div>
-            <div class="val-row"><span>Mira 2x:</span> <b id="v-2x"></b></div>
-            <div class="val-row"><span>Mira 4x:</span> <b id="v-4x"></b></div>
             <div class="val-row highlight"><span>DPI ESPECÍFICO:</span> <span id="dpi-val"></span></div>
             <div class="val-row highlight"><span>BOTÓN RECOMENDADO:</span> <b id="v-btn"></b></div>
         </div>
-
-        <div class="section-title">🏆 SENSIBILIDADES PRO REALES</div>
-        <div class="pro-list">
-            <div class="pro-card" style="border: 1px solid var(--gold);">
-                <div class="pro-name">WITHeX ⁴⁴⁴ 👑</div>
-                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>195</b></div>
-                <div class="pro-stat">Botón: <b>38%</b></div><div class="pro-stat">DPI: <b>PRECISO</b></div>
-            </div>
-            <div class="pro-card">
-                <div class="pro-name">WHITE 444</div>
-                <div class="pro-stat">Geral: <b>198</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
-                <div class="pro-stat">Botón: <b>40%</b></div><div class="pro-stat">DPI: <b>720</b></div>
-            </div>
-        </div>
-        
-        <button class="btn-gerar" style="background:#111; color:#fff; margin-top:20px;" onclick="location.reload()">🔄 RE-CALIBRAR</button>
+        <button class="btn-gerar" style="background:#111; color:#fff;" onclick="location.reload()">🔄 RE-CALIBRAR</button>
     </div>
 
     <div class="support-box">
         <div style="color:var(--blue); font-weight:900; font-size:12px; margin-bottom:10px;">⚙️ SOPORTE TÉCNICO</div>
-        <a href="https://wa.me/34624865767">📞 +34 624 86 57 67</a>
-        <a href="https://wa.me/573022639718">📞 +57 302 2639718</a>
+        <a href="https://wa.me/12149868215">📞 Withex: +1 214 986 8215</a>
+        <a href="https://wa.me/34624865767">📞 Flizz: +34 624 86 57 67</a>
     </div>
 
     <div class="credits">Propiedad de Withex ⁴⁴⁴ | Actualizado Sensibilidad 200</div>
@@ -137,7 +105,15 @@
 
 <script>
     const db = {
-        apple: ["iPhone 16 Pro Max", "iPhone 15 Pro", "iPhone 13", "iPhone 11", "iPad Pro"],
+        apple: [
+            "iPhone 16 Pro Max", "iPhone 15 Pro", 
+            "iPhone 14 Pro Max", "iPhone 14 Pro", "iPhone 14", 
+            "iPhone 13", 
+            "iPhone 12 Pro Max", "iPhone 12 Pro", "iPhone 12", 
+            "iPhone 11", 
+            "iPhone XS Max", "iPhone XS", 
+            "iPad Pro"
+        ],
         samsung: ["Galaxy S24 Ultra", "Galaxy S23 FE", "Galaxy A54", "Galaxy A10s"],
         xiaomi: ["Poco F6 Pro", "Redmi Note 13 Pro", "Black Shark 5"],
         motorola: ["Edge 50 Pro", "Moto G84", "Moto G24"],
@@ -164,7 +140,6 @@
             "> Analizando Panel Táctil...",
             "> Estableciendo Rango en 200...",
             "> Calibrando DPI Seguro...",
-            "> Sincronizando con Servidor Withex...",
             "> CONFIGURACIÓN FINALIZADA"
         ];
 
@@ -190,35 +165,26 @@
         document.getElementById('results').style.display = 'block';
         document.getElementById('res-name').innerText = m;
 
-        // Sensibilidad máxima es 200
         document.getElementById('v-gen').innerText = r(190, 200);
         document.getElementById('v-red').innerText = r(185, 200);
-        document.getElementById('v-2x').innerText = r(180, 200);
-        document.getElementById('v-4x').innerText = r(180, 200);
 
         if (b === 'apple') {
             const appleModes = ["SENCILLO", "ESTÁNDAR", "PRECISO"];
             document.getElementById('dpi-val').innerText = appleModes[r(0, 2)];
             document.getElementById('v-btn').innerText = r(35, 42) + "%";
         } else {
-            let dpiFinal;
-            if (b === 'samsung') dpiFinal = r(580, 850);
-            else if (b === 'xiaomi') dpiFinal = r(450, 780);
-            else dpiFinal = r(411, 600);
-            
+            let dpiFinal = b === 'samsung' ? r(580, 850) : (b === 'xiaomi' ? r(450, 780) : r(411, 600));
             document.getElementById('dpi-val').innerText = dpiFinal;
             document.getElementById('v-btn').innerText = r(44, 52) + "%";
         }
     }
 
-    // Inicialización optimizada para iOS
-    document.addEventListener('DOMContentLoaded', () => {
+    window.onload = () => {
         updateModels();
         setInterval(() => {
             const userCount = document.getElementById('user-count');
             if(userCount) userCount.innerText = Math.floor(Math.random() * (240 - 180 + 1) + 180);
         }, 3000);
-        
         const c = document.getElementById('rain-container');
         for(let i=0; i<30; i++) {
             const d = document.createElement('div');
@@ -227,7 +193,7 @@
             d.style.animationDuration = Math.random()*1+0.5+'s';
             c.appendChild(d);
         }
-    });
+    };
 </script>
 </body>
 </html>
