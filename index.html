@@ -82,7 +82,7 @@
                 <option value="samsung">Samsung</option>
                 <option value="xiaomi">Xiaomi / Poco</option>
                 <option value="motorola">Motorola</option>
-                <option value="zte">ZTE / RedMagic</option>
+                <option value="zte">Otras Marcas (Tecno/RedMagic)</option>
             </select>
             <select id="model"></select>
         </div>
@@ -118,36 +118,6 @@
                 <div class="pro-stat">Geral: <b>198</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
                 <div class="pro-stat">Botón: <b>40%</b></div><div class="pro-stat">DPI: <b>720</b></div>
             </div>
-            <div class="pro-card">
-                <div class="pro-name">L GANG</div>
-                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
-                <div class="pro-stat">Botón: <b>42%</b></div><div class="pro-stat">DPI: <b>900</b></div>
-            </div>
-            <div class="pro-card">
-                <div class="pro-name">TWO 9</div>
-                <div class="pro-stat">Geral: <b>192</b></div><div class="pro-stat">P. Rojo: <b>198</b></div>
-                <div class="pro-stat">Botón: <b>35%</b></div><div class="pro-stat">DPI: <b>500</b></div>
-            </div>
-            <div class="pro-card">
-                <div class="pro-name">MARECHALL</div>
-                <div class="pro-stat">Geral: <b>196</b></div><div class="pro-stat">P. Rojo: <b>194</b></div>
-                <div class="pro-stat">Botón: <b>48%</b></div><div class="pro-stat">DPI: <b>810</b></div>
-            </div>
-            <div class="pro-card">
-                <div class="pro-name">LDZIN</div>
-                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>200</b></div>
-                <div class="pro-stat">Botón: <b>37%</b></div><div class="pro-stat">DPI: <b>411</b></div>
-            </div>
-            <div class="pro-card">
-                <div class="pro-name">AZOZ</div>
-                <div class="pro-stat">Geral: <b>195</b></div><div class="pro-stat">P. Rojo: <b>190</b></div>
-                <div class="pro-stat">Botón: <b>45%</b></div><div class="pro-stat">DPI: <b>600</b></div>
-            </div>
-            <div class="pro-card">
-                <div class="pro-name">AKILES</div>
-                <div class="pro-stat">Geral: <b>200</b></div><div class="pro-stat">P. Rojo: <b>196</b></div>
-                <div class="pro-stat">Botón: <b>50%</b></div><div class="pro-stat">DPI: <b>800</b></div>
-            </div>
         </div>
         
         <button class="btn-gerar" style="background:#111; color:#fff; margin-top:20px;" onclick="location.reload()">🔄 RE-CALIBRAR</button>
@@ -155,8 +125,8 @@
 
     <div class="support-box">
         <div style="color:var(--blue); font-weight:900; font-size:12px; margin-bottom:10px;">⚙️ SOPORTE TÉCNICO</div>
-        <a href="tel:+34624865767">📞 +34 624 86 57 67</a>
-        <a href="tel:+201281875382">📞 +20 12 81875382</a>
+        <a href="https://wa.me/34624865767">📞 +34 624 86 57 67</a>
+        <a href="https://wa.me/573022639718">📞 +57 302 2639718</a>
     </div>
 
     <div class="credits">Propiedad de Withex ⁴⁴⁴ | Actualizado Sensibilidad 200</div>
@@ -168,7 +138,7 @@
         samsung: ["Galaxy S24 Ultra", "Galaxy S23 FE", "Galaxy A54", "Galaxy A10s"],
         xiaomi: ["Poco F6 Pro", "Redmi Note 13 Pro", "Black Shark 5"],
         motorola: ["Edge 50 Pro", "Moto G84", "Moto G24"],
-        zte: ["RedMagic 9 Pro", "Nubia Z60"]
+        zte: ["Tecno Spark 30c", "RedMagic 9 Pro", "Nubia Z60"]
     };
 
     function updateModels() {
@@ -217,7 +187,6 @@
         document.getElementById('results').style.display = 'block';
         document.getElementById('res-name').innerText = m;
 
-        // SENSIBILIDAD REAL HASTA 200
         document.getElementById('v-gen').innerText = r(190, 200);
         document.getElementById('v-red').innerText = r(185, 200);
         document.getElementById('v-2x').innerText = r(180, 200);
@@ -228,7 +197,6 @@
             document.getElementById('dpi-val').innerText = appleModes[r(0, 2)];
             document.getElementById('v-btn').innerText = r(35, 42) + "%";
         } else {
-            // DPI específico por marca para evitar errores
             let dpiFinal;
             if (b === 'samsung') dpiFinal = r(580, 850);
             else if (b === 'xiaomi') dpiFinal = r(450, 780);
@@ -242,7 +210,8 @@
     window.onload = () => {
         updateModels();
         setInterval(() => {
-            document.getElementById('user-count').innerText = r(180, 240);
+            const userCount = document.getElementById('user-count');
+            if(userCount) userCount.innerText = Math.floor(Math.random() * (240 - 180 + 1) + 180);
         }, 3000);
         const c = document.getElementById('rain-container');
         for(let i=0; i<30; i++) {
