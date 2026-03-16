@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Withex ⁴⁴⁴ | Linktree VIP</title>
+    <title>Withex ⁴⁴⁴ | VIP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -13,6 +13,7 @@
             --accent-red: #ff0000;
             --accent-blue: #00d4ff;
             --gold: #ffd700;
+            --discord: #5865F2;
         }
 
         body {
@@ -26,7 +27,6 @@
             padding-top: 40px;
         }
 
-        /* Foto de perfil con fondo negro */
         .profile-pic {
             width: 110px;
             height: 110px;
@@ -80,7 +80,15 @@
 
         .link-sensi { border: 1px solid var(--gold); color: var(--gold); }
 
-        /* Panel de sensibilidad oculto */
+        /* Estilo Botón Discord */
+        .link-discord {
+            background-color: #1a1b1e;
+            border: 1px solid var(--discord);
+            color: var(--discord) !important;
+            margin-top: 5px;
+        }
+        .link-discord:hover { background-color: var(--discord); color: white !important; }
+
         #sensi-display {
             display: none;
             background: #0a0a0c;
@@ -97,8 +105,7 @@
 
         .payment-title { color: var(--accent-red); font-size: 10px; font-weight: 900; letter-spacing: 3px; margin: 25px 0 15px; text-align: center; }
 
-        .admin-box { margin-top: 30px; padding: 15px; border-top: 1px solid #1a1a1a; width: 100%; }
-        .admin-box a { color: var(--accent-blue); text-decoration: none; display: block; font-size: 13px; margin: 8px 0; }
+        footer { margin: 40px 0; font-size: 10px; color: #333; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -127,6 +134,10 @@
             </div>
         </div>
 
+        <a href="https://discord.gg/ZZsh7BxEh" class="link-card link-discord">
+            <i class="fab fa-discord"></i> Únete a nuestro Discord
+        </a>
+
         <a href="#" class="link-card maint">Aplicación Withex ⁴⁴⁴ (En mantenimiento) 🛠️</a>
         <a href="#" class="link-card maint">Panel de Withex ⁴⁴⁴ (En mantenimiento) 💎</a>
 
@@ -135,24 +146,15 @@
             <a href="#" class="link-card" style="font-size: 13px; padding: 12px;">PayPal <i class="fab fa-paypal"></i></a>
             <a href="#" class="link-card" style="font-size: 13px; padding: 12px;">Binance <i class="fas fa-wallet"></i></a>
         </div>
-
-        <div class="admin-box">
-            <div style="font-weight: bold; font-size: 11px; color: #444; margin-bottom: 5px;">ADMINISTRADORES OFICIALES:</div>
-            <a href="https://wa.me/12149868215">📞 Withex: +1 214 986 8215</a>
-            <a href="https://wa.me/34624865767">📞 Flizz: +34 624 86 57 67</a>
-        </div>
     </div>
+
+    <footer>Propiedad de Withex ⁴⁴⁴ | Actualizado 2026</footer>
 
     <script>
         function toggleSensi() {
             var x = document.getElementById("sensi-display");
-            if (x.style.display === "block") {
-                x.style.display = "none";
-            } else {
-                x.style.display = "block";
-            }
+            x.style.display = (x.style.display === "block") ? "none" : "block";
         }
     </script>
-
 </body>
 </html>
